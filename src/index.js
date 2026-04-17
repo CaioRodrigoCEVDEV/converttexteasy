@@ -2,6 +2,10 @@ import express from "express";
 import path from "path";
 import { fileURLToPath } from "url";
 
+//importar porta do arquivo .env
+import dotenv from "dotenv";
+dotenv.config();    
+
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const app = express();
@@ -51,6 +55,6 @@ app.use((req, res) => {
   res.redirect("/");
 });
 
-app.listen(3000, () => {
-  console.log("Servidor rodando em http://127.0.0.1:3000");
+app.listen(process.env.PORT || 3000, () => {
+  console.log(`Servidor rodando em http://127.0.0.1:${process.env.PORT || 3000}`);
 });
