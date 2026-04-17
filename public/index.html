@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark" data-bs-theme="dark">
+<head>
+<meta charset="UTF-8">
+
+<title id="titleHead">ConvertTextEasy - Conversor de Texto Online</title>
+<link rel="icon" href="assets/img/iconeTextLab.png" type="image/x-icon">
+
+<meta name="description" id="desc" content="Conversor de texto online gratuito.">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+
+</head>
+
+<body>
+<div class="site-shell">
+  <header class="topbar">
+    <div class="brand-lockup">
+      <a href="/" class="brand-lockup text-decoration-none">
+      <span class="navbar-logo"> <img src="assets/img/iconeTextLab.png" alt="Ícone ConvertTextEasy"></span>
+      <div>
+        <!-- <div class="brand-eyebrow">ConvertTextEasy</div> -->
+        <div class="brand-title">ConvertTextEasy</div>
+        <div class="brand-subtitle" id="brandSubtitle">Converter letras maiúsculas e minúsculas online grátis.</div>
+      </div>
+      </a>
+    </div>
+    <div class="topbar-actions">
+      <button class="theme-toggle btn btn-sm" onclick="toggleTheme()" title="Alternar tema">
+        <span id="themeIcon">🌙</span>
+        <small id="themeLabel">Tema</small>
+      </button>
+      <select onchange="changeLang(this.value)" class="form-select form-select-sm lang-select">
+        <option value="pt" selected>🇧🇷 Português</option>
+        <option value="en">🇺🇸 English</option>
+        <option value="es">🇪🇸 Español</option>
+      </select>
+    </div>
+  </header>
+
+  <!-- <section class="hero">
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <h1 id="mainTitle">Conversor de Texto</h1>
+        <p id="subtitle">Transforme textos rapidamente</p>
+        <div class="hero-pills">
+          <div class="hero-pill">Tempo real</div>
+          <div class="hero-pill">Sem cadastro</div>
+          <div class="hero-pill">Múltiplos formatos</div>
+        </div>
+      </div>
+      <div class="hero-metrics">
+        <div class="metric-card">
+          <span class="metric-value">9</span>
+          <span class="metric-label">modos principais de conversão</span>
+        </div>
+        <div class="metric-card">
+          <span class="metric-value">3</span>
+          <span class="metric-label">idiomas prontos para uso</span>
+        </div>
+        <div class="metric-card">
+          <span class="metric-value">100%</span>
+          <span class="metric-label">uso no navegador</span>
+        </div>
+        <div class="metric-card">
+          <span class="metric-value">Rápido</span>
+          <span class="metric-label">feito para colar, converter e copiar</span>
+        </div>
+      </div>
+    </div>
+  </section> -->
+
+  <main class="content-grid">
+    <section class="panel editor-card">
+      <div class="panel-head">
+        <div>
+          <h2 class="panel-title" id="editorPanelTitle">Editor</h2>
+          <p class="panel-copy" id="editorPanelCopy">Cole seu texto, converta no formato desejado e siga trabalhando sem sair da página.</p>
+        </div>
+      </div>
+      <div class="panel-body">
+        <div class="editor-stack">
+          <div class="editor-surface">
+            <textarea id="input" placeholder="Escreva ou cole (copy+paste) o seu texto aqui." class="form-control editor-textarea" rows="12"></textarea>
+            <div class="editor-footer">
+              <div class="editor-actions">
+                <button class="editor-action-btn" onclick="copyText()" id="btnCopy" title="Copiar texto" aria-label="Copiar texto">📋</button>
+                <button class="editor-action-btn" type="button" id="btnShare" title="Compartilhar" aria-label="Compartilhar">🔗</button>
+                <button class="editor-action-btn" type="button" id="btnDownload" title="Baixar texto" aria-label="Baixar texto">⇩</button>
+                <button class="editor-action-btn" onclick="clearText()" id="btnClear" title="Limpar texto" aria-label="Limpar texto">🗑</button>
+              </div>
+              <div class="editor-stats">
+                <span id="charCountLabel">Contagem de letras</span>: <span id="charCount">0</span> |
+                <span id="wordCountLabel">Contagem de palavras</span>: <span id="wordCount">0</span> |
+                <span id="lineCountLabel">Line Count</span>: <span id="lineCount">0</span>
+              </div>
+            </div>
+          </div>
+          <div class="panel toolbar-panel">
+            <div class="panel-body">
+              <p class="panel-copy mb-3" id="toolbarIntro">Escolha uma das 8 funcionalidades abaixo para aplicar o formato diretamente no texto.</p>
+              <div class="toolbar-buttons">
+                <button onclick="convert('upper')" type="button" id="btnUppercaseTool" class="badge-conversion"><span style="background:#9b1c1c;">UC</span>Letras Maiusculas</button>
+                <button onclick="convert('lower')" type="button" id="btnLowercaseTool" class="badge-conversion"><span style="background:#1a5f7a;">lc</span>Letras Minusculas</button>
+                <button onclick="convert('strikethrough')" type="button" id="btnStrikethrough" class="badge-conversion"><span style="background:#8d3a0c;">Tx</span>Texto Tachado</button>
+                <button onclick="convert('title')" type="button" id="btnTitleCase" class="badge-conversion"><span style="background:#235b05;">Aa</span>Iniciais Maiusculas</button>
+                <button onclick="convert('reverse')" type="button" id="btnReverseTool" class="badge-conversion"><span style="background:#0b6f86;">Rv</span>Texto Reverso</button>
+                <button onclick="convert('alternating')" type="button" id="btnAlternatingTool" class="badge-conversion"><span style="background:#9f7b07;">aC</span>Alternancia</button>
+                <button onclick="convert('italic')" type="button" id="btnItalicTool" class="badge-conversion"><span style="background:#5d0394;">It</span>Texto Italico</button>
+                <button onclick="convert('morse')" type="button" id="btnMorseTool" class="badge-conversion"><span style="background:#3147a8;">.-</span>Codigo Morse</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <aside class="sidebar-stack">
+      <section class="panel">
+        <div class="panel-head">
+          <div>
+            <h2 class="panel-title" id="summaryTitle">Resumo</h2>
+            <p class="panel-copy" id="summaryCopy">Uma interface única para editar, transformar e revisar textos em segundos.</p>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div class="feature-list">
+            <div class="feature-item">
+              <div class="feature-icon">⚡</div>
+              <div>
+                <strong id="featureTitle1">Conversão instantânea</strong>
+                <p id="featureDesc1">Os formatos são aplicados direto no editor sem etapas extras.</p>
+              </div>
+            </div>
+            <div class="feature-item">
+              <div class="feature-icon">🌐</div>
+              <div>
+                <strong id="featureTitle2">Idiomas prontos</strong>
+                <p id="featureDesc2">Português, inglês e espanhol na mesma interface.</p>
+              </div>
+            </div>
+            <div class="feature-item">
+              <div class="feature-icon">🧩</div>
+              <div>
+                <strong id="featureTitle3">Fluxo simples</strong>
+                <p id="featureDesc3">Copiar, limpar e revisar métricas sem sair do bloco principal.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-head">
+          <div>
+            <h2 class="panel-title" id="tipsPanelTitle">Dicas rápidas</h2>
+            <p class="panel-copy" id="tipsPanelCopy">Atalhos visuais para manter o texto consistente.</p>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div class="feature-list">
+            <div class="feature-item">
+              <div class="feature-icon">AA</div>
+              <div>
+                <strong id="tipTitle1">Padronize títulos</strong>
+                <p id="tipDesc1">Use ConvertTextEasy para cabeçalhos, seções e chamadas principais.</p>
+              </div>
+            </div>
+            <div class="feature-item">
+              <div class="feature-icon">az</div>
+              <div>
+                <strong id="tipTitle2">Limpe textos colados</strong>
+                <p id="tipDesc2">Normalize caixa, remova ruído visual e recopie já tratado.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </aside>
+  </main>
+
+  <section class="panel tools-panel mt-4">
+    <div class="panel-head">
+      <div>
+        <h2 id="seoTitle" class="panel-title">O que é um conversor de texto?</h2>
+        <p id="seoText" class="panel-copy">Ferramenta online para transformar textos em diferentes formatos.</p>
+      </div>
+    </div>
+    <div class="panel-body">
+      <div class="tools-grid">
+        <a class="tool-card" href="lowercase-text">
+          <div class="tool-title" id="toolTitle1">🔡 Letras Minusculas</div>
+          <p id="toolDesc1">Converta todo o texto para minusculas.</p>
+          <div class="example">texto em minusculas</div>
+        </a>
+        <a class="tool-card" href="uppercase-text">
+          <div class="tool-title" id="toolTitle2">🔠 Letras Maiusculas</div>
+          <p id="toolDesc2">Converta todo o texto para maiusculas.</p>
+          <div class="example">TEXTO EM MAIUSCULAS</div>
+        </a>
+        <a class="tool-card" href="strikethrough-text">
+          <div class="tool-title" id="toolTitle3">🔤 Texto Tachado</div>
+          <p id="toolDesc3">Gere texto riscado automaticamente.</p>
+          <div class="example">T̶e̶x̶t̶o̶ ̶e̶x̶e̶m̶p̶l̶o̶</div>
+        </a>
+        <a class="tool-card" href="capitalize-text">
+          <div class="tool-title" id="toolTitle4">📝 Iniciais Maiúsculas</div>
+          <p id="toolDesc4">Primeira letra de cada palavra em maiúsculo.</p>
+          <div class="example">Este É Um Exemplo</div>
+        </a>
+        <a class="tool-card" href="reverse-text">
+          <div class="tool-title" id="toolTitle5">🔄 Texto Reverso</div>
+          <p id="toolDesc5">Inverta seu texto.</p>
+          <div class="example">.otxet olpmaxE</div>
+        </a>
+        <a class="tool-card" href="alternating-case">
+          <div class="tool-title" id="toolTitle6">🔀 Alternância</div>
+          <p id="toolDesc6">Alterna letras maiúsculas e minúsculas.</p>
+          <div class="example">eStE É uM eXeMpLo</div>
+        </a>
+        <a class="tool-card" href="italic-text">
+          <div class="tool-title" id="toolTitle7">📜 Texto Itálico</div>
+          <p id="toolDesc7">Gera texto estilizado em itálico.</p>
+          <div class="example"><i>Exemplo de itálico</i></div>
+        </a>
+        <a class="tool-card" href="morse-code-translator">
+          <div class="tool-title" id="toolTitle8">💻 Código Morse</div>
+          <p id="toolDesc8">Traduza texto para código Morse.</p>
+          <div class="example">... --- ...</div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-grid">
+      <div>
+        <div class="brand-lockup mb-3">
+          <span class="navbar-logo"><img src="assets/img/iconeTextLab.png" alt="Ícone ConvertTextEasy"></span>
+          <div>
+            <div class="brand-title" id="footerTitle">UpperCase</div>
+            <div class="brand-subtitle" id="footerBrandSubtitle">Conversor de Texto</div>
+          </div>
+        </div>
+        <p class="small text-muted mb-3" id="footerDesc">Ferramenta gratuita para transformar textos em diferentes formatos. Suporte a múltiplos idiomas e temas.</p>
+        <!-- <div class="d-flex gap-2">
+          <a href="#" class="text-muted text-decoration-none">GitHub</a>
+          <a href="#" class="text-muted text-decoration-none">Twitter</a>
+          <a href="#" class="text-muted text-decoration-none">Email</a>
+        </div> -->
+      </div>
+
+      <div>
+        <h6 class="mb-3 fw-semibold" id="footerLinksTitle">Ferramentas</h6>
+        <ul class="list-unstyled small m-0">
+          <li class="mb-2"><a href="/" id="footerHomeLink" class="text-muted text-decoration-none">Pagina Inicial</a></li>
+          <li class="mb-2"><a href="strikethrough-text" id="footerToolLink1" class="text-muted text-decoration-none">Texto Tachado</a></li>
+          <li class="mb-2"><a href="capitalize-text" id="footerToolLink2" class="text-muted text-decoration-none">Iniciais Maiusculas</a></li>
+          <li><a href="reverse-text" id="footerToolLink3" class="text-muted text-decoration-none">Texto Reverso</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h6 class="mb-3 fw-semibold" id="footerContactTitle">Suporte</h6>
+        <ul class="list-unstyled small m-0">
+          <li class="mb-2"><a href="#" class="text-muted text-decoration-none" id="footerAboutLink">Sobre Nós</a></li>
+          <li class="mb-2"><a href="#" class="text-muted text-decoration-none" id="footerPrivacyLink">Privacidade</a></li>
+          <li class="mb-2"><a href="#" class="text-muted text-decoration-none" id="footerTermsLink">Termos</a></li>
+          <li><a href="#" id="footerContactLink" class="text-muted text-decoration-none">Contato</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h6 class="mb-3 fw-semibold" id="newsletterTitle">Fique Atualizado</h6>
+        <p class="small text-muted mb-3" id="newsletterCopy">Receba dicas e novas ferramentas por email.</p>
+        <div class="input-group">
+          <input type="email" id="newsletterInput" class="form-control form-control-sm" placeholder="Seu email">
+          <button class="btn btn-primary btn-sm" id="newsletterButton" type="button">Inscrever</button>
+        </div>
+        <p class="small text-muted mt-4 mb-0" id="footerCopyright">© 2026 ConvertTextEasy. Todos os direitos reservados.</p>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<script src="assets/js/script.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
