@@ -55,6 +55,23 @@ app.get("/sitemap.xml", (req, res) => {
   res.sendFile(path.join(__dirname, "..", "public", "sitemap.xml"));
 });
 
+// /Pages
+//rota para contact.html
+app.get("/contact", (req, res) => {
+  res.sendFile(path.join(__dirname, "..", "public/pages", "contact.html"));
+});
+//rota para about.html
+app.get("/about", (req, res) => {
+  res.sendFile(path.join(__dirname, "..", "public/pages", "about.html"));
+});
+// rota para terms.html
+app.get("/terms", (req, res) => {
+  res.sendFile(path.join(__dirname, "..", "public/pages", "terms.html"));
+});
+// rota para privacy-policy.html
+app.get("/privacy-policy", (req, res) => {
+  res.sendFile(path.join(__dirname, "..", "public/pages", "privacy-policy.html"));
+});
 
 // redirecionar para a página inicial se a rota não for encontrada
 app.use((req, res) => {

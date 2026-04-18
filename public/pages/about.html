@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark" data-bs-theme="dark">
+<head>
+<meta charset="UTF-8">
+<title id="titleHead">ConvertTextEasy - Sobre</title>
+<link rel="icon" href="../assets/img/iconeTextLab.png" type="image/x-icon">
+<meta name="description" id="desc" content="Sobre o ConvertTextEasy: ferramenta online para transformar textos de forma rápida e simples.">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body data-tool-page="about">
+<div class="site-shell">
+  <header class="topbar">
+    <a href="/" class="brand-lockup text-decoration-none">
+      <span class="navbar-logo"><img src="../assets/img/iconeTextLab.png" alt="Icone ConvertTextEasy"></span>
+      <div>
+        <div class="brand-title">ConvertTextEasy</div>
+        <div class="brand-subtitle">Hub de ferramentas de texto</div>
+      </div>
+    </a>
+    <div class="topbar-actions">
+      <button class="theme-toggle btn btn-sm" onclick="toggleTheme()" title="Alternar tema">
+        <span id="themeIcon">🌙</span>
+        <small>Tema</small>
+      </button>
+      <select onchange="changeLang(this.value)" class="form-select form-select-sm lang-select">
+        <option value="pt">🇧🇷 Português</option>
+        <option value="en">🇺🇸 English</option>
+        <option value="es">🇪🇸 Español</option>
+      </select>
+    </div>
+  </header>
+
+  <section class="panel hero-panel">
+    <div class="panel-body">
+      <a href="/" class="page-back-link">← Voltar para a home</a>
+      <div class="page-eyebrow">Sobre</div>
+      <h1 class="page-title">Conheça o ConvertTextEasy</h1>
+      <p class="page-description">Uma ferramenta prática para transformar textos rapidamente, sem necessidade de cadastro ou instalação.</p>
+    </div>
+  </section>
+
+  <main class="content-grid mt-4">
+    <section class="panel editor-card">
+      <div class="panel-head">
+        <div>
+          <h2 class="panel-title">O que fazemos</h2>
+          <p class="panel-copy">Simplificamos a edição e padronização de texto com ferramentas rápidas e intuitivas.</p>
+        </div>
+      </div>
+      <div class="panel-body">
+        <p>O ConvertTextEasy é uma ferramenta online gratuita desenvolvida para facilitar a conversão de textos de forma rápida e eficiente.</p>
+        <h3 class="mt-4">Funcionalidades</h3>
+        <ul class="mb-3">
+          <li>Converter para maiúsculas</li>
+          <li>Converter para minúsculas</li>
+          <li>Capitalizar texto</li>
+          <li>Texto tachado</li>
+          <li>Conversão para Código Morse</li>
+        </ul>
+        <h3>Objetivo</h3>
+        <p>Nosso objetivo é fornecer uma interface simples, rápida e acessível para qualquer pessoa que precise manipular textos online.</p>
+        <h3 class="mt-4">Tecnologia</h3>
+        <p>O site foi desenvolvido com JavaScript e processa os dados localmente no navegador, garantindo rapidez e privacidade.</p>
+      </div>
+    </section>
+
+    <aside class="sidebar-stack">
+      <section class="panel">
+        <div class="panel-head">
+          <div>
+            <h2 class="panel-title">Por que usar</h2>
+            <p class="panel-copy">Ferramentas acessíveis, sem cadastro e com resultados instantâneos.</p>
+          </div>
+        </div>
+        <div class="panel-body">
+          <p class="mb-2">✅ Rápido e simples</p>
+          <p class="mb-2">✅ Funciona direto no navegador</p>
+          <p class="mb-0">✅ Suporte a vários formatos de texto</p>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-head">
+          <div>
+            <h2 class="panel-title">Navegue</h2>
+            <p class="panel-copy">Explore outras páginas e ferramentas do ConvertTextEasy.</p>
+          </div>
+        </div>
+        <div class="panel-body">
+          <ul class="list-unstyled small mb-0">
+            <li class="mb-2"><a href="/" class="text-decoration-none">Página Inicial</a></li>
+            <li class="mb-2"><a href="/uppercase-text" class="text-decoration-none">Letras Maiúsculas</a></li>
+            <li class="mb-2"><a href="/lowercase-text" class="text-decoration-none">Letras Minúsculas</a></li>
+            <li><a href="/contact" class="text-decoration-none">Contato</a></li>
+          </ul>
+        </div>
+      </section>
+    </aside>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-grid">
+      <div>
+        <div class="brand-lockup mb-3">
+          <span class="navbar-logo"><img src="../assets/img/iconeTextLab.png" alt="Ícone ConvertTextEasy"></span>
+          <div>
+            <div class="brand-title">ConvertTextEasy</div>
+            <div class="brand-subtitle">Hub de ferramentas de texto</div>
+          </div>
+        </div>
+        <p class="small text-muted mb-3">Ferramenta gratuita para transformar textos em diferentes formatos. Suporte a múltiplos idiomas e temas.</p>
+      </div>
+
+      <div>
+        <h6 class="mb-3 fw-semibold">Ferramentas</h6>
+        <ul class="list-unstyled small m-0">
+          <li class="mb-2"><a href="/" class="text-muted text-decoration-none">Página Inicial</a></li>
+          <li class="mb-2"><a href="/capitalize-text" class="text-muted text-decoration-none">Iniciais Maiúsculas</a></li>
+          <li class="mb-2"><a href="/strikethrough-text" class="text-muted text-decoration-none">Texto Tachado</a></li>
+          <li><a href="/morse-code-translator" class="text-muted text-decoration-none">Código Morse</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h6 class="mb-3 fw-semibold">Suporte</h6>
+        <ul class="list-unstyled small m-0">
+          <li class="mb-2"><a href="/about" class="text-muted text-decoration-none" id="footerAboutLink">Sobre Nós</a></li>
+          <li class="mb-2"><a href="/privacy-policy" class="text-muted text-decoration-none" id="footerPrivacyLink">Privacidade</a></li>
+          <li class="mb-2"><a href="/terms" class="text-muted text-decoration-none" id="footerTermsLink">Termos</a></li>
+          <li><a href="/contact" id="footerContactLink" class="text-muted text-decoration-none">Contato</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h6 class="mb-3 fw-semibold">Fique Atualizado</h6>
+        <p class="small text-muted mb-3">Receba dicas e novas ferramentas por email.</p>
+        <div class="input-group">
+          <input type="email" class="form-control form-control-sm" placeholder="Seu email">
+          <button class="btn btn-primary btn-sm" type="button">Inscrever</button>
+        </div>
+        <p class="small text-muted mt-4 mb-0">© 2026 ConvertTextEasy. Todos os direitos reservados.</p>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<script src="../assets/js/script.js"></script>
+<script src="../assets/js/tool-page.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

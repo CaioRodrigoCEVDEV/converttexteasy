@@ -124,6 +124,7 @@ const translations = {
     footerTool2: "Iniciais Maiusculas",
     footerTool3: "Texto Reverso",
     footerPrivacy: "Política de Privacidade",
+    //footerPrivacy = "privacy-policy",
     footerTerms: "Termos de Uso",
     footerAbout: "Sobre Nós",
     footerContact: "Contato",
