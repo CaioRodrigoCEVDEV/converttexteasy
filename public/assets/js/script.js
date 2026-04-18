@@ -93,6 +93,8 @@ const translations = {
     sectionActionsDesc: "Copie o resultado ou limpe os campos para começar de novo.",
     seoTitle: "O que é um conversor de texto?",
     seoText: "Ferramenta online para transformar textos em diferentes formatos.",
+    seoExplain: "Este editor permite converter seu texto em maiúsculas, minúsculas, estilo título, texto tachado, reverso, alternância, itálico e código Morse.",
+    seoUsage: "Basta colar o texto no editor, escolher a funcionalidade desejada e copiar o resultado para usar onde quiser.",
     toolTitle1: "🔡 Letras Minusculas",
     toolDesc1: "Converta todo o texto para minusculas.",
     toolTitle2: "🔠 Letras Maiusculas",
@@ -195,6 +197,8 @@ const translations = {
     sectionActionsDesc: "Copy the result or clear the fields to start over.",
     seoTitle: "What is a text converter?",
     seoText: "Online tool to transform text into different formats.",
+    seoExplain: "This editor lets you convert your text to uppercase, lowercase, title case, strikethrough, reverse, alternating case, italic, and Morse code.",
+    seoUsage: "Just paste your text into the editor, choose the desired feature, and copy the result to use anywhere.",
     toolTitle1: "🔡 Lowercase Letters",
     toolDesc1: "Convert the entire text to lowercase.",
     toolTitle2: "🔠 Uppercase Letters",
@@ -296,6 +300,8 @@ const translations = {
     sectionActionsDesc: "Copia el resultado o limpia los campos para empezar de nuevo.",
     seoTitle: "¿Qué es un convertidor de texto?",
     seoText: "Herramienta online para transformar texto.",
+    seoExplain: "Este editor le permite convertir su texto a mayúsculas, minúsculas, estilo título, tachado, reverso, alternancia, cursiva y código Morse.",
+    seoUsage: "Simplemente pegue su texto en el editor, elija la función deseada y copie el resultado para usarlo donde quiera.",
     toolTitle1: "🔡 Letras Minusculas",
     toolDesc1: "Convierte todo el texto a minusculas.",
     toolTitle2: "🔠 Letras Mayusculas",
@@ -422,6 +428,8 @@ function changeLang(lang) {
 
   setText("seoTitle", t.seoTitle);
   setText("seoText", t.seoText);
+  setText("seoExplain", t.seoExplain);
+  setText("seoUsage", t.seoUsage);
 
   // Atualizar grid de ferramentas
   for (let i = 1; i <= 8; i++) {

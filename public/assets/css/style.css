@@ -505,7 +505,13 @@ a {
 .tools-panel .panel-body {
   padding-top: 1rem;
 }
+.seo-details {
+  margin-bottom: 1.4rem;
+}
 
+.seo-details p {
+  margin-bottom: 0.85rem;
+}
 .tools-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
