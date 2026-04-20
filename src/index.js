@@ -73,6 +73,11 @@ app.get("/privacy-policy", (req, res) => {
   res.sendFile(path.join(__dirname, "..", "public/pages", "privacy-policy.html"));
 });
 
+// rota para ads.txt pub-1764837779058715
+app.get("/ads.txt", (req, res) => {
+  res.sendFile(path.join(__dirname, "..", "public", "ads.txt"));
+});
+
 // redirecionar para a página 404 caso a rota não seja encontrada
 app.use((req, res) => {
   res.status(404).sendFile(path.join(__dirname, "..", "public/pages", "404.html"));
