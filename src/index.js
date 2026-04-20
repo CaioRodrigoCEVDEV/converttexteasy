@@ -73,9 +73,9 @@ app.get("/privacy-policy", (req, res) => {
   res.sendFile(path.join(__dirname, "..", "public/pages", "privacy-policy.html"));
 });
 
-// redirecionar para a página inicial se a rota não for encontrada
+// redirecionar para a página 404 caso a rota não seja encontrada
 app.use((req, res) => {
-  res.redirect("/");
+  res.status(404).sendFile(path.join(__dirname, "..", "public/pages", "404.html"));
 });
 
 app.listen(process.env.PORT || 3000, () => {
