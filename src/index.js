@@ -11,8 +11,30 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url)); //obter o caminh
 const app = express(); //criar uma instância do express para configurar o servidor
 app.use(express.json()); //configurar o express para lidar com requisições JSON
 
-//servir arquivos estáticos da pasta public
-app.use(express.static(path.join(__dirname, "..", "public")));
+//app.use(express.static(path.join(__dirname, "..", "public")));
+app.use("/assets", express.static("public/assets")); //servir arquivos estáticos da pasta public/assets
+
+//redirecionar as rotas antigas para as novas
+app.get("/tools/:file", (req, res) => {
+  const map = {
+    "alternating-case.html": "/alternating-case",
+    "capitalize-text.html": "/capitalize-text",
+    "lowercase-text.html": "/lowercase-text",
+    "uppercase-text.html": "/uppercase-text",
+    "italic-text.html": "/italic-text",
+    "morse-code-translator.html": "/morse-code-translator",
+    "reverse-text.html": "/reverse-text",
+    "strikethrough-text.html": "/strikethrough-text"
+  };
+
+  const redirectTo = map[req.params.file];
+
+  if (redirectTo) {
+    return res.redirect(301, redirectTo);
+  }
+
+  res.status(404).send("Not found");
+});
 
 //rota para servir o arquivo index.html
 app.get("/", (req, res) => {
