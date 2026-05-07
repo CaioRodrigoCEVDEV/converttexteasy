@@ -1,0 +1,364 @@
+{
+  "tools": [
+    {
+      "slug": "uppercase-text",
+      "type": "upper",
+      "title": "Conversor para Maiúsculas",
+      "description": "Converta texto para MAIÚSCULAS online, grátis e com contagem de caracteres.",
+      "example": "TEXTO EM MAIÚSCULAS",
+      "tutorial": "Cole uma frase, clique em converter e copie o resultado em caixa alta."
+    },
+    {
+      "slug": "lowercase-text",
+      "type": "lower",
+      "title": "Conversor para Minúsculas",
+      "description": "Transforme textos em letras minúsculas para padronizar cadastros, listas e conteúdos.",
+      "example": "texto em minúsculas",
+      "tutorial": "Use para limpar textos copiados de documentos com excesso de caixa alta."
+    },
+    {
+      "slug": "capitalize-text",
+      "type": "title",
+      "title": "Capitalização de Texto",
+      "description": "Coloque iniciais em maiúsculas e deixe títulos, nomes e chamadas mais legíveis.",
+      "example": "Texto Com Iniciais Maiúsculas",
+      "tutorial": "Ótimo para títulos, nomes próprios e listas de produtos."
+    },
+    {
+      "slug": "smart-capitalization",
+      "type": "smart",
+      "title": "Capitalização Inteligente",
+      "description": "Ajuste frases com primeira letra maiúscula após pontos, perguntas e exclamações.",
+      "example": "Frase correta. Nova frase correta.",
+      "tutorial": "Ideal para textos corridos que foram digitados em caixa irregular."
+    },
+    {
+      "slug": "reverse-text",
+      "type": "reverse",
+      "title": "Inverter Texto",
+      "description": "Inverta caracteres de palavras e frases em segundos.",
+      "example": "oditrevni otxeT",
+      "tutorial": "Crie efeitos, testes visuais e brincadeiras com texto reverso."
+    },
+    {
+      "slug": "alternating-case",
+      "type": "alternating",
+      "title": "Texto Alternado",
+      "description": "Gere letras alternadas entre maiúsculas e minúsculas automaticamente.",
+      "example": "TeXtO aLtErNaDo",
+      "tutorial": "Use em posts, memes e chamadas criativas."
+    },
+    {
+      "slug": "italic-text",
+      "type": "italic",
+      "title": "Texto Itálico Unicode",
+      "description": "Converta texto comum em caracteres Unicode com aparência itálica.",
+      "example": "𝑇𝑒𝑥𝑡𝑜 𝑖𝑡á𝑙𝑖𝑐𝑜",
+      "tutorial": "Destaque nomes, bios e legendas."
+    },
+    {
+      "slug": "strikethrough-text",
+      "type": "strikethrough",
+      "title": "Texto Tachado",
+      "description": "Aplique o efeito riscado em cada caractere do texto.",
+      "example": "T̶e̶x̶t̶o̶",
+      "tutorial": "Útil para comparações, humor e marcações visuais."
+    },
+    {
+      "slug": "morse-code-translator",
+      "type": "morse",
+      "title": "Tradutor de Código Morse",
+      "description": "Converta letras, números e sinais comuns para código Morse.",
+      "example": "... --- ...",
+      "tutorial": "Estude, teste ou crie mensagens em Morse."
+    },
+    {
+      "slug": "contador-caracteres",
+      "type": "stats",
+      "title": "Contador de Caracteres",
+      "description": "Conte caracteres, palavras e linhas online em tempo real.",
+      "example": "Caracteres: 123",
+      "tutorial": "Cole qualquer texto para acompanhar métricas instantâneas."
+    },
+    {
+      "slug": "contador-palavras",
+      "type": "stats",
+      "title": "Contador de Palavras",
+      "description": "Conte palavras online para artigos, posts, anúncios e trabalhos.",
+      "example": "Palavras: 250",
+      "tutorial": "Controle limites de SEO, redes sociais e formulários."
+    },
+    {
+      "slug": "removedor-espacos",
+      "type": "trimSpaces",
+      "title": "Removedor de Espaços Extras",
+      "description": "Remova espaços duplicados e normalize textos colados.",
+      "example": "texto com espaço",
+      "tutorial": "Limpe listas e parágrafos antes de publicar."
+    },
+    {
+      "slug": "removedor-linhas-vazias",
+      "type": "removeEmptyLines",
+      "title": "Removedor de Linhas Vazias",
+      "description": "Apague linhas em branco mantendo somente conteúdo útil.",
+      "example": "linha 1\nlinha 2",
+      "tutorial": "Organize listas, CSVs simples e rascunhos."
+    },
+    {
+      "slug": "texto-aleatorio",
+      "type": "randomText",
+      "title": "Gerador de Texto Aleatório",
+      "description": "Gere texto de exemplo para testes de layout, formulários e protótipos.",
+      "example": "Lorem ipsum convert text easy",
+      "tutorial": "Clique para substituir o editor por um texto de demonstração."
+    },
+    {
+      "slug": "json-formatter",
+      "type": "jsonFormat",
+      "title": "JSON Formatter",
+      "description": "Formate JSON online com indentação, validação básica e leitura fácil.",
+      "example": "{\n  \"site\": \"ConvertTextEasy\"\n}",
+      "tutorial": "Cole JSON minificado e transforme em estrutura legível."
+    },
+    {
+      "slug": "json-validator",
+      "type": "jsonValidate",
+      "title": "Validador de JSON",
+      "description": "Valide JSON online e identifique erros de sintaxe rapidamente.",
+      "example": "JSON válido",
+      "tutorial": "Teste APIs, configurações e payloads antes de usar."
+    },
+    {
+      "slug": "jwt-decoder",
+      "type": "jwtDecode",
+      "title": "JWT Decoder",
+      "description": "Decodifique header e payload de tokens JWT sem enviar dados ao servidor.",
+      "example": "{ \"alg\": \"HS256\" }",
+      "tutorial": "Inspecione claims e datas de expiração no navegador."
+    },
+    {
+      "slug": "base64-encode-decode",
+      "type": "base64",
+      "title": "Base64 Encode Decode",
+      "description": "Codifique e decodifique textos em Base64 no navegador.",
+      "example": "Q29udmVydFRleHRFYXN5",
+      "tutorial": "Útil para testes de APIs, arquivos e snippets."
+    },
+    {
+      "slug": "base64-decode",
+      "type": "base64",
+      "title": "Base64 Decode",
+      "description": "Decodifique Base64 online no navegador.",
+      "example": "Q29udmVydFRleHRFYXN5 → ConvertTextEasy",
+      "tutorial": "Use para ler dados de testes, payloads e exemplos codificados."
+    },
+    {
+      "slug": "base64-encode",
+      "type": "base64",
+      "title": "Base64 Encode",
+      "description": "Codifique texto em Base64 online no navegador.",
+      "example": "ConvertTextEasy → Q29udmVydFRleHRFYXN5",
+      "tutorial": "Use para gerar strings Base64 em testes de APIs e documentação."
+    },
+    {
+      "slug": "url-encoder",
+      "type": "urlEncode",
+      "title": "URL Encoder",
+      "description": "Codifique e decodifique URLs, parâmetros e caracteres especiais.",
+      "example": "texto%20com%20espaço",
+      "tutorial": "Prepare strings seguras para links e query strings."
+    },
+    {
+      "slug": "uuid-generator",
+      "type": "uuid",
+      "title": "Gerador de UUID",
+      "description": "Gere UUID v4 aleatório para testes, registros e identificadores.",
+      "example": "550e8400-e29b-41d4-a716-446655440000",
+      "tutorial": "Crie IDs únicos localmente em um clique."
+    },
+    {
+      "slug": "hash-generator",
+      "type": "hash",
+      "title": "Hash Generator",
+      "description": "Gere hashes SHA-256 de textos diretamente no navegador.",
+      "example": "e3b0c44298...",
+      "tutorial": "Compare checksums e assinaturas simples."
+    },
+    {
+      "slug": "timestamp-converter",
+      "type": "timestamp",
+      "title": "Timestamp Converter",
+      "description": "Converta timestamp Unix para data local e gere timestamps atuais.",
+      "example": "1715000000 → data",
+      "tutorial": "Trabalhe com logs, APIs e bancos de dados."
+    },
+    {
+      "slug": "meta-tag-generator",
+      "type": "metaTags",
+      "title": "Meta Tag Generator",
+      "description": "Crie title, meta description, canonical e OpenGraph para SEO.",
+      "example": "<meta name=\"description\" ...>",
+      "tutorial": "Monte tags essenciais para páginas indexáveis."
+    },
+    {
+      "slug": "slug-generator",
+      "type": "slug",
+      "title": "Slug Generator",
+      "description": "Transforme títulos em slugs limpos, sem acentos e prontos para URLs.",
+      "example": "como-formatar-json-online",
+      "tutorial": "Padronize URLs amigáveis para SEO."
+    },
+    {
+      "slug": "keyword-density-checker",
+      "type": "keywordDensity",
+      "title": "Keyword Density Checker",
+      "description": "Calcule densidade de palavras-chave e termos mais frequentes.",
+      "example": "seo: 2,4%",
+      "tutorial": "Revise repetição de termos antes de publicar."
+    },
+    {
+      "slug": "xml-formatter",
+      "type": "xmlFormat",
+      "title": "Formatador de XML",
+      "description": "Formate XML online com quebras de linha e indentação simples.",
+      "example": "<root>\n  <item/>\n</root>",
+      "tutorial": "Melhore a leitura de feeds, sitemaps e configurações."
+    },
+    {
+      "slug": "csv-to-json",
+      "type": "csvToJson",
+      "title": "Conversor CSV para JSON",
+      "description": "Converta CSV com cabeçalho em uma lista JSON formatada.",
+      "example": "[{\"nome\":\"Ana\"}]",
+      "tutorial": "Transforme planilhas exportadas em payloads para APIs."
+    },
+    {
+      "slug": "remove-accents",
+      "type": "removeAccents",
+      "title": "Removedor de Acentos",
+      "description": "Remova acentos e marcas diacríticas de textos em português e outros idiomas.",
+      "example": "acao informacao",
+      "tutorial": "Prepare slugs, sistemas legados e buscas normalizadas."
+    },
+    {
+      "slug": "clean-special-characters",
+      "type": "cleanSpecial",
+      "title": "Limpador de Caracteres Especiais",
+      "description": "Remova caracteres especiais mantendo letras, números, espaços e pontuação básica.",
+      "example": "Texto limpo 123",
+      "tutorial": "Limpe conteúdo copiado de PDFs, planilhas e sistemas antigos."
+    }
+  ],
+  "articles": [
+    {
+      "slug": "como-converter-texto-para-maiusculo",
+      "title": "Como converter texto para maiúsculo",
+      "desc": "Aprenda quando usar caixa alta, como converter online e quais cuidados tomar para não prejudicar leitura e SEO."
+    },
+    {
+      "slug": "diferenca-entre-utf-8-e-ansi",
+      "title": "Diferença entre UTF-8 e ANSI",
+      "desc": "Entenda codificação de caracteres, acentos quebrados e por que UTF-8 costuma ser a escolha mais segura."
+    },
+    {
+      "slug": "como-remover-acentos-em-textos",
+      "title": "Como remover acentos em textos",
+      "desc": "Veja usos práticos para normalizar palavras, criar slugs e integrar sistemas que não aceitam diacríticos."
+    },
+    {
+      "slug": "como-formatar-json-online",
+      "title": "Como formatar JSON online",
+      "desc": "Guia para deixar JSON legível, validar chaves, revisar arrays e evitar erros comuns em APIs."
+    },
+    {
+      "slug": "como-limpar-caracteres-especiais",
+      "title": "Como limpar caracteres especiais",
+      "desc": "Saiba limpar símbolos invisíveis, quebras estranhas e caracteres copiados de PDFs ou planilhas."
+    },
+    {
+      "slug": "regex-para-iniciantes",
+      "title": "Regex para iniciantes",
+      "desc": "Conceitos básicos de expressões regulares com exemplos de busca, validação e substituição."
+    },
+    {
+      "slug": "como-converter-csv-para-json",
+      "title": "Como converter CSV para JSON",
+      "desc": "Transforme tabelas exportadas em objetos JSON e entenda cabeçalhos, delimitadores e tipos."
+    },
+    {
+      "slug": "como-validar-json",
+      "title": "Como validar JSON",
+      "desc": "Aprenda a identificar erros em JSON, mensagens comuns e boas práticas antes de enviar para uma API."
+    },
+    {
+      "slug": "como-formatar-xml",
+      "title": "Como formatar XML",
+      "desc": "Veja como indentar XML, organizar tags, revisar atributos e ler documentos extensos."
+    },
+    {
+      "slug": "como-contar-caracteres-online",
+      "title": "Como contar caracteres online",
+      "desc": "Controle limites de formulários, meta descriptions, posts e anúncios com contagem em tempo real."
+    },
+    {
+      "slug": "contador-de-palavras-para-seo",
+      "title": "Contador de palavras para SEO",
+      "desc": "Use métricas de palavras para planejar artigos, snippets, introduções e revisões editoriais."
+    },
+    {
+      "slug": "base64-encode-decode-guia",
+      "title": "Base64 encode/decode: guia rápido",
+      "desc": "Entenda o que é Base64, quando usar e por que não deve ser tratado como criptografia."
+    },
+    {
+      "slug": "jwt-decoder-online-seguro",
+      "title": "JWT decoder online seguro",
+      "desc": "Como inspecionar tokens JWT no navegador sem expor segredos e quais campos analisar."
+    },
+    {
+      "slug": "gerar-slug-seo",
+      "title": "Como gerar slug SEO",
+      "desc": "Crie URLs curtas, legíveis, sem acentos e alinhadas com palavras-chave principais."
+    },
+    {
+      "slug": "meta-tags-para-iniciantes",
+      "title": "Meta tags para iniciantes",
+      "desc": "Title, description, canonical e OpenGraph explicados para páginas indexáveis."
+    },
+    {
+      "slug": "densidade-de-palavras-chave",
+      "title": "Densidade de palavras-chave",
+      "desc": "Como medir termos repetidos sem exagerar e manter o texto natural para pessoas e buscadores."
+    },
+    {
+      "slug": "timestamp-unix-explicado",
+      "title": "Timestamp Unix explicado",
+      "desc": "Converta datas, leia logs e entenda segundos e milissegundos em integrações."
+    },
+    {
+      "slug": "uuid-v4-o-que-e",
+      "title": "UUID v4: o que é e quando usar",
+      "desc": "Conheça identificadores únicos para testes, bancos de dados e objetos distribuídos."
+    },
+    {
+      "slug": "url-encode-e-decode",
+      "title": "URL encode e decode",
+      "desc": "Entenda caracteres reservados, query strings e como evitar links quebrados."
+    },
+    {
+      "slug": "hash-sha-256-online",
+      "title": "Hash SHA-256 online",
+      "desc": "Veja usos de hash para integridade, comparação de conteúdo e cuidados de segurança."
+    },
+    {
+      "slug": "remover-linhas-vazias",
+      "title": "Como remover linhas vazias",
+      "desc": "Organize listas e rascunhos removendo linhas em branco sem perder conteúdo."
+    },
+    {
+      "slug": "capitalizacao-inteligente",
+      "title": "Capitalização inteligente",
+      "desc": "Padronize frases, títulos e nomes com regras simples de caixa e revisão final."
+    }
+  ]
+}

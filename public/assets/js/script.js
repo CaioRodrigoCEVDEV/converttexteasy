@@ -520,7 +520,64 @@ function morseText(text) {
     .join('\n');
 }
 
-function convert(type) {
+function slugifyText(text) {
+  return text
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
+function formatXml(text) {
+  const compact = text.replace(/>\s*</g, "><").trim();
+  if (!compact) return "";
+
+  let level = 0;
+  return compact
+    .replace(/</g, "\n<")
+    .split("\n")
+    .filter(Boolean)
+    .map((node) => {
+      if (/^<\//.test(node)) level = Math.max(level - 1, 0);
+      const line = "  ".repeat(level) + node;
+      if (/^<[^!?/][^>]*[^/]?>$/.test(node) && !/^<[^>]+>.*<\//.test(node)) level += 1;
+      return line;
+    })
+    .join("\n");
+}
+
+function csvToJson(text) {
+  const rows = text.trim().split(/\r?\n/).filter(Boolean).map((row) => row.split(",").map((cell) => cell.trim()));
+  const headers = rows.shift() || [];
+  return JSON.stringify(rows.map((row) => Object.fromEntries(headers.map((header, index) => [header, row[index] || ""]))), null, 2);
+}
+
+function decodeJwt(text) {
+  const parts = text.trim().split(".");
+  if (parts.length < 2) return "JWT inválido: esperado header.payload.signature";
+
+  const decodePart = (part) => JSON.parse(decodeURIComponent(Array.from(atob(part.replace(/-/g, "+").replace(/_/g, "/"))).map((char) => "%" + char.charCodeAt(0).toString(16).padStart(2, "0")).join("")));
+  return JSON.stringify({ header: decodePart(parts[0]), payload: decodePart(parts[1]), signature: parts[2] || "" }, null, 2);
+}
+
+function randomDemoText() {
+  return "ConvertTextEasy ajuda a transformar textos, validar dados e criar conteúdos otimizados. Use este texto aleatório para testar layouts, formulários, contadores e ferramentas online sem depender de conteúdo real.";
+}
+
+function keywordDensity(text) {
+  const words = (text.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").match(/[a-z0-9]+/g) || []).filter((word) => word.length > 2);
+  const total = words.length || 1;
+  const counts = words.reduce((acc, word) => ({ ...acc, [word]: (acc[word] || 0) + 1 }), {});
+  return Object.entries(counts).sort((a, b) => b[1] - a[1]).slice(0, 20).map(([word, count]) => `${word}: ${count} (${((count / total) * 100).toFixed(2)}%)`).join("\n");
+}
+
+async function hashText(text) {
+  const buffer = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(text));
+  return Array.from(new Uint8Array(buffer)).map((byte) => byte.toString(16).padStart(2, "0")).join("");
+}
+
+async function convert(type) {
   if (!input) return;
 
   let text = input.value;
@@ -528,6 +585,7 @@ function convert(type) {
   if(type === "upper") text = text.toUpperCase();
   if(type === "lower") text = text.toLowerCase();
   if(type === "sentence") text = text.toLowerCase().replace(/(^\s*\w|[\.\!\?]\s*\w)/g, c => c.toUpperCase());
+  if(type === "smart") text = text.toLowerCase().replace(/(^|[.!?]\s+)([a-záàâãéèêíïóôõöúçñ])/gi, (_, prefix, letter) => prefix + letter.toUpperCase());
   if(type === "title") text = text.toLowerCase().replace(/\b\w/g, c => c.toUpperCase());
   if(type === "alternating") text = text.split('').map((c, i) => i % 2 === 0 ? c.toUpperCase() : c.toLowerCase()).join('');
   if(type === "camel") text = text.toLowerCase().replace(/[^a-zA-Z0-9]+(.)/g, (_,c)=>c.toUpperCase());
@@ -537,6 +595,25 @@ function convert(type) {
   if(type === "strikethrough") text = strikethroughText(text);
   if(type === "italic") text = mapCharacters(text, italicMap);
   if(type === "morse") text = morseText(text);
+  if(type === "stats") text = `Caracteres: ${text.length}\nPalavras: ${text.trim() ? text.trim().split(/\s+/).length : 0}\nLinhas: ${text ? text.split(/\n/).length : 0}\n\n${text}`;
+  if(type === "trimSpaces") text = text.replace(/[ \t]+/g, " ").replace(/ *\n */g, "\n").trim();
+  if(type === "removeEmptyLines") text = text.split(/\r?\n/).filter((line) => line.trim()).join("\n");
+  if(type === "randomText") text = randomDemoText();
+  if(type === "jsonFormat") text = JSON.stringify(JSON.parse(text), null, 2);
+  if(type === "jsonValidate") text = JSON.stringify(JSON.parse(text), null, 2) + "\n\n✅ JSON válido";
+  if(type === "jwtDecode") text = decodeJwt(text);
+  if(type === "base64") text = /^[A-Za-z0-9+/=_-]+$/.test(text.trim()) ? atob(text.trim()) : btoa(unescape(encodeURIComponent(text)));
+  if(type === "urlEncode") text = /%[0-9A-Fa-f]{2}/.test(text) ? decodeURIComponent(text) : encodeURIComponent(text);
+  if(type === "uuid") text = crypto.randomUUID();
+  if(type === "hash") text = await hashText(text);
+  if(type === "timestamp") { const raw = text.trim(); const date = raw ? new Date(Number(raw) * (raw.length === 10 ? 1000 : 1)) : new Date(); text = `${Math.floor(date.getTime() / 1000)}\n${date.toISOString()}\n${date.toLocaleString()}`; }
+  if(type === "metaTags") { const title = text.split(/\r?\n/)[0] || "Título da página"; const desc = text.split(/\r?\n/)[1] || "Descrição da página com até 160 caracteres."; const slug = slugifyText(title); text = `<title>${title}</title>\n<meta name="description" content="${desc}">\n<link rel="canonical" href="https://exemplo.com/${slug}">\n<meta property="og:title" content="${title}">\n<meta property="og:description" content="${desc}">`; }
+  if(type === "slug") text = slugifyText(text);
+  if(type === "keywordDensity") text = keywordDensity(text);
+  if(type === "xmlFormat") text = formatXml(text);
+  if(type === "csvToJson") text = csvToJson(text);
+  if(type === "removeAccents") text = text.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+  if(type === "cleanSpecial") text = text.normalize("NFKC").replace(/[^\p{L}\p{N}\s.,;:!?()@%&/_-]/gu, "").replace(/\s+/g, " ").trim();
 
   input.value = text;
   updateCounts();

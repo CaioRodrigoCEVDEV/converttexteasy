@@ -706,3 +706,48 @@ a.tool-card {
     text-align: left;
   }
 }
+
+.breadcrumbs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+  margin: 0 0 1rem;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.breadcrumbs a {
+  color: var(--primary);
+  text-decoration: none;
+}
+
+.article-content {
+  max-width: 860px;
+  margin: 0 auto;
+  line-height: 1.8;
+}
+
+.article-content h2 {
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+  font-size: 1.45rem;
+}
+
+.article-content h3 {
+  margin-top: 1.35rem;
+  font-size: 1.1rem;
+}
+
+.article-content p,
+.article-content li {
+  color: var(--muted);
+}
+
+.tool-callout {
+  margin-top: 2rem;
+  padding: 1.25rem;
+  border: 1px solid var(--line);
+  border-radius: 1.1rem;
+  background: var(--surface-interactive);
+}
