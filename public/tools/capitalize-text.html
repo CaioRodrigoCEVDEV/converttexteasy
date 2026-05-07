@@ -1,152 +1,34 @@
-<!DOCTYPE html>
-<html lang="pt-BR" data-theme="dark" data-bs-theme="dark">
-<head>
-<meta charset="UTF-8">
-<title id="titleHead">ConvertTextEasy</title>
-<link rel="icon" href="../assets/img/iconeTextLab.png" type="image/x-icon">
-<meta name="description" id="desc" content="Ferramenta de texto do ConvertTextEasy.">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-<link rel="stylesheet" href="../assets/css/style.css">
-</head>
-<body data-tool-page="title">
-<div class="site-shell">
-  <header class="topbar">
-    <a href="/" class="brand-lockup text-decoration-none">
-      <span class="navbar-logo"><img src="../assets/img/iconeTextLab.png" alt="Icone ConvertTextEasy"></span>
-      <div>
-        <div class="brand-title">ConvertTextEasy</div>
-        <div class="brand-subtitle">Hub de ferramentas de texto</div>
-      </div>
-    </a>
-    <div class="topbar-actions">
-      <button class="theme-toggle btn btn-sm" onclick="toggleTheme()" title="Alternar tema">
-        <span id="themeIcon">🌙</span>
-        <small>Tema</small>
-      </button>
-      <select onchange="changeLang(this.value)" class="form-select form-select-sm lang-select">
-        <option value="pt">🇧🇷 Português</option>
-        <option value="en">🇺🇸 English</option>
-        <option value="es">🇪🇸 Español</option>
-      </select>
-    </div>
-  </header>
-
-  <section class="panel hero-panel">
-    <div class="panel-body">
-      <a href="/" class="page-back-link" id="backToHome">← Voltar para a home</a>
-      <div class="page-eyebrow" id="pageEyebrow">Ferramenta</div>
-      <h1 class="page-title" id="pageTitle">Iniciais Maiusculas</h1>
-      <p class="page-description" id="pageDescription">Carregando descricao da ferramenta.</p>
-    </div>
-  </section>
-
-  <main class="content-grid mt-4">
-    <section class="panel editor-card">
-      <div class="panel-head">
-        <div>
-          <h2 class="panel-title" id="editorTitle">Editor</h2>
-          <p class="panel-copy" id="editorCopy">Cole seu texto, aplique a transformacao e copie o resultado imediatamente.</p>
-        </div>
-      </div>
-      <div class="panel-body">
-        <div class="editor-stack">
-          <div class="editor-surface">
-            <textarea id="input" placeholder="Escreva ou cole o seu texto aqui." class="form-control editor-textarea" rows="12"></textarea>
-            <div class="editor-footer">
-              <div class="editor-actions">
-                <button class="editor-action-btn" id="copyButton" onclick="copyText()" title="Copiar texto" aria-label="Copiar texto">📋</button>
-                <button class="editor-action-btn" id="clearButton" onclick="clearText()" title="Limpar texto" aria-label="Limpar texto">🗑</button>
-              </div>
-              <div class="editor-stats">
-                <span id="charsLabel">Letras</span>: <span id="charCount">0</span> |
-                <span id="wordsLabel">Palavras</span>: <span id="wordCount">0</span> |
-                <span id="linesLabel">Linhas</span>: <span id="lineCount">0</span>
-              </div>
-            </div>
-          </div>
-          <div class="tool-action-bar">
-            <div class="toolbar-buttons">
-              <button id="toolActionButton" class="badge-conversion badge-conversion-primary" type="button"><span>Go</span>Converter</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <aside class="sidebar-stack">
-      <section class="panel">
-        <div class="panel-head">
-          <div>
-            <h2 class="panel-title" id="helperTitle">Como funciona</h2>
-            <p class="helper-copy" id="helperText">Carregando informacoes da ferramenta.</p>
-          </div>
-        </div>
-        <div class="panel-body">
-          <div class="example" id="toolExample">Exemplo</div>
-        </div>
-      </section>
-
-      <section class="panel">
-        <div class="panel-head">
-          <div>
-            <h2 class="panel-title" id="tipsTitle">Dicas rapidas</h2>
-            <p class="panel-copy" id="tipsCopy">Pontos importantes para usar esta funcionalidade.</p>
-          </div>
-        </div>
-        <div class="panel-body">
-          <ul class="tool-info-list" id="toolTips"></ul>
-        </div>
-      </section>
-
-      <section class="panel">
-        <div class="panel-head">
-          <div>
-            <h2 class="panel-title" id="relatedTitle">Outras ferramentas</h2>
-            <p class="panel-copy" id="relatedCopy">Navegue para outras paginas especificas do ConvertTextEasy.</p>
-          </div>
-        </div>
-        <div class="panel-body">
-          <div class="related-tools-grid" id="relatedTools"></div>
-        </div>
-      </section>
-    </aside>
-  </main>
-  <footer class="footer">
+<!DOCTYPE html><html lang="pt-BR" data-theme="dark" data-bs-theme="dark"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Capitalização de Texto Online Grátis | ConvertTextEasy</title><meta name="description" content="Coloque iniciais em maiúsculas e deixe títulos, nomes e chamadas mais legíveis."><link rel="canonical" href="https://converttexteasy.com/capitalize-text"><meta property="og:title" content="Capitalização de Texto"><meta property="og:description" content="Coloque iniciais em maiúsculas e deixe títulos, nomes e chamadas mais legíveis."><meta property="og:type" content="website"><meta property="og:url" content="https://converttexteasy.com/capitalize-text"><link rel="icon" href="../assets/img/iconeTextLab.png" type="image/x-icon"><link rel="stylesheet" href="../assets/css/style.css"><script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Capitalização de Texto","applicationCategory":"UtilitiesApplication","operatingSystem":"Web","url":"https://converttexteasy.com/capitalize-text","description":"Coloque iniciais em maiúsculas e deixe títulos, nomes e chamadas mais legíveis.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Capitalização de Texto é gratuito?","acceptedAnswer":{"@type":"Answer","text":"Sim. Capitalização de Texto pode ser usado sem cadastro diretamente no navegador."}},{"@type":"Question","name":"Os dados são enviados ao servidor?","acceptedAnswer":{"@type":"Answer","text":"Não armazenamos o conteúdo digitado. A transformação acontece no seu navegador sempre que possível."}},{"@type":"Question","name":"Posso usar no celular?","acceptedAnswer":{"@type":"Answer","text":"Sim. A página é responsiva e funciona em telas menores."}}]}</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Início","item":"https://converttexteasy.com"},{"@type":"ListItem","position":2,"name":"Ferramentas","item":"https://converttexteasy.com/#ferramentas"},{"@type":"ListItem","position":3,"name":"Capitalização de Texto","item":"https://converttexteasy.com/capitalize-text"}]}</script></head><body data-tool-page="title"><div class="site-shell"><header class="topbar"><a href="/" class="brand-lockup text-decoration-none"><span class="navbar-logo"><img src="../assets/img/iconeTextLab.png" alt="Ícone ConvertTextEasy" loading="lazy"></span><div><div class="brand-title">ConvertTextEasy</div><div class="brand-subtitle">Ferramentas de texto, dev e SEO</div></div></a><div class="topbar-actions"><a class="theme-toggle text-decoration-none" href="/blog">Blog</a><button class="theme-toggle btn btn-sm" onclick="toggleTheme()" title="Alternar tema"><span id="themeIcon">🌙</span><small>Tema</small></button></div></header><nav class="breadcrumbs"><a href="/">Início</a><span>›</span><a href="/#ferramentas">Ferramentas</a><span>›</span><span>Capitalização de Texto</span></nav><section class="panel hero-panel"><div class="panel-body"><div class="page-eyebrow">Ferramenta online</div><h1 class="page-title">Capitalização de Texto</h1><p class="page-description">Coloque iniciais em maiúsculas e deixe títulos, nomes e chamadas mais legíveis.</p></div></section><main class="content-grid mt-4"><section class="panel editor-card"><div class="panel-head"><div><h2 class="panel-title">Editor de Capitalização de Texto</h2><p class="panel-copy">Cole o conteúdo, execute a ação e copie o resultado. A contagem é atualizada em tempo real.</p></div></div><div class="panel-body"><div class="editor-stack"><div class="editor-surface"><textarea id="input" placeholder="Cole seu texto aqui..." class="form-control editor-textarea" rows="12"></textarea><div class="editor-footer"><div class="editor-actions"><button class="editor-action-btn" onclick="copyText()" title="Copiar">📋</button><button class="editor-action-btn" onclick="clearText()" title="Limpar">🗑</button></div><div class="editor-stats">Caracteres: <span id="charCount">0</span> | Palavras: <span id="wordCount">0</span> | Linhas: <span id="lineCount">0</span></div></div></div><div class="tool-action-bar"><button id="toolActionButton" class="badge-conversion badge-conversion-primary" onclick="convert('title')" type="button"><span>Go</span>Executar ferramenta</button></div></div></div></section><aside class="sidebar-stack"><section class="panel"><div class="panel-head"><div><h2 class="panel-title">Exemplo</h2><p class="panel-copy">Resultado esperado para referência rápida.</p></div></div><div class="panel-body"><div class="example">Texto Com Iniciais Maiúsculas</div></div></section><section class="panel"><div class="panel-head"><div><h2 class="panel-title">Outras ferramentas</h2><p class="panel-copy">Páginas individuais com tutorial, FAQ e exemplos.</p></div></div><div class="panel-body"><div class="related-tools-grid"><a class="related-tool-link" href="/uppercase-text">Conversor para Maiúsculas</a><a class="related-tool-link" href="/lowercase-text">Conversor para Minúsculas</a><a class="related-tool-link" href="/smart-capitalization">Capitalização Inteligente</a><a class="related-tool-link" href="/reverse-text">Inverter Texto</a><a class="related-tool-link" href="/alternating-case">Texto Alternado</a><a class="related-tool-link" href="/italic-text">Texto Itálico Unicode</a><a class="related-tool-link" href="/strikethrough-text">Texto Tachado</a><a class="related-tool-link" href="/morse-code-translator">Tradutor de Código Morse</a></div></div></section></aside></main><section class="panel mt-4"><div class="panel-body article-content"><h2>Tutorial: como usar Capitalização de Texto</h2><p>Ótimo para títulos, nomes próprios e listas de produtos. A ferramenta foi criada para resolver tarefas recorrentes de texto, desenvolvimento e SEO sem exigir instalação, login ou configuração.</p><p>Para começar, cole o conteúdo no editor principal. Em seguida, clique no botão de execução. O resultado aparece no mesmo campo para facilitar conferência, cópia e ajustes manuais. Se estiver revisando um conteúdo grande, acompanhe também as métricas de caracteres, palavras e linhas no rodapé do editor.</p><h2>Boas práticas</h2><ul><li>Revise o resultado antes de publicar ou enviar para sistemas externos.</li><li>Evite colar dados sensíveis em ferramentas online quando não for necessário.</li><li>Use a página específica da ferramenta como referência em fluxos repetitivos.</li></ul><h2>FAQ</h2><h3>Capitalização de Texto é gratuito?</h3><p>Sim. A ferramenta é gratuita e foi pensada para uso rápido no navegador.</p><h3>Os dados são enviados ao servidor?</h3><p>As transformações principais rodam no cliente. Não há necessidade de enviar seu texto para uma API para executar a operação.</p><h3>Posso usar no celular?</h3><p>Sim. O layout é responsivo e pode ser usado em desktop, tablet ou celular.</p></div></section><footer class="footer">
     <div class="footer-grid">
       <div>
         <div class="brand-lockup mb-3">
-          <span class="navbar-logo"><img src="assets/img/iconeTextLab.png" alt="Ícone ConvertTextEasy"></span>
+          <span class="navbar-logo"><img loading="lazy" src="/assets/img/iconeTextLab.png" alt="Ícone ConvertTextEasy"></span>
           <div>
-            <div class="brand-title" id="footerTitle">UpperCase</div>
+            <div class="brand-title" id="footerTitle">ConvertTextEasy</div>
             <div class="brand-subtitle" id="footerBrandSubtitle">Conversor de Texto</div>
           </div>
         </div>
-        <p class="small text-muted mb-3" id="footerDesc">Ferramenta gratuita para transformar textos em diferentes formatos. Suporte a múltiplos idiomas e temas.</p>
-        <!-- <div class="d-flex gap-2">
-          <a href="#" class="text-muted text-decoration-none">GitHub</a>
-          <a href="#" class="text-muted text-decoration-none">Twitter</a>
-          <a href="#" class="text-muted text-decoration-none">Email</a>
-        </div> -->
+        <p class="small text-muted mb-3" id="footerDesc">Ferramenta gratuita para transformar textos, validar dados e melhorar SEO técnico.</p>
       </div>
 
       <div>
         <h6 class="mb-3 fw-semibold" id="footerLinksTitle">Ferramentas</h6>
         <ul class="list-unstyled small m-0">
-          <li class="mb-2"><a href="/" id="footerHomeLink" class="text-muted text-decoration-none">Pagina Inicial</a></li>
-          <li class="mb-2"><a href="strikethrough-text" id="footerToolLink1" class="text-muted text-decoration-none">Texto Tachado</a></li>
-          <li class="mb-2"><a href="capitalize-text" id="footerToolLink2" class="text-muted text-decoration-none">Iniciais Maiusculas</a></li>
-          <li><a href="reverse-text" id="footerToolLink3" class="text-muted text-decoration-none">Texto Reverso</a></li>
+          <li class="mb-2"><a href="/" id="footerHomeLink" class="text-muted text-decoration-none">Página Inicial</a></li>
+          <li class="mb-2"><a href="/contador-caracteres" id="footerToolLink1" class="text-muted text-decoration-none">Contador de caracteres</a></li>
+          <li class="mb-2"><a href="/json-formatter" id="footerToolLink2" class="text-muted text-decoration-none">JSON Formatter</a></li>
+          <li><a href="/slug-generator" id="footerToolLink3" class="text-muted text-decoration-none">Slug Generator</a></li>
         </ul>
       </div>
 
       <div>
         <h6 class="mb-3 fw-semibold" id="footerContactTitle">Suporte</h6>
         <ul class="list-unstyled small m-0">
-          <li class="mb-2"><a href="about" class="text-muted text-decoration-none" id="footerAboutLink">Sobre Nós</a></li>
-          <li class="mb-2"><a href="privacy-policy" class="text-muted text-decoration-none" id="footerPrivacyLink">Privacidade</a></li>
-          <li class="mb-2"><a href="terms" class="text-muted text-decoration-none" id="footerTermsLink">Termos</a></li>
-          <li><a href="contact" id="footerContactLink" class="text-muted text-decoration-none">Contato</a></li>
+          <li class="mb-2"><a href="/blog" class="text-muted text-decoration-none">Blog</a></li>
+          <li class="mb-2"><a href="/about" class="text-muted text-decoration-none" id="footerAboutLink">Sobre Nós</a></li>
+          <li class="mb-2"><a href="/privacy-policy" class="text-muted text-decoration-none" id="footerPrivacyLink">Privacidade</a></li>
+          <li class="mb-2"><a href="/terms" class="text-muted text-decoration-none" id="footerTermsLink">Termos</a></li>
+          <li><a href="/contact" id="footerContactLink" class="text-muted text-decoration-none">Contato</a></li>
         </ul>
       </div>
 
@@ -160,11 +42,4 @@
         <p class="small text-muted mt-4 mb-0" id="footerCopyright">© 2026 ConvertTextEasy. Todos os direitos reservados.</p>
       </div>
     </div>
-  </footer>
-</div>
-
-<script src="../assets/js/script.js"></script>
-<script src="../assets/js/tool-page.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+  </footer></div><script src="../assets/js/script.js"></script></body></html>

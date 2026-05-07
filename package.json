@@ -5,7 +5,9 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node src/index.js",
+    "generate:content": "node scripts/generate-seo-content.mjs",
+    "check": "node --check src/index.js && node --check public/assets/js/script.js"
   },
   "keywords": [],
   "author": "",

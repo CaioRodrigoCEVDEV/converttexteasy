@@ -576,6 +576,97 @@ a.tool-card {
   gap: 1.25rem;
 }
 
+.footer h6,
+.footer p,
+.footer ul {
+  margin-top: 0;
+}
+
+.footer .mb-2 {
+  margin-bottom: 0.5rem;
+}
+
+.footer .mb-3 {
+  margin-bottom: 1rem;
+}
+
+.footer .mt-4 {
+  margin-top: 1.5rem;
+}
+
+.footer .mb-0,
+.footer .m-0 {
+  margin-bottom: 0;
+}
+
+.footer .m-0 {
+  margin-top: 0;
+}
+
+.footer .small {
+  font-size: 0.875rem;
+}
+
+.footer .fw-semibold {
+  font-weight: 600;
+}
+
+.footer .text-muted {
+  color: var(--muted) !important;
+}
+
+.footer .text-decoration-none {
+  text-decoration: none !important;
+}
+
+.footer .list-unstyled {
+  padding-left: 0;
+  list-style: none;
+}
+
+.footer a.text-muted:hover {
+  color: var(--text) !important;
+}
+
+.footer .input-group {
+  display: flex;
+  align-items: stretch;
+  width: 100%;
+}
+
+.footer .input-group .form-control {
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: 2.25rem;
+  padding: 0.35rem 0.75rem;
+  border-radius: 0.65rem 0 0 0.65rem;
+}
+
+.footer .btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.25rem;
+  padding: 0.35rem 0.75rem;
+  border: 1px solid transparent;
+  border-radius: 0 0.65rem 0.65rem 0;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+
+.footer .btn-primary {
+  background: var(--primary-strong);
+  border-color: var(--primary-strong);
+  color: #fff;
+}
+
+.footer .btn-primary:hover {
+  background: var(--primary);
+  border-color: var(--primary);
+  transform: translateY(-1px);
+}
+
 .page-back-link {
   display: inline-flex;
   align-items: center;
@@ -705,4 +796,49 @@ a.tool-card {
     white-space: normal;
     text-align: left;
   }
+}
+
+.breadcrumbs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+  margin: 0 0 1rem;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.breadcrumbs a {
+  color: var(--primary);
+  text-decoration: none;
+}
+
+.article-content {
+  max-width: 860px;
+  margin: 0 auto;
+  line-height: 1.8;
+}
+
+.article-content h2 {
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+  font-size: 1.45rem;
+}
+
+.article-content h3 {
+  margin-top: 1.35rem;
+  font-size: 1.1rem;
+}
+
+.article-content p,
+.article-content li {
+  color: var(--muted);
+}
+
+.tool-callout {
+  margin-top: 2rem;
+  padding: 1.25rem;
+  border: 1px solid var(--line);
+  border-radius: 1.1rem;
+  background: var(--surface-interactive);
 }

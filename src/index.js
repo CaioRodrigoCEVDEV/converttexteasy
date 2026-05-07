@@ -1,108 +1,123 @@
-import express from "express"; //importar o express para criar o servidor web
-import path from "path"; //importar o path para lidar com caminhos de arquivos
-import { fileURLToPath } from "url"; //importar o fileURLToPath para obter o caminho do diretório atual
+import express from "express";
+import path from "path";
+import fs from "fs";
+import zlib from "zlib";
+import { promisify } from "util";
+import { fileURLToPath } from "url";
+import dotenv from "dotenv";
 
-//importar porta do arquivo .env
-import dotenv from "dotenv"; //importar o dotenv para carregar as variáveis de ambiente do arquivo .env
-dotenv.config();    //carregar as variáveis de ambiente do arquivo .env para process.env
+dotenv.config();
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url)); //obter o caminho do diretório atual
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const publicDir = path.join(__dirname, "..", "public");
+const gzip = promisify(zlib.gzip);
+const brotliCompress = promisify(zlib.brotliCompress);
+const compressibleExtensions = new Set([".html", ".css", ".js", ".json", ".xml", ".txt"]);
+const contentTypes = {
+  ".html": "text/html; charset=utf-8",
+  ".css": "text/css; charset=utf-8",
+  ".js": "application/javascript; charset=utf-8",
+  ".json": "application/json; charset=utf-8",
+  ".xml": "application/xml; charset=utf-8",
+  ".txt": "text/plain; charset=utf-8"
+};
 
-const app = express(); //criar uma instância do express para configurar o servidor
-app.use(express.json()); //configurar o express para lidar com requisições JSON
+const app = express();
+app.use(express.json());
 
-//app.use(express.static(path.join(__dirname, "..", "public")));
-app.use("/assets", express.static("public/assets")); //servir arquivos estáticos da pasta public/assets
+function loadManifest() {
+  const manifestPath = path.join(publicDir, "content-manifest.json");
+  return JSON.parse(fs.readFileSync(manifestPath, "utf8"));
+}
 
-//redirecionar as rotas antigas para as novas
-app.get("/tools/:file", (req, res) => {
-  const map = {
-    "alternating-case.html": "/alternating-case",
-    "capitalize-text.html": "/capitalize-text",
-    "lowercase-text.html": "/lowercase-text",
-    "uppercase-text.html": "/uppercase-text",
-    "italic-text.html": "/italic-text",
-    "morse-code-translator.html": "/morse-code-translator",
-    "reverse-text.html": "/reverse-text",
-    "strikethrough-text.html": "/strikethrough-text"
-  };
+function setSeoHeaders(res) {
+  res.setHeader("X-Content-Type-Options", "nosniff");
+  res.setHeader("Vary", "Accept-Encoding");
+}
 
-  const redirectTo = map[req.params.file];
+async function sendCompressedFile(req, res, filePath) {
+  const extension = path.extname(filePath);
+  const type = contentTypes[extension];
+  setSeoHeaders(res);
 
-  if (redirectTo) {
-    return res.redirect(301, redirectTo);
+  if (type) res.setHeader("Content-Type", type);
+  if (!compressibleExtensions.has(extension)) return res.sendFile(filePath);
+
+  const file = await fs.promises.readFile(filePath);
+  const encoding = req.headers["accept-encoding"] || "";
+
+  if (encoding.includes("br")) {
+    const compressed = await brotliCompress(file);
+    res.setHeader("Content-Encoding", "br");
+    return res.send(compressed);
   }
 
-  res.status(404).send("Not found");
+  if (encoding.includes("gzip")) {
+    const compressed = await gzip(file);
+    res.setHeader("Content-Encoding", "gzip");
+    return res.send(compressed);
+  }
+
+  return res.send(file);
+}
+
+const { tools, articles } = loadManifest();
+const toolBySlug = new Map(tools.map((tool) => [tool.slug, tool]));
+const articleBySlug = new Map(articles.map((article) => [article.slug, article]));
+const legacyToolRoutes = {
+  "alternating-case.html": "/alternating-case",
+  "capitalize-text.html": "/capitalize-text",
+  "lowercase-text.html": "/lowercase-text",
+  "uppercase-text.html": "/uppercase-text",
+  "italic-text.html": "/italic-text",
+  "morse-code-translator.html": "/morse-code-translator",
+  "reverse-text.html": "/reverse-text",
+  "strikethrough-text.html": "/strikethrough-text"
+};
+
+app.use("/assets", express.static(path.join(publicDir, "assets"), {
+  immutable: true,
+  maxAge: "30d",
+  setHeaders: (res) => setSeoHeaders(res)
+}));
+
+app.get("/tools/:file", (req, res) => {
+  const redirectTo = legacyToolRoutes[req.params.file];
+  if (redirectTo) return res.redirect(301, redirectTo);
+  return res.status(404).send("Not found");
 });
 
-//rota para servir o arquivo index.html
-app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "..", "public", "index.html"));
-});
-//rota para alternating-case.html
-app.get("/alternating-case", (req, res) => {
-  res.sendFile(path.join(__dirname, "..", "public/tools", "alternating-case.html"));
-});
-//rota para captalize-text.html
-app.get("/capitalize-text", (req, res) => {
-  res.sendFile(path.join(__dirname, "..", "public/tools", "capitalize-text.html"));
-});
-//rota para lowercase-text.html
-app.get("/lowercase-text", (req, res) => {
-  res.sendFile(path.join(__dirname, "..", "public/tools", "lowercase-text.html"));
-});
-//rota para uppercase-text.html
-app.get("/uppercase-text", (req, res) => {
-  res.sendFile(path.join(__dirname, "..", "public/tools", "uppercase-text.html"));
-});
-//rota para italic-text.html
-app.get("/italic-text", (req, res) => {
-  res.sendFile(path.join(__dirname, "..", "public/tools", "italic-text.html"));
-});
-//rota para morse-code-translator.html
-app.get("/morse-code-translator", (req, res) => {
-  res.sendFile(path.join(__dirname, "..", "public/tools", "morse-code-translator.html"));
-});
-//rota para reverse-text.html
-app.get("/reverse-text", (req, res) => {
-  res.sendFile(path.join(__dirname, "..", "public/tools", "reverse-text.html"));
-});
-//rota para strikethrough-text.html
-app.get("/strikethrough-text", (req, res) => {
-  res.sendFile(path.join(__dirname, "..", "public/tools", "strikethrough-text.html"));
-});
-//rota para sitemap.xml
-app.get("/sitemap.xml", (req, res) => {
-  res.sendFile(path.join(__dirname, "..", "public", "sitemap.xml"));
+app.get("/", (req, res) => sendCompressedFile(req, res, path.join(publicDir, "index.html")));
+app.get("/blog", (req, res) => sendCompressedFile(req, res, path.join(publicDir, "blog", "index.html")));
+app.get("/blog/:slug", (req, res, next) => {
+  if (!articleBySlug.has(req.params.slug)) return next();
+  return sendCompressedFile(req, res, path.join(publicDir, "blog", `${req.params.slug}.html`));
 });
 
-// /Pages
-//rota para contact.html
-app.get("/contact", (req, res) => {
-  res.sendFile(path.join(__dirname, "..", "public/pages", "contact.html"));
-});
-//rota para about.html
-app.get("/about", (req, res) => {
-  res.sendFile(path.join(__dirname, "..", "public/pages", "about.html"));
-});
-// rota para terms.html
-app.get("/terms", (req, res) => {
-  res.sendFile(path.join(__dirname, "..", "public/pages", "terms.html"));
-});
-// rota para privacy-policy.html
-app.get("/privacy-policy", (req, res) => {
-  res.sendFile(path.join(__dirname, "..", "public/pages", "privacy-policy.html"));
+app.get("/sitemap.xml", (req, res) => sendCompressedFile(req, res, path.join(publicDir, "sitemap.xml")));
+app.get("/robots.txt", (req, res) => sendCompressedFile(req, res, path.join(publicDir, "robots.txt")));
+app.get("/ads.txt", (req, res) => sendCompressedFile(req, res, path.join(publicDir, "ads.txt")));
+
+app.get("/:slug", (req, res, next) => {
+  const pageRoutes = new Map([
+    ["contact", path.join(publicDir, "pages", "contact.html")],
+    ["about", path.join(publicDir, "pages", "about.html")],
+    ["terms", path.join(publicDir, "pages", "terms.html")],
+    ["privacy-policy", path.join(publicDir, "pages", "privacy-policy.html")]
+  ]);
+
+  if (toolBySlug.has(req.params.slug)) {
+    return sendCompressedFile(req, res, path.join(publicDir, "tools", `${req.params.slug}.html`));
+  }
+
+  if (pageRoutes.has(req.params.slug)) return sendCompressedFile(req, res, pageRoutes.get(req.params.slug));
+
+  return next();
 });
 
-// rota para ads.txt pub-1764837779058715
-app.get("/ads.txt", (req, res) => {
-  res.sendFile(path.join(__dirname, "..", "public", "ads.txt"));
-});
-
-// redirecionar para a página 404 caso a rota não seja encontrada
 app.use((req, res) => {
-  res.status(404).sendFile(path.join(__dirname, "..", "public/pages", "404.html"));
+  res.status(404);
+  return sendCompressedFile(req, res, path.join(publicDir, "pages", "404.html"));
 });
 
 app.listen(process.env.PORT || 3000, () => {
