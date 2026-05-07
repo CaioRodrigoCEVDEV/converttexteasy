@@ -71,6 +71,15 @@ const articleSeeds = [
 function esc(s){ return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 function header(prefix='..') { return `<header class="topbar"><a href="/" class="brand-lockup text-decoration-none"><span class="navbar-logo"><img src="${prefix}/assets/img/iconeTextLab.png" alt="Ícone ConvertTextEasy" loading="lazy"></span><div><div class="brand-title">ConvertTextEasy</div><div class="brand-subtitle">Ferramentas de texto, dev e SEO</div></div></a><div class="topbar-actions"><a class="theme-toggle text-decoration-none" href="/blog">Blog</a><button class="theme-toggle btn btn-sm" onclick="toggleTheme()" title="Alternar tema"><span id="themeIcon">🌙</span><small>Tema</small></button></div></header>`; }
 function footer() {
+  const indexHtmlPath = path.join(root, 'public', 'index.html');
+
+  if (fs.existsSync(indexHtmlPath)) {
+    const indexHtml = fs.readFileSync(indexHtmlPath, 'utf8');
+    const footerMatch = indexHtml.match(/<footer class="footer">[\s\S]*?<\/footer>/);
+
+    if (footerMatch) return footerMatch[0];
+  }
+
   return `<footer class="footer">
     <div class="footer-grid">
       <div>
