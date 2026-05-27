@@ -1,3 +1,4 @@
 User-agent: *
 Allow: /
+Crawl-delay: 10
 Sitemap: https://converttexteasy.com/sitemap.xml

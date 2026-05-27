@@ -26,10 +26,10 @@ function toggleTheme() {
 
 function updateThemeIcon(theme) {
   const icon = document.getElementById('themeIcon');
+  if (icon) icon.textContent = theme === 'dark' ? '🌙' : '☀️';
 
-  if (!icon) return;
-
-  icon.textContent = theme === 'dark' ? '🌙' : '☀️';
+  const drawerIcon = document.getElementById('themeIconDrawer');
+  if (drawerIcon) drawerIcon.textContent = theme === 'dark' ? '🌙' : '☀️';
 }
 
 const translations = {
@@ -666,3 +666,174 @@ function initLanguage() {
 initTheme();
 initLanguage();
 updateCounts();
+
+// ===== MOBILE MENU =====
+(function () {
+  if (document.querySelector('.mobile-menu-btn')) return;
+
+  const menuTools = [
+    { href: '/uppercase-text', icon: '🔠', key: 'toolTitle2' },
+    { href: '/lowercase-text', icon: '🔡', key: 'toolTitle1' },
+    { href: '/capitalize-text', icon: '📝', key: 'toolTitle4' },
+    { href: '/reverse-text', icon: '🔄', key: 'toolTitle5' },
+    { href: '/alternating-case', icon: '🔀', key: 'toolTitle6' },
+    { href: '/strikethrough-text', icon: '🔤', key: 'toolTitle3' },
+    { href: '/italic-text', icon: '📜', key: 'toolTitle7' },
+    { href: '/morse-code-translator', icon: '💻', key: 'toolTitle8' },
+  ];
+
+  function stripEmoji(text) {
+    if (!text) return '';
+    var m = text.match(/^\S+\s+(.*)/);
+    return m ? m[1] : text;
+  }
+
+  function populateDrawer() {
+    var body = document.getElementById('mobileDrawerBody');
+    var themeLabel = document.getElementById('drawerThemeLabel');
+    if (!body) return;
+    var lang = localStorage.getItem('language') || 'pt';
+    var t = translations[lang] || translations.pt;
+
+    var html = '';
+
+    html += '<div class="drawer-section-title">' + (t.sidebarConverter || 'Conversor') + '</div>';
+    html += '<a class="drawer-item" href="/">' +
+      '<span class="drawer-item-icon">📝</span>' +
+      (t.mainTitle || 'Conversor de Texto') +
+    '</a>';
+
+    html += '<div class="drawer-section-title">' + (t.sidebarTools || 'Ferramentas') + '</div>';
+    for (var i = 0; i < menuTools.length; i++) {
+      var tool = menuTools[i];
+      var raw = t[tool.key];
+      html += '<a class="drawer-item" href="' + tool.href + '">' +
+        '<span class="drawer-item-icon">' + tool.icon + '</span>' +
+        stripEmoji(raw || '') +
+      '</a>';
+    }
+
+    html += '<div class="drawer-section-title">' + (t.sidebarMoreTools || 'Mais Ferramentas') + '</div>';
+    html += '<a class="drawer-item" href="/json-formatter"><span class="drawer-item-icon">🔧</span>JSON Formatter</a>';
+    html += '<a class="drawer-item" href="/slug-generator"><span class="drawer-item-icon">🔗</span>Slug Generator</a>';
+    html += '<a class="drawer-item" href="/contador-caracteres"><span class="drawer-item-icon">🔢</span>Contador</a>';
+    html += '<a class="drawer-item" href="/blog"><span class="drawer-item-icon">📰</span>Blog</a>';
+
+    html += '<div class="drawer-section-title">Links</div>';
+    html += '<a class="drawer-item" href="/about"><span class="drawer-item-icon">ℹ️</span>' + (t.sidebarAbout || 'Sobre') + '</a>';
+    html += '<a class="drawer-item" href="/contact"><span class="drawer-item-icon">📧</span>' + (t.sidebarContact || 'Contato') + '</a>';
+
+    body.innerHTML = html;
+
+    if (themeLabel) {
+      themeLabel.textContent = t.theme;
+    }
+  }
+
+  function initMobileMenu() {
+    var topbarActions = document.querySelector('.topbar-actions');
+    if (!topbarActions) return;
+
+    var btn = document.createElement('button');
+    btn.className = 'mobile-menu-btn';
+    btn.type = 'button';
+    btn.setAttribute('aria-label', 'Abrir menu de ferramentas');
+    btn.setAttribute('aria-expanded', 'false');
+    btn.innerHTML =
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" ' +
+      'stroke-linecap="round" stroke-linejoin="round">' +
+      '<line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/>' +
+      '<line x1="4" y1="18" x2="20" y2="18"/></svg>';
+    topbarActions.insertBefore(btn, topbarActions.firstChild);
+
+    var backdrop = document.createElement('div');
+    backdrop.className = 'mobile-drawer-backdrop';
+
+    var drawer = document.createElement('aside');
+    drawer.className = 'mobile-drawer';
+    drawer.setAttribute('role', 'dialog');
+    drawer.setAttribute('aria-modal', 'true');
+    drawer.setAttribute('aria-label', 'Menu de ferramentas');
+
+    var lang = localStorage.getItem('language') || 'pt';
+    var t = translations[lang] || translations.pt;
+    var theme = document.documentElement.getAttribute('data-theme') || 'dark';
+
+    drawer.innerHTML =
+      '<div class="mobile-drawer-header">' +
+        '<a href="/" class="drawer-brand">' +
+          '<img src="/assets/img/iconeTextLab.png" alt="" width="34" height="34" loading="lazy">' +
+          '<span>ConvertTextEasy</span>' +
+        '</a>' +
+        '<button class="mobile-drawer-close" type="button" aria-label="Fechar menu">✕</button>' +
+      '</div>' +
+      '<div class="mobile-drawer-body" id="mobileDrawerBody"></div>' +
+      '<div class="mobile-drawer-footer">' +
+        '<button class="theme-toggle btn btn-sm" onclick="toggleTheme()" type="button" aria-label="Alternar tema">' +
+          '<span id="themeIconDrawer" aria-hidden="true">' + (theme === 'dark' ? '🌙' : '☀️') + '</span>' +
+          '<small id="drawerThemeLabel">' + t.theme + '</small>' +
+        '</button>' +
+        '<select onchange="changeLang(this.value)" class="form-select form-select-sm lang-select" aria-label="Idioma">' +
+          '<option value="pt"' + (lang === 'pt' ? ' selected' : '') + '>🇧🇷 PT</option>' +
+          '<option value="en"' + (lang === 'en' ? ' selected' : '') + '>🇺🇸 EN</option>' +
+          '<option value="es"' + (lang === 'es' ? ' selected' : '') + '>🇪🇸 ES</option>' +
+        '</select>' +
+      '</div>';
+
+    document.body.appendChild(backdrop);
+    document.body.appendChild(drawer);
+
+    populateDrawer();
+
+    function openDrawer() {
+      backdrop.classList.add('open');
+      drawer.classList.add('open');
+      btn.setAttribute('aria-expanded', 'true');
+      document.body.classList.add('drawer-open');
+      var closeBtn = drawer.querySelector('.mobile-drawer-close');
+      if (closeBtn) closeBtn.focus();
+    }
+
+    function closeDrawer() {
+      backdrop.classList.remove('open');
+      drawer.classList.remove('open');
+      btn.setAttribute('aria-expanded', 'false');
+      document.body.classList.remove('drawer-open');
+      btn.focus();
+    }
+
+    btn.addEventListener('click', openDrawer);
+    var closeBtn = drawer.querySelector('.mobile-drawer-close');
+    if (closeBtn) closeBtn.addEventListener('click', closeDrawer);
+    backdrop.addEventListener('click', closeDrawer);
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && drawer.classList.contains('open')) {
+        closeDrawer();
+      }
+    });
+
+    drawer.addEventListener('keydown', function (e) {
+      if (e.key !== 'Tab') return;
+      var focusable = drawer.querySelectorAll('button, a, select, [tabindex]:not([tabindex="-1"])');
+      if (focusable.length < 2) return;
+      var first = focusable[0];
+      var last = focusable[focusable.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    });
+
+    document.addEventListener('languagechange', populateDrawer);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initMobileMenu);
+  } else {
+    initMobileMenu();
+  }
+})();

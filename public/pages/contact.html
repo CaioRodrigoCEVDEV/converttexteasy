@@ -1,31 +1,64 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR" data-theme="dark" data-bs-theme="dark">
 <head>
 <meta charset="UTF-8">
-<title id="titleHead">ConvertTextEasy - Contato</title>
-<link rel="icon" href="../assets/img/iconeTextLab.png" type="image/x-icon">
-<meta name="description" id="desc" content="Página de contato do ConvertTextEasy.">
+<title>Contato - Fale Conosco | ConvertTextEasy</title>
+<meta name="description" content="Entre em contato com o ConvertTextEasy. Envie dúvidas, sugestões ou solicitações. Respondemos em até 24 horas úteis.">
+<meta name="keywords" content="contato, suporte, converttexteasy, fale conosco">
+<meta name="robots" content="index,follow">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="canonical" href="https://converttexteasy.com/contact" />
+<meta property="og:title" content="Contato - Fale Conosco | ConvertTextEasy">
+<meta property="og:description" content="Entre em contato com a equipe ConvertTextEasy. Envie sua mensagem e responderemos em até 24 horas úteis.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://converttexteasy.com/contact">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:site_name" content="ConvertTextEasy">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Contato - ConvertTextEasy">
+<meta name="twitter:description" content="Entre em contato com a equipe ConvertTextEasy.">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "Contato",
+  "description": "Página de contato do ConvertTextEasy.",
+  "url": "https://converttexteasy.com/contact",
+  "isPartOf": {"@type": "WebSite", "url": "https://converttexteasy.com/"}
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type": "ListItem", "position": 1, "name": "Início", "item": "https://converttexteasy.com/"},
+    {"@type": "ListItem", "position": 2, "name": "Contato", "item": "https://converttexteasy.com/contact"}
+  ]
+}
+</script>
+<link rel="icon" href="../assets/img/iconeTextLab.png" type="image/x-icon">
+<link rel="apple-touch-icon" href="../assets/img/iconeTextLab.png">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="../assets/css/style.css">
 </head>
 <body data-tool-page="contact">
+<a href="#main-content" class="skip-link">Pular para o conteúdo principal</a>
 <div class="site-shell">
-  <header class="topbar">
-    <a href="/" class="brand-lockup text-decoration-none">
-      <span class="navbar-logo"><img src="../assets/img/iconeTextLab.png" alt="Icone ConvertTextEasy"></span>
+  <header class="topbar" role="banner">
+    <a href="/" class="brand-lockup text-decoration-none" aria-label="ConvertTextEasy - Página Inicial">
+      <span class="navbar-logo"><img src="../assets/img/iconeTextLab.png" alt="ConvertTextEasy" width="48" height="48"></span>
       <div>
         <div class="brand-title">ConvertTextEasy</div>
         <div class="brand-subtitle">Hub de ferramentas de texto</div>
       </div>
     </a>
     <div class="topbar-actions">
-      <button class="theme-toggle btn btn-sm" onclick="toggleTheme()" title="Alternar tema">
-        <span id="themeIcon">🌙</span>
+      <button class="theme-toggle btn btn-sm" onclick="toggleTheme()" title="Alternar tema" aria-label="Alternar tema claro/escuro">
+        <span id="themeIcon" aria-hidden="true">🌙</span>
         <small>Tema</small>
       </button>
-      <select onchange="changeLang(this.value)" class="form-select form-select-sm lang-select">
+      <select onchange="changeLang(this.value)" class="form-select form-select-sm lang-select" aria-label="Selecionar idioma">
         <option value="pt">🇧🇷 Português</option>
         <option value="en">🇺🇸 English</option>
         <option value="es">🇪🇸 Español</option>
@@ -33,54 +66,65 @@
     </div>
   </header>
 
+  <nav class="breadcrumbs" aria-label="Breadcrumb">
+    <a href="/">Início</a>
+    <span aria-hidden="true">›</span>
+    <span aria-current="page">Contato</span>
+  </nav>
+
   <section class="panel hero-panel">
     <div class="panel-body">
       <a href="/" class="page-back-link">← Voltar para a home</a>
       <div class="page-eyebrow">Contato</div>
       <h1 class="page-title">Fale conosco</h1>
-      <p class="page-description">Envie sua mensagem, sugestão ou dúvida e responderemos o mais breve possível.</p>
+      <p class="page-description">Envie sua mensagem, sugestão ou dúvida e responderemos o mais breve possível. Seu feedback nos ajuda a melhorar as ferramentas para toda a comunidade.</p>
     </div>
   </section>
 
-  <main class="content-grid mt-4">
+  <main id="main-content" class="content-grid mt-4">
     <section class="panel editor-card">
       <div class="panel-head">
         <div>
           <h2 class="panel-title">Formulário de Contato</h2>
-          <p class="panel-copy">Preencha os campos abaixo e envie sua mensagem.</p>
+          <p class="panel-copy">Preencha os campos abaixo e envie sua mensagem. Todos os campos obrigatórios estão marcados.</p>
         </div>
       </div>
       <div class="panel-body">
-        <form>
+        <form action="/api/contact" method="POST">
           <div class="mb-3">
-            <label class="form-label" for="nome">Nome</label>
-            <input type="text" id="nome" name="nome" class="form-control" placeholder="Seu nome" required>
+            <label class="form-label" for="nome">Nome <span aria-label="obrigatório">*</span></label>
+            <input type="text" id="nome" name="nome" class="form-control" placeholder="Seu nome completo" required aria-required="true">
           </div>
           <div class="mb-3">
-            <label class="form-label" for="email">Email</label>
-            <input type="email" id="email" name="email" class="form-control" placeholder="Seu email" required>
+            <label class="form-label" for="email">Email <span aria-label="obrigatório">*</span></label>
+            <input type="email" id="email" name="email" class="form-control" placeholder="seu@email.com" required aria-required="true">
           </div>
           <div class="mb-3">
-            <label class="form-label" for="mensagem">Mensagem</label>
-            <textarea id="mensagem" name="mensagem" class="form-control" rows="6" placeholder="Escreva sua mensagem" required></textarea>
+            <label class="form-label" for="assunto">Assunto</label>
+            <input type="text" id="assunto" name="assunto" class="form-control" placeholder="Ex: Sugestão de ferramenta">
           </div>
-          <button type="submit" class="btn btn-primary">Enviar</button>
+          <div class="mb-3">
+            <label class="form-label" for="mensagem">Mensagem <span aria-label="obrigatório">*</span></label>
+            <textarea id="mensagem" name="mensagem" class="form-control" rows="6" placeholder="Escreva sua mensagem com detalhes para podermos ajudar melhor" required aria-required="true"></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary" aria-label="Enviar mensagem">Enviar Mensagem</button>
         </form>
+        <p class="small text-muted mt-3 mb-0">Ao enviar, você concorda com nossa <a href="/privacy-policy">Política de Privacidade</a>.</p>
       </div>
     </section>
 
-    <aside class="sidebar-stack">
+    <aside class="sidebar-stack" aria-label="Informações de contato">
       <section class="panel">
         <div class="panel-head">
           <div>
             <h2 class="panel-title">Suporte</h2>
-            <p class="panel-copy">Estamos disponíveis para ajudar em qualquer dúvida.</p>
+            <p class="panel-copy">Estamos disponíveis para ajudar em qualquer dúvida sobre o uso das ferramentas.</p>
           </div>
         </div>
         <div class="panel-body">
           <p class="mb-2"><strong>Email:</strong> suporte@converttexteasy.com</p>
           <p class="mb-2"><strong>Tempo de resposta:</strong> até 24 horas úteis</p>
-          <p class="mb-0">Se preferir, também você pode visitar a home e testar qualquer ferramenta diretamente.</p>
+          <p class="mb-0">Se preferir, visite a <a href="/">página inicial</a> e teste qualquer ferramenta diretamente. Também oferecemos <a href="/blog">guias práticos</a> que podem responder suas dúvidas rapidamente.</p>
         </div>
       </section>
 
@@ -96,6 +140,7 @@
             <li class="mb-2"><a href="/" class="text-decoration-none">Página Inicial</a></li>
             <li class="mb-2"><a href="/uppercase-text" class="text-decoration-none">Letras Maiúsculas</a></li>
             <li class="mb-2"><a href="/lowercase-text" class="text-decoration-none">Letras Minúsculas</a></li>
+            <li class="mb-2"><a href="/blog" class="text-decoration-none">Blog</a></li>
             <li><a href="/reverse-text" class="text-decoration-none">Texto Reverso</a></li>
           </ul>
         </div>
@@ -103,11 +148,11 @@
     </aside>
   </main>
 
-  <footer class="footer">
+  <footer class="footer" role="contentinfo">
     <div class="footer-grid">
       <div>
         <div class="brand-lockup mb-3">
-          <span class="navbar-logo"><img loading="lazy" src="/assets/img/iconeTextLab.png" alt="Ícone ConvertTextEasy"></span>
+          <span class="navbar-logo"><img loading="lazy" src="/assets/img/iconeTextLab.png" alt="ConvertTextEasy" width="48" height="48"></span>
           <div>
             <div class="brand-title" id="footerTitle">ConvertTextEasy</div>
             <div class="brand-subtitle" id="footerBrandSubtitle">Conversor de Texto</div>
@@ -115,9 +160,8 @@
         </div>
         <p class="small text-muted mb-3" id="footerDesc">Ferramenta gratuita para transformar textos, validar dados e melhorar SEO técnico.</p>
       </div>
-
       <div>
-        <h6 class="mb-3 fw-semibold" id="footerLinksTitle">Ferramentas</h6>
+        <h2 class="h6 mb-3 fw-semibold" id="footerLinksTitle">Ferramentas</h2>
         <ul class="list-unstyled small m-0">
           <li class="mb-2"><a href="/" id="footerHomeLink" class="text-muted text-decoration-none">Página Inicial</a></li>
           <li class="mb-2"><a href="/contador-caracteres" id="footerToolLink1" class="text-muted text-decoration-none">Contador de caracteres</a></li>
@@ -125,24 +169,22 @@
           <li><a href="/slug-generator" id="footerToolLink3" class="text-muted text-decoration-none">Slug Generator</a></li>
         </ul>
       </div>
-
       <div>
-        <h6 class="mb-3 fw-semibold" id="footerContactTitle">Suporte</h6>
+        <h2 class="h6 mb-3 fw-semibold" id="footerContactTitle">Suporte</h2>
         <ul class="list-unstyled small m-0">
           <li class="mb-2"><a href="/blog" class="text-muted text-decoration-none">Blog</a></li>
           <li class="mb-2"><a href="/about" class="text-muted text-decoration-none" id="footerAboutLink">Sobre Nós</a></li>
           <li class="mb-2"><a href="/privacy-policy" class="text-muted text-decoration-none" id="footerPrivacyLink">Privacidade</a></li>
-          <li class="mb-2"><a href="/terms" class="text-muted text-decoration-none" id="footerTermsLink">Termos</a></li>
+          <li class="mb-2"><a href="/terms" class="text-muted text-decoration-none" id="footerTermsLink">Termos de Uso</a></li>
           <li><a href="/contact" id="footerContactLink" class="text-muted text-decoration-none">Contato</a></li>
         </ul>
       </div>
-
       <div>
-        <h6 class="mb-3 fw-semibold" id="newsletterTitle">Fique Atualizado</h6>
+        <h2 class="h6 mb-3 fw-semibold" id="newsletterTitle">Fique Atualizado</h2>
         <p class="small text-muted mb-3" id="newsletterCopy">Receba dicas e novas ferramentas por email.</p>
         <div class="input-group">
-          <input type="email" id="newsletterInput" class="form-control form-control-sm" placeholder="Seu email">
-          <button class="btn btn-primary btn-sm" id="newsletterButton" type="button">Inscrever</button>
+          <input type="email" id="newsletterInput" class="form-control form-control-sm" placeholder="Seu email" aria-label="Email para newsletter">
+          <button class="btn btn-primary btn-sm" id="newsletterButton" type="button" aria-label="Inscrever">Inscrever</button>
         </div>
         <p class="small text-muted mt-4 mb-0" id="footerCopyright">© 2026 ConvertTextEasy. Todos os direitos reservados.</p>
       </div>
@@ -150,8 +192,24 @@
   </footer>
 </div>
 
+<div id="cookie-consent" class="cookie-consent" role="dialog" aria-label="Aviso de cookies" aria-describedby="cookie-desc">
+  <p id="cookie-desc">Utilizamos cookies para melhorar sua experiência e exibir anúncios relevantes. Ao continuar, você concorda com nossa <a href="/privacy-policy">Política de Privacidade</a>.</p>
+  <button onclick="acceptCookies()" class="btn btn-primary btn-sm cookie-btn">Aceitar</button>
+</div>
+
 <script src="../assets/js/script.js"></script>
 <script src="../assets/js/tool-page.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+function acceptCookies() {
+  var el = document.getElementById('cookie-consent');
+  if (el) { el.style.display = 'none'; }
+  localStorage.setItem('cookies_accepted', 'true');
+}
+if (localStorage.getItem('cookies_accepted') === 'true') {
+  var el = document.getElementById('cookie-consent');
+  if (el) { el.style.display = 'none'; }
+}
+</script>
 </body>
 </html>

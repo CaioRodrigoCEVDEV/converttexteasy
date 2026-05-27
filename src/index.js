@@ -25,22 +25,33 @@ const contentTypes = {
 const app = express();
 app.use(express.json());
 
+app.use((req, res, next) => {
+  res.setHeader("X-Content-Type-Options", "nosniff");
+  res.setHeader("X-Frame-Options", "DENY");
+  res.setHeader("X-XSS-Protection", "1; mode=block");
+  res.setHeader("Referrer-Policy", "strict-origin-when-cross-origin");
+  res.setHeader("Permissions-Policy", "camera=(), microphone=(), geolocation=()");
+  res.setHeader("Vary", "Accept-Encoding");
+  next();
+});
+
 function loadManifest() {
   const manifestPath = path.join(publicDir, "content-manifest.json");
   return JSON.parse(fs.readFileSync(manifestPath, "utf8"));
 }
 
-function setSeoHeaders(res) {
-  res.setHeader("X-Content-Type-Options", "nosniff");
-  res.setHeader("Vary", "Accept-Encoding");
-}
-
 async function sendCompressedFile(req, res, filePath) {
   const extension = path.extname(filePath);
   const type = contentTypes[extension];
-  setSeoHeaders(res);
-
   if (type) res.setHeader("Content-Type", type);
+
+  try {
+    await fs.promises.access(filePath);
+  } catch {
+    res.status(404).send("Not found");
+    return;
+  }
+
   if (!compressibleExtensions.has(extension)) return res.sendFile(filePath);
 
   const file = await fs.promises.readFile(filePath);
@@ -78,7 +89,10 @@ const legacyToolRoutes = {
 app.use("/assets", express.static(path.join(publicDir, "assets"), {
   immutable: true,
   maxAge: "30d",
-  setHeaders: (res) => setSeoHeaders(res)
+  setHeaders: (res) => {
+    res.setHeader("X-Content-Type-Options", "nosniff");
+    res.setHeader("Cache-Control", "public, max-age=2592000, immutable");
+  }
 }));
 
 app.get("/tools/:file", (req, res) => {
