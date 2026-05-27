@@ -669,9 +669,7 @@ updateCounts();
 
 // ===== MOBILE MENU =====
 (function () {
-  if (document.querySelector('.mobile-menu-btn')) return;
-
-  const menuTools = [
+  var menuTools = [
     { href: '/uppercase-text', icon: '🔠', key: 'toolTitle2' },
     { href: '/lowercase-text', icon: '🔡', key: 'toolTitle1' },
     { href: '/capitalize-text', icon: '📝', key: 'toolTitle4' },
@@ -734,17 +732,22 @@ updateCounts();
     var topbarActions = document.querySelector('.topbar-actions');
     if (!topbarActions) return;
 
-    var btn = document.createElement('button');
-    btn.className = 'mobile-menu-btn';
-    btn.type = 'button';
-    btn.setAttribute('aria-label', 'Abrir menu de ferramentas');
-    btn.setAttribute('aria-expanded', 'false');
-    btn.innerHTML =
-      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" ' +
-      'stroke-linecap="round" stroke-linejoin="round">' +
-      '<line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/>' +
-      '<line x1="4" y1="18" x2="20" y2="18"/></svg>';
-    topbarActions.insertBefore(btn, topbarActions.firstChild);
+    var btn = document.querySelector('.mobile-menu-btn');
+    if (!btn) {
+      btn = document.createElement('button');
+      btn.className = 'mobile-menu-btn';
+      btn.type = 'button';
+      btn.setAttribute('aria-label', 'Abrir menu de ferramentas');
+      btn.setAttribute('aria-expanded', 'false');
+      btn.innerHTML =
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" ' +
+        'stroke-linecap="round" stroke-linejoin="round">' +
+        '<line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/>' +
+        '<line x1="4" y1="18" x2="20" y2="18"/></svg>';
+      topbarActions.insertBefore(btn, topbarActions.firstChild);
+    }
+
+    if (document.querySelector('.mobile-drawer')) return;
 
     var backdrop = document.createElement('div');
     backdrop.className = 'mobile-drawer-backdrop';
