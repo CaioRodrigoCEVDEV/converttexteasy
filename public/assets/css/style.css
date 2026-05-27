@@ -765,10 +765,6 @@ a.tool-card {
     padding: 16px 14px 32px;
   }
 
-  .topbar {
-    position: static;
-  }
-
   .topbar .theme-toggle,
   .topbar .lang-select {
     display: none;
