@@ -881,7 +881,7 @@ a.tool-card {
   left: 0 !important;
   right: 0 !important;
   z-index: 9999 !important;
-  display: flex !important;
+  display: flex;
   align-items: center !important;
   justify-content: space-between !important;
   flex-direction: row;
