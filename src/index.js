@@ -87,11 +87,13 @@ const legacyToolRoutes = {
 };
 
 app.use("/assets", express.static(path.join(publicDir, "assets"), {
-  immutable: true,
-  maxAge: "30d",
-  setHeaders: (res) => {
+  setHeaders: (res, filePath) => {
     res.setHeader("X-Content-Type-Options", "nosniff");
-    res.setHeader("Cache-Control", "public, max-age=2592000, immutable");
+    if (filePath.endsWith(".css") || filePath.endsWith(".js")) {
+      res.setHeader("Cache-Control", "public, max-age=0, must-revalidate");
+    } else {
+      res.setHeader("Cache-Control", "public, max-age=2592000, immutable");
+    }
   }
 }));
 
