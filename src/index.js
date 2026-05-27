@@ -1,6 +1,7 @@
 import express from "express";
 import path from "path";
 import fs from "fs";
+import crypto from "crypto";
 import zlib from "zlib";
 import { promisify } from "util";
 import { fileURLToPath } from "url";
@@ -40,6 +41,38 @@ function loadManifest() {
   return JSON.parse(fs.readFileSync(manifestPath, "utf8"));
 }
 
+function computeAssetVersions() {
+  const assetsDir = path.join(publicDir, "assets");
+  const versions = {};
+  function walk(dir) {
+    for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+      const fullPath = path.join(dir, entry.name);
+      if (entry.isDirectory()) { walk(fullPath); continue; }
+      if (/\.(css|js)$/i.test(entry.name)) {
+        const content = fs.readFileSync(fullPath);
+        const hash = crypto.createHash("sha256").update(content).digest("hex").slice(0, 8);
+        const relativePath = path.relative(publicDir, fullPath);
+        versions[relativePath] = hash;
+      }
+    }
+  }
+  walk(assetsDir);
+  return versions;
+}
+
+const assetVersions = computeAssetVersions();
+
+function versionHtml(html) {
+  return html.replace(
+    /((?:\/?\.\.\/)*assets\/[^\s"'>]+\.(css|js))(?:\?[^\s"']*)?/gi,
+    (match, assetPath) => {
+      const normalized = assetPath.replace(/^(?:\/|(?:\.\.\/)+)/, "");
+      const hash = assetVersions[normalized];
+      return hash ? assetPath + "?v=" + hash : match;
+    }
+  );
+}
+
 async function sendCompressedFile(req, res, filePath) {
   const extension = path.extname(filePath);
   const type = contentTypes[extension];
@@ -54,7 +87,12 @@ async function sendCompressedFile(req, res, filePath) {
 
   if (!compressibleExtensions.has(extension)) return res.sendFile(filePath);
 
-  const file = await fs.promises.readFile(filePath);
+  let file = await fs.promises.readFile(filePath);
+
+  if (extension === ".html") {
+    file = Buffer.from(versionHtml(file.toString("utf8")), "utf8");
+  }
+
   const encoding = req.headers["accept-encoding"] || "";
 
   if (encoding.includes("br")) {
@@ -89,11 +127,7 @@ const legacyToolRoutes = {
 app.use("/assets", express.static(path.join(publicDir, "assets"), {
   setHeaders: (res, filePath) => {
     res.setHeader("X-Content-Type-Options", "nosniff");
-    if (filePath.endsWith(".css") || filePath.endsWith(".js")) {
-      res.setHeader("Cache-Control", "public, max-age=0, must-revalidate");
-    } else {
-      res.setHeader("Cache-Control", "public, max-age=2592000, immutable");
-    }
+    res.setHeader("Cache-Control", "public, max-age=31536000, immutable");
   }
 }));
 
