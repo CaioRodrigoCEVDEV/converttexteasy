@@ -1585,6 +1585,34 @@ function translateCards(lang) {
   });
 }
 
+function currentRouteWithoutLocale() {
+  var supported = /^(pt|en|es|fr|de|it|zh|ja|ru|ar)$/;
+  var parts = window.location.pathname.split('/').filter(Boolean);
+  if (parts.length && supported.test(parts[0])) parts.shift();
+  return '/' + parts.join('/');
+}
+
+function localizedHref(path, lang) {
+  var supported = /^(pt|en|es|fr|de|it|zh|ja|ru|ar)$/;
+  if (!path || path.charAt(0) !== '/') return path;
+  if (/^\/(assets|sitemap\.xml|robots\.txt|ads\.txt)(\/|$)/.test(path)) return path;
+  var parts = path.split('/').filter(Boolean);
+  if (parts.length && supported.test(parts[0])) parts.shift();
+  var cleanPath = '/' + parts.join('/');
+  return cleanPath === '/' ? '/' + lang + '/' : '/' + lang + cleanPath;
+}
+
+function switchLocale(lang) {
+  if (!translations[lang]) return;
+  localStorage.setItem('language', lang);
+  var route = currentRouteWithoutLocale();
+  var nextPath = route === '/' ? '/' + lang + '/' : '/' + lang + route;
+  var nextUrl = nextPath + window.location.search + window.location.hash;
+  if (nextUrl !== window.location.pathname + window.location.search + window.location.hash) {
+    window.location.assign(nextUrl);
+  }
+}
+
 function changeLang(lang) {
   const t = translations[lang];
   if (!t) return;
@@ -1975,6 +2003,12 @@ function detectBrowserLang() {
 }
 
 function initLanguage() {
+  if (window.__LOCALE) {
+    const loc = window.__LOCALE;
+    localStorage.setItem('language', loc.lang);
+    changeLang(loc.lang);
+    return;
+  }
   const savedLanguage = localStorage.getItem('language') || detectBrowserLang();
   changeLang(savedLanguage);
 }
@@ -2013,7 +2047,7 @@ updateCounts();
     var html = '';
 
     html += '<div class="drawer-section-title">' + (t.sidebarConverter || 'Conversor') + '</div>';
-    html += '<a class="drawer-item" href="/">' +
+    html += '<a class="drawer-item" href="' + localizedHref('/', lang) + '">' +
       '<span class="drawer-item-icon">📝</span>' +
       (t.mainTitle || 'Conversor de Texto') +
     '</a>';
@@ -2022,7 +2056,7 @@ updateCounts();
     for (var i = 0; i < menuTools.length; i++) {
       var tool = menuTools[i];
       var raw = t[tool.key];
-      html += '<a class="drawer-item" href="' + tool.href + '">' +
+      html += '<a class="drawer-item" href="' + localizedHref(tool.href, lang) + '">' +
         '<span class="drawer-item-icon">' + tool.icon + '</span>' +
         stripEmoji(raw || '') +
       '</a>';
@@ -2032,14 +2066,14 @@ updateCounts();
     var jsonFmt = toolCardTitles["json-formatter"];
     var slugGen = toolCardTitles["slug-generator"];
     var contador = toolCardTitles["contador-caracteres"];
-    html += '<a class="drawer-item" href="/json-formatter"><span class="drawer-item-icon">🔧</span>' + (jsonFmt && jsonFmt[lang] || 'JSON Formatter') + '</a>';
-    html += '<a class="drawer-item" href="/slug-generator"><span class="drawer-item-icon">🔗</span>' + (slugGen && slugGen[lang] || 'Slug Generator') + '</a>';
-    html += '<a class="drawer-item" href="/contador-caracteres"><span class="drawer-item-icon">🔢</span>' + (contador && contador[lang] || 'Contador') + '</a>';
-    html += '<a class="drawer-item" href="/blog"><span class="drawer-item-icon">📰</span>' + (t.drawerBlog || 'Blog') + '</a>';
+    html += '<a class="drawer-item" href="' + localizedHref('/json-formatter', lang) + '"><span class="drawer-item-icon">🔧</span>' + (jsonFmt && jsonFmt[lang] || 'JSON Formatter') + '</a>';
+    html += '<a class="drawer-item" href="' + localizedHref('/slug-generator', lang) + '"><span class="drawer-item-icon">🔗</span>' + (slugGen && slugGen[lang] || 'Slug Generator') + '</a>';
+    html += '<a class="drawer-item" href="' + localizedHref('/contador-caracteres', lang) + '"><span class="drawer-item-icon">🔢</span>' + (contador && contador[lang] || 'Contador') + '</a>';
+    html += '<a class="drawer-item" href="' + localizedHref('/blog', lang) + '"><span class="drawer-item-icon">📰</span>' + (t.drawerBlog || 'Blog') + '</a>';
 
     html += '<div class="drawer-section-title">Links</div>';
-    html += '<a class="drawer-item" href="/about"><span class="drawer-item-icon">ℹ️</span>' + (t.sidebarAbout || 'Sobre') + '</a>';
-    html += '<a class="drawer-item" href="/contact"><span class="drawer-item-icon">📧</span>' + (t.sidebarContact || 'Contato') + '</a>';
+    html += '<a class="drawer-item" href="' + localizedHref('/about', lang) + '"><span class="drawer-item-icon">ℹ️</span>' + (t.sidebarAbout || 'Sobre') + '</a>';
+    html += '<a class="drawer-item" href="' + localizedHref('/contact', lang) + '"><span class="drawer-item-icon">📧</span>' + (t.sidebarContact || 'Contato') + '</a>';
 
     body.innerHTML = html;
 
@@ -2084,7 +2118,7 @@ updateCounts();
 
     drawer.innerHTML =
       '<div class="mobile-drawer-header">' +
-        '<a href="/" class="drawer-brand">' +
+        '<a href="' + localizedHref('/', lang) + '" class="drawer-brand">' +
           '<img src="/assets/img/iconeTextLab.png" alt="" width="34" height="34" loading="lazy">' +
           '<span>ConvertTextEasy</span>' +
         '</a>' +
@@ -2096,7 +2130,7 @@ updateCounts();
           '<span id="themeIconDrawer" aria-hidden="true">' + (theme === 'dark' ? '🌙' : '☀️') + '</span>' +
           '<small id="drawerThemeLabel">' + t.theme + '</small>' +
         '</button>' +
-        '<select onchange="changeLang(this.value)" class="form-select form-select-sm lang-select" aria-label="Idioma">' +
+        '<select onchange="switchLocale(this.value)" class="form-select form-select-sm lang-select" aria-label="Idioma">' +
           '<option value="pt"' + (lang === 'pt' ? ' selected' : '') + '>🇧🇷 PT</option>' +
           '<option value="en"' + (lang === 'en' ? ' selected' : '') + '>🇺🇸 EN</option>' +
           '<option value="es"' + (lang === 'es' ? ' selected' : '') + '>🇪🇸 ES</option>' +

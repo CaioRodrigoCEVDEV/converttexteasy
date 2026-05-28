@@ -1,0 +1,562 @@
+{
+  "meta": {
+    "locale": "zh-CN",
+    "ogLocale": "zh_CN",
+    "dir": "ltr",
+    "name": "中文"
+  },
+  "common": {
+    "pageTitle": "在线文本转换器",
+    "desc": "免费在线转换文本。",
+    "brandSubtitle": "免费在线转换大写和小写字母。",
+    "theme": "主题",
+    "editorPanelTitle": "编辑器",
+    "editorPanelCopy": "粘贴您的文本，将其转换为所需格式，无需离开页面即可继续工作。",
+    "mainTitle": "文本转换器",
+    "subtitle": "快速转换您的文本",
+    "input": "输入您的文本...",
+    "share": "分享",
+    "download": "下载文本",
+    "charCountLabel": "字符计数",
+    "wordCountLabel": "单词计数",
+    "lineCountLabel": "行数计数",
+    "toolbarIntro": "选择以下8种功能之一，直接对文本应用格式。",
+    "uppercaseToolbar": "大写字母",
+    "lowercaseToolbar": "小写字母",
+    "strikethroughToolbar": "删除线文本",
+    "titleCaseToolbar": "标题格式",
+    "reverseToolbarHome": "反转文本",
+    "alternatingToolbar": "交替大小写",
+    "italicToolbar": "斜体文本",
+    "morseToolbar": "摩尔斯电码",
+    "summaryTitle": "摘要",
+    "summaryCopy": "一个界面即可在几秒内编辑、转换和审查文本。",
+    "featureTitle1": "即时转换",
+    "featureDesc1": "格式直接应用于编辑器，无需额外步骤。",
+    "featureTitle2": "多语言支持",
+    "featureDesc2": "中文、英语、葡萄牙语和西班牙语同在一个界面。",
+    "featureTitle3": "简单流程",
+    "featureDesc3": "无需离开主区块即可复制、清除和查看指标。",
+    "tipsPanelTitle": "快速提示",
+    "tipsPanelCopy": "保持文本一致的视觉快捷方式。",
+    "tipTitle1": "标准化标题",
+    "tipDesc1": "使用 ConvertTextEasy 处理标题、章节和主要标注。",
+    "tipTitle2": "清理粘贴的文本",
+    "tipDesc2": "标准化大小写，移除视觉噪音，并重新复制已处理的文本。",
+    "upper": "大写",
+    "lower": "小写",
+    "sentence": "句子格式",
+    "titleCase": "标题格式",
+    "alternating": "交替大小写",
+    "reverse": "反转文本",
+    "camelToolbar": "标题格式",
+    "reverseToolbar": "反 转",
+    "mirror": "镜像文本",
+    "accent": "移除重音符号",
+    "copy": "复制",
+    "clear": "清除",
+    "sectionBasicTitle": "基本案例",
+    "sectionBasicDesc": "将文本转换为大写或小写，或应用简单案例进行标准化。",
+    "sectionAdvancedTitle": "高级案例",
+    "sectionAdvancedDesc": "创造性交替和编程风格，适用于动态文本。",
+    "sectionTransformTitle": "文本转换",
+    "sectionTransformDesc": "反转、镜像或移除重音符号，用于视觉效果和清理。",
+    "sectionActionsTitle": "操作",
+    "sectionActionsDesc": "复制结果或清除字段重新开始。",
+    "seoTitle": "什么是文本转换器？",
+    "seoText": "用于将文本转换为不同格式的在线工具。",
+    "seoExplain": "此编辑器允许您将文本转换为大写、小写、标题格式、删除线、反转、交替大小写、斜体和摩尔斯电码。",
+    "seoUsage": "只需将文本粘贴到编辑器中，选择所需功能，然后复制结果即可在任意位置使用。",
+    "toolTitle1": "🔡 小写字母",
+    "toolDesc1": "将整个文本转换为小写。",
+    "toolTitle2": "🔡 大写字母",
+    "toolDesc2": "将整个文本转换为大写。",
+    "toolTitle3": "🔤 删除线文本",
+    "toolDesc3": "自动生成删除线文本。",
+    "toolTitle4": "📝 标题格式",
+    "toolDesc4": "每个单词的首字母大写。",
+    "toolTitle5": "🔄 反转文本",
+    "toolDesc5": "反转您的文本。",
+    "toolTitle6": "🔀 交替大小写",
+    "toolDesc6": "交替大写和小写字母。",
+    "toolTitle7": "📜 斜体文本",
+    "toolDesc7": "生成斜体风格的文本。",
+    "toolTitle8": "💻 摩尔斯电码",
+    "toolDesc8": "将文本翻译为摩尔斯电码。",
+    "sidebarTools": "🛠️ 工具",
+    "sidebarConverter": "📝 文本转换器",
+    "sidebarAbout": "ℹ️ 关于",
+    "sidebarMoreTools": "🔧 更多工具",
+    "sidebarContact": "📧 联系",
+    "sidebarFeatures": "功能",
+    "footerTitle": "在线文本转换器",
+    "footerBrandSubtitle": "文本转换器",
+    "footerDesc": "免费工具，可将文本转换为不同格式。支持多种语言和主题。",
+    "footerLinks": "有用链接",
+    "footerHome": "首页",
+    "footerTool1": "删除线文本",
+    "footerTool2": "标题格式",
+    "footerTool3": "反转文本",
+    "footerPrivacy": "隐私政策",
+    "footerTerms": "使用条款",
+    "footerAbout": "关于我们",
+    "footerContact": "联系",
+    "footerCopyright": "© 2026 在线文本转换器。保留所有权利。",
+    "newsletterTitle": "保持更新",
+    "newsletterCopy": "通过电子邮件接收提示和新工具。",
+    "newsletterPlaceholder": "您的邮箱",
+    "newsletterButton": "订阅",
+    "allToolsTitle": "所有在线工具",
+    "allToolsDesc": "包含标题、描述、教程、常见问题、示例、规范和 schema.org 的独立页面。",
+    "blogTitle": "博客 — 文本、SEO 和开发实用指南",
+    "blogDesc": "超过 20 个关于文本、JSON、XML、CSV、正则表达式、编码和技术 SEO 的真实指南，帮助您更好地处理数字内容。",
+    "blogEyebrow": "可索引博客",
+    "blogTitleAlt": "文本、SEO 和开发实用指南",
+    "blogDescAlt": "优化文章，包含解释、示例和相关工具。学习更好地处理文本、技术数据和搜索引擎优化。",
+    "skipLink": "跳到主要内容",
+    "langSelectAria": "选择语言",
+    "inputAria": "文本转换区域",
+    "copyBtn": "复制文本",
+    "clearBtn": "清除文本",
+    "errorHeading": "页面未找到",
+    "errorText": "抱歉，您寻找的页面不存在或已被移动。",
+    "errorBackHome": "返回首页",
+    "errorVisitBlog": "访问博客",
+    "cookieTitle": "Cookie 通知",
+    "cookieText": "我们使用 Cookie 来改善您的体验并展示相关广告。继续使用即表示您同意我们的 ",
+    "cookieAccept": "接受",
+    "cookiePolicy": "隐私政策",
+    "headerBrandSubtitle": "文本、开发和SEO工具",
+    "headerBlog": "博客",
+    "headerTools": "工具",
+    "headerTheme": "主题",
+    "drawerBlog": "博客",
+    "breadcrumbHome": "首页",
+    "breadcrumbTools": "工具",
+    "breadcrumbBlog": "博客",
+    "onlineTool": "在线工具",
+    "guidedPractice": "实用指南",
+    "pageBackLink": "← 返回首页",
+    "pageAbout": "关于",
+    "pageContact": "联系我们",
+    "pagePrivacy": "隐私政策",
+    "pageTerms": "服务条款",
+    "mobileMenuBtn": "打开工具菜单",
+    "toolEditorTitle": "{tool} editor",
+    "toolEditorCopy": "Paste the content, run the action, and copy the result. Counts update in real time.",
+    "toolInputPlaceholder": "Paste your text here...",
+    "toolInputAria": "Text for {tool}",
+    "toolCopyResult": "Copy result",
+    "toolClearText": "Clear text",
+    "toolCharacters": "Characters:",
+    "toolWords": "Words:",
+    "toolLines": "Lines:",
+    "toolConvert": "Convert",
+    "toolConvertAria": "Convert with {tool}",
+    "toolAsideAria": "About this tool",
+    "toolHowToUseTitle": "How to use",
+    "toolHowToUseCopy": "Follow the steps below to use {tool}.",
+    "toolStepPaste": "Paste the text in the editor above",
+    "toolStepConvert": "Click \"Convert\" to process it",
+    "toolStepCopy": "Copy the result with the 📋 button",
+    "toolExampleTitle": "Example",
+    "toolExampleCopy": "See what the result looks like after conversion.",
+    "relatedToolsTitle": "Related tools",
+    "faqTitle": "Frequently Asked Questions about {tool}",
+    "faqQ1": "Is {tool} free?",
+    "faqA1": "Yes. {tool} is completely free and can be used in the browser without registration. Open the page, paste your text, and convert it.",
+    "faqQ2": "Do I need to sign up or install anything to use {toolLower}?",
+    "faqA2": "No. {toolLower} runs directly in the browser with no registration, download, or software installation required.",
+    "faqQ3": "Is the text I type sent to external servers?",
+    "faqA3": "We do not store typed content. The transformation happens in your browser without sending data to external servers.",
+    "faqQ4": "Can I use {toolLower} on mobile?",
+    "faqA4": "Yes. The page is responsive and works on smaller screens, tablets, and smartphones. You can use {toolLower} from any device.",
+    "faqQ5": "How is {toolLower} different from similar tools?",
+    "faqA5": "{tool} was built for simplicity, privacy, and technical SEO. Each page includes a description, example, FAQ, and structured data.",
+    "articleHeadingWhy": "Why it matters",
+    "articleHeadingSteps": "Step-by-step and best practices",
+    "articleHeadingExamples": "Examples and common mistakes",
+    "articleIntro": "When someone searches for \"{title}\", they usually need a practical, fast, and reliable solution. This guide explains the concept, shows examples, and highlights precautions for working with text, data, and web content with less rework.",
+    "articleP1": "Text can come from editors, spreadsheets, PDFs, legacy systems, APIs, databases, or forms. Each source may include extra spaces, line breaks, accents, encodings, or invisible characters.",
+    "articleP2": "Start with a small sample. Test the transformation, verify that the result keeps the essential information, and only then apply it to a larger volume.",
+    "articleP3": "For SEO, clear titles, readable slugs, concise meta descriptions, and structured data help search engines understand the page. Automation speeds repetitive work, but human review still matters.",
+    "articleP4": "For development, well-formatted data reduces errors. Indented JSON, organized XML, decoded Base64, properly encoded URLs, and checked timestamps make debugging faster.",
+    "articleP5": "Avoid pasting tokens, passwords, private keys, personal data, or confidential information. For sensitive content, use dummy examples or a controlled internal environment.",
+    "articleP6": "A recommended workflow is to paste the text, apply the transformation, validate the result, copy it to the final destination, and keep an original version in case you need to revert.",
+    "articleP7": "Common mistakes include trusting only visual appearance, ignoring broken accents, removing meaningful symbols, publishing JSON without validation, and overusing uppercase text.",
+    "articleP8": "Use short examples to test accents, casing, blank lines, nested objects, and headers before applying the transformation to larger content.",
+    "articleP9": "On ConvertTextEasy, you can pair this article with the {tool} tool. It includes an editor, example, FAQ, and structured data for easier use and discovery.",
+    "articleP10": "Document internal standards for slugs, titles, metadata, accents, encoding, and validation. Clear rules improve consistency across the site or product.",
+    "articleRelatedTitle": "Related tool",
+    "articleRelatedCopy": "Use {tool} to apply this concept in a few clicks.",
+    "articleOpenTool": "Open tool",
+    "articleOpenToolAria": "Open {tool} tool"
+  },
+  "tools": {
+    "uppercase-text": {
+      "title": "大写转换器",
+      "desc": "在线将文本转换为大写，免费且带字符计数功能。",
+      "example": "UPPERCASE TEXT",
+      "tutorial": "Paste a sentence, convert it, and copy the uppercase result."
+    },
+    "lowercase-text": {
+      "title": "小写转换器",
+      "desc": "将文本转为小写，统一记录、列表和内容的格式。",
+      "example": "lowercase text",
+      "tutorial": "Use it to clean copied text with too much uppercase formatting."
+    },
+    "capitalize-text": {
+      "title": "首字母大写",
+      "desc": "将首字母大写，让标题、名称和标语更易读。",
+      "example": "Text With Capitalized Words",
+      "tutorial": "Useful for titles, names, and product lists."
+    },
+    "smart-capitalization": {
+      "title": "智能大写",
+      "desc": "调整句子，在句号、问号和感叹号后将首字母大写。",
+      "example": "Correct sentence. New correct sentence.",
+      "tutorial": "Ideal for text typed with irregular casing."
+    },
+    "reverse-text": {
+      "title": "反转文本",
+      "desc": "在几秒钟内反转单词和句子的字符顺序。",
+      "example": "txet desrever",
+      "tutorial": "Create effects, visual tests, and reversed text experiments."
+    },
+    "alternating-case": {
+      "title": "交替大小写",
+      "desc": "自动生成交替大小写的字母。",
+      "example": "AlTeRnAtInG tExT",
+      "tutorial": "Use it in posts, memes, and creative callouts."
+    },
+    "italic-text": {
+      "title": "斜体文本",
+      "desc": "将普通文本转换为具有斜体外观的Unicode字符。",
+      "example": "Italic text",
+      "tutorial": "Highlight names, bios, and captions."
+    },
+    "strikethrough-text": {
+      "title": "删除线文本",
+      "desc": "对文本的每个字符应用删除线效果。",
+      "example": "S̶t̶r̶i̶k̶e̶d̶ text",
+      "tutorial": "Useful for comparisons, humor, and visual markings."
+    },
+    "morse-code-translator": {
+      "title": "摩斯密码翻译器",
+      "desc": "将字母、数字和常见符号转换为摩斯密码。",
+      "example": "... --- ...",
+      "tutorial": "Study, test, or create messages in Morse code."
+    },
+    "contador-caracteres": {
+      "title": "字符计数器",
+      "desc": "在线实时统计字符、单词和行数。",
+      "example": "Characters: 123",
+      "tutorial": "Paste any text to track metrics instantly."
+    },
+    "contador-palavras": {
+      "title": "单词计数器",
+      "desc": "为文章、帖子、广告和作业在线统计字数。",
+      "example": "Words: 250",
+      "tutorial": "Control limits for SEO, social media, and forms."
+    },
+    "removedor-espacos": {
+      "title": "多余空格删除器",
+      "desc": "去除重复空格并规范化粘贴的文本。",
+      "example": "text with space",
+      "tutorial": "Clean lists and paragraphs before publishing."
+    },
+    "removedor-linhas-vazias": {
+      "title": "空行删除器",
+      "desc": "删除空行，只保留有用的内容。",
+      "example": "line 1\nline 2",
+      "tutorial": "Organize lists, simple CSVs, and drafts."
+    },
+    "texto-aleatorio": {
+      "title": "随机文本生成器",
+      "desc": "生成用于布局测试、表单和原型的示例文本。",
+      "example": "Lorem ipsum convert text easy",
+      "tutorial": "Click to replace the editor with sample text."
+    },
+    "json-formatter": {
+      "title": "JSON 格式化工具",
+      "desc": "在线格式化JSON，带缩进、基本验证和易于阅读。",
+      "example": "{\n  \"site\": \"ConvertTextEasy\"\n}",
+      "tutorial": "Paste minified JSON and turn it into a readable structure."
+    },
+    "json-validator": {
+      "title": "JSON 验证器",
+      "desc": "在线验证JSON并快速识别语法错误。",
+      "example": "Valid JSON",
+      "tutorial": "Test API payloads, configurations, and data before using them."
+    },
+    "jwt-decoder": {
+      "title": "JWT 解码器",
+      "desc": "解码JWT令牌的头部和负载，无需将数据发送到服务器。",
+      "example": "{ \"alg\": \"HS256\" }",
+      "tutorial": "Inspect claims and expiration dates in the browser."
+    },
+    "base64-encode-decode": {
+      "title": "Base64 编码/解码",
+      "desc": "在浏览器中编码和解码Base64文本。",
+      "example": "Q29udmVydFRleHRFYXN5",
+      "tutorial": "Useful for API tests, files, and snippets."
+    },
+    "base64-decode": {
+      "title": "Base64 解码",
+      "desc": "在浏览器中在线解码Base64。",
+      "example": "Q29udmVydFRleHRFYXN5 → ConvertTextEasy",
+      "tutorial": "Read test data, payloads, and encoded examples."
+    },
+    "base64-encode": {
+      "title": "Base64 编码",
+      "desc": "在浏览器中在线将文本编码为Base64。",
+      "example": "ConvertTextEasy → Q29udmVydFRleHRFYXN5",
+      "tutorial": "Generate Base64 strings for API tests and documentation."
+    },
+    "url-encoder": {
+      "title": "URL 编码器",
+      "desc": "编码和解码URL、参数和特殊字符。",
+      "example": "text%20with%20space",
+      "tutorial": "Prepare safe strings for links and query strings."
+    },
+    "uuid-generator": {
+      "title": "UUID 生成器",
+      "desc": "生成随机的UUID v4，用于测试、记录和标识符。",
+      "example": "550e8400-e29b-41d4-a716-446655440000",
+      "tutorial": "Create unique IDs locally in one click."
+    },
+    "hash-generator": {
+      "title": "哈希生成器",
+      "desc": "直接在浏览器中生成文本的SHA-256哈希值。",
+      "example": "e3b0c44298...",
+      "tutorial": "Compare checksums and simple signatures."
+    },
+    "timestamp-converter": {
+      "title": "时间戳转换器",
+      "desc": "将Unix时间戳转换为本地日期并生成当前时间戳。",
+      "example": "1715000000 → date",
+      "tutorial": "Work with logs, APIs, and databases."
+    },
+    "meta-tag-generator": {
+      "title": "Meta 标签生成器",
+      "desc": "创建用于SEO的标题、元描述、规范链接和OpenGraph。",
+      "example": "<meta name=\"description\" ...>",
+      "tutorial": "Build essential tags for indexable pages."
+    },
+    "slug-generator": {
+      "title": "Slug 生成器",
+      "desc": "将标题转换为干净的slug，去掉重音符号，准备用于URL。",
+      "example": "how-to-format-json-online",
+      "tutorial": "Standardize SEO-friendly URLs."
+    },
+    "keyword-density-checker": {
+      "title": "关键词密度检查器",
+      "desc": "计算关键词密度和最频繁出现的术语。",
+      "example": "seo: 2.4%",
+      "tutorial": "Review repeated terms before publishing."
+    },
+    "xml-formatter": {
+      "title": "XML 格式化工具",
+      "desc": "在线格式化XML，带换行和简单的缩进。",
+      "example": "<root>\n  <item/>\n</root>",
+      "tutorial": "Improve readability for feeds, sitemaps, and configs."
+    },
+    "csv-to-json": {
+      "title": "CSV 转 JSON 转换器",
+      "desc": "将带表头的CSV转换为格式化的JSON列表。",
+      "example": "[{\"name\":\"Ana\"}]",
+      "tutorial": "Transform exported spreadsheets into API payloads."
+    },
+    "remove-accents": {
+      "title": "重音符号删除器",
+      "desc": "移除文本中的重音符号和变音标记。",
+      "example": "action information",
+      "tutorial": "Prepare slugs, legacy systems, and normalized searches."
+    },
+    "clean-special-characters": {
+      "title": "特殊字符清理器",
+      "desc": "移除特殊字符，保留字母、数字和基本标点符号。",
+      "example": "Clean text 123",
+      "tutorial": "Clean content copied from PDFs, spreadsheets, and older systems."
+    }
+  },
+  "blogs": {
+    "como-converter-texto-para-maiusculo": {
+      "title": "如何将文本转换为大写",
+      "desc": "Practical guide with explanations, examples, and tips for working better with text and data."
+    },
+    "diferenca-entre-utf-8-e-ansi": {
+      "title": "UTF-8和ANSI的区别",
+      "desc": "Practical guide with explanations, examples, and tips for working better with text and data."
+    },
+    "como-remover-acentos-em-textos": {
+      "title": "如何去除文本中的重音符号",
+      "desc": "Practical guide with explanations, examples, and tips for working better with text and data."
+    },
+    "como-formatar-json-online": {
+      "title": "如何在线格式化JSON",
+      "desc": "Practical guide with explanations, examples, and tips for working better with text and data."
+    },
+    "como-limpar-caracteres-especiais": {
+      "title": "如何清除特殊字符",
+      "desc": "Practical guide with explanations, examples, and tips for working better with text and data."
+    },
+    "regex-para-iniciantes": {
+      "title": "正则表达式入门",
+      "desc": "Practical guide with explanations, examples, and tips for working better with text and data."
+    },
+    "como-converter-csv-para-json": {
+      "title": "如何将CSV转换为JSON",
+      "desc": "Practical guide with explanations, examples, and tips for working better with text and data."
+    },
+    "como-validar-json": {
+      "title": "如何验证JSON",
+      "desc": "Practical guide with explanations, examples, and tips for working better with text and data."
+    },
+    "como-formatar-xml": {
+      "title": "如何格式化XML",
+      "desc": "Practical guide with explanations, examples, and tips for working better with text and data."
+    },
+    "como-contar-caracteres-online": {
+      "title": "如何在线计数字符",
+      "desc": "Practical guide with explanations, examples, and tips for working better with text and data."
+    },
+    "contador-de-palavras-para-seo": {
+      "title": "SEO字数统计",
+      "desc": "Practical guide with explanations, examples, and tips for working better with text and data."
+    },
+    "base64-encode-decode-guia": {
+      "title": "Base64编码/解码：快速指南",
+      "desc": "Practical guide with explanations, examples, and tips for working better with text and data."
+    },
+    "jwt-decoder-online-seguro": {
+      "title": "安全的在线JWT解码器",
+      "desc": "Practical guide with explanations, examples, and tips for working better with text and data."
+    },
+    "gerar-slug-seo": {
+      "title": "如何生成SEO友好的URL别名",
+      "desc": "Practical guide with explanations, examples, and tips for working better with text and data."
+    },
+    "meta-tags-para-iniciantes": {
+      "title": "Meta标签入门",
+      "desc": "Practical guide with explanations, examples, and tips for working better with text and data."
+    },
+    "densidade-de-palavras-chave": {
+      "title": "关键词密度解析",
+      "desc": "Practical guide with explanations, examples, and tips for working better with text and data."
+    },
+    "timestamp-unix-explicado": {
+      "title": "Unix时间戳详解",
+      "desc": "Practical guide with explanations, examples, and tips for working better with text and data."
+    },
+    "uuid-v4-o-que-e": {
+      "title": "UUID v4：它是什么以及何时使用",
+      "desc": "Practical guide with explanations, examples, and tips for working better with text and data."
+    },
+    "url-encode-e-decode": {
+      "title": "URL编码和解码",
+      "desc": "Practical guide with explanations, examples, and tips for working better with text and data."
+    },
+    "hash-sha-256-online": {
+      "title": "在线SHA-256哈希",
+      "desc": "Practical guide with explanations, examples, and tips for working better with text and data."
+    },
+    "remover-linhas-vazias": {
+      "title": "如何删除空行",
+      "desc": "Practical guide with explanations, examples, and tips for working better with text and data."
+    },
+    "capitalizacao-inteligente": {
+      "title": "智能大小写转换",
+      "desc": "Practical guide with explanations, examples, and tips for working better with text and data."
+    }
+  },
+  "readArticle": "阅读文章",
+  "pages": {
+    "404": {
+      "title": "Page not found",
+      "desc": "The page you are looking for does not exist or may have moved.",
+      "sections": [
+        [
+          "What you can do",
+          "Go back to the home page, visit the blog, or open one of the available tools."
+        ]
+      ]
+    },
+    "about": {
+      "title": "About ConvertTextEasy",
+      "desc": "A free platform with more than 30 online tools to transform text, validate technical data, and optimize content for SEO.",
+      "sections": [
+        [
+          "What we do",
+          "We simplify text editing and standardization with fast, intuitive tools available from any device."
+        ],
+        [
+          "Main features",
+          "Text conversion, JSON/XML/CSV formatting, Base64 and URL encoding, slug generation, UUIDs, hashes, timestamps, Morse code, counters, accent removal, and SEO meta tags."
+        ],
+        [
+          "Privacy and technology",
+          "Most transformations run in your browser, reducing latency and avoiding unnecessary data transfer."
+        ],
+        [
+          "Why use it",
+          "Fast, simple, accessible, and built for repeated everyday text workflows."
+        ]
+      ]
+    },
+    "contact": {
+      "title": "Contact us",
+      "desc": "Send a message, suggestion, or question. Your feedback helps improve the tools for everyone.",
+      "sections": [
+        [
+          "Contact form",
+          "Fill in the fields and send your message."
+        ],
+        [
+          "Support",
+          "We are available to help with questions about using the tools."
+        ],
+        [
+          "Other pages",
+          "Return to the home page or explore other tools."
+        ]
+      ]
+    },
+    "privacy-policy": {
+      "title": "Privacy Policy",
+      "desc": "Learn how ConvertTextEasy handles privacy, cookies, local processing, and user data.",
+      "sections": [
+        [
+          "Overview",
+          "ConvertTextEasy is designed to process text transformations in the browser whenever possible."
+        ],
+        [
+          "Cookies and ads",
+          "We may use cookies to improve the experience and display relevant ads."
+        ],
+        [
+          "Your rights",
+          "You can contact us to ask questions about privacy or data handling."
+        ]
+      ]
+    },
+    "terms": {
+      "title": "Terms of Use",
+      "desc": "Read the terms for using ConvertTextEasy tools and content.",
+      "sections": [
+        [
+          "Use of the service",
+          "The tools are provided for practical text, development, and SEO tasks."
+        ],
+        [
+          "User responsibility",
+          "Review transformed content before using it in professional, legal, or sensitive contexts."
+        ],
+        [
+          "Changes",
+          "These terms may be updated as the service evolves."
+        ]
+      ]
+    }
+  }
+}

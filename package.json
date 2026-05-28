@@ -7,14 +7,19 @@
   "scripts": {
     "start": "node src/index.js",
     "generate:content": "node scripts/generate-seo-content.mjs",
-    "check": "node --check src/index.js && node --check public/assets/js/script.js"
+    "check": "node --check src/index.js && node --check public/assets/js/script.js && node --check scripts/check-hardcoded-i18n.mjs",
+    "check:i18n": "node scripts/check-hardcoded-i18n.mjs"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "accept-language": "^3.0.20",
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",
-    "express": "^5.2.1"
+    "ejs": "^6.0.1",
+    "express": "^5.2.1",
+    "i18next": "^26.3.0",
+    "i18next-fs-backend": "^2.6.6"
   }
 }

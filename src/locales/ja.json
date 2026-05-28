@@ -1,0 +1,562 @@
+{
+  "meta": {
+    "locale": "ja-JP",
+    "ogLocale": "ja_JP",
+    "dir": "ltr",
+    "name": "日本語"
+  },
+  "common": {
+    "pageTitle": "オンラインテキスト変換",
+    "desc": "無料でオンラインでテキストを変換します。",
+    "brandSubtitle": "無料でオンラインで大文字と小文字を変換します。",
+    "theme": "テーマ",
+    "editorPanelTitle": "エディタ",
+    "editorPanelCopy": "テキストを貼り付け、希望の形式に変換し、ページを離れずに作業を続けられます。",
+    "mainTitle": "テキスト変換",
+    "subtitle": "テキストをすばやく変換",
+    "input": "テキストを入力...",
+    "share": "共有",
+    "download": "テキストをダウンロード",
+    "charCountLabel": "文字数",
+    "wordCountLabel": "単語数",
+    "lineCountLabel": "行数",
+    "toolbarIntro": "以下の8つの機能から1つを選んで、直接テキストにフォーマットを適用します。",
+    "uppercaseToolbar": "大文字",
+    "lowercaseToolbar": "小文字",
+    "strikethroughToolbar": "取り消し線テキスト",
+    "titleCaseToolbar": "タイトルケース",
+    "reverseToolbarHome": "テキストを反転",
+    "alternatingToolbar": "交互ケース",
+    "italicToolbar": "斜体テキスト",
+    "morseToolbar": "モールス信号",
+    "summaryTitle": "概要",
+    "summaryCopy": "テキストの編集、変換、レビューを数秒で行う単一のインターフェース。",
+    "featureTitle1": "即時変換",
+    "featureDesc1": "フォーマットは追加ステップなしでエディタに直接適用されます。",
+    "featureTitle2": "対応言語",
+    "featureDesc2": "日本語、英語、ポルトガル語、スペイン語が同じインターフェースで利用可能。",
+    "featureTitle3": "シンプルな流れ",
+    "featureDesc3": "メインブロックを離れずにコピー、クリア、メトリクスの確認が可能。",
+    "tipsPanelTitle": "クイックヒント",
+    "tipsPanelCopy": "テキストの一貫性を保つための視覚的なショートカット。",
+    "tipTitle1": "タイトルを標準化",
+    "tipDesc1": "見出し、セクション、主要なコーリングに ConvertTextEasy を使用。",
+    "tipTitle2": "貼り付けたテキストをクリーン",
+    "tipDesc2": "大文字小文字を正規化し、視覚的なノイズを除去して処理済みテキストを再コピー。",
+    "upper": "大文字",
+    "lower": "小文字",
+    "sentence": "文の形式",
+    "titleCase": "タイトルケース",
+    "alternating": "交互ケース",
+    "reverse": "テキストを反転",
+    "camelToolbar": "タイトル形式",
+    "reverseToolbar": "反 転",
+    "mirror": "ミラーテキスト",
+    "accent": "アクセントを削除",
+    "copy": "コピー",
+    "clear": "クリア",
+    "sectionBasicTitle": "基本ケース",
+    "sectionBasicDesc": "テキストを大文字または小文字に変換するか、標準化のために単純なケースを適用します。",
+    "sectionAdvancedTitle": "高度なケース",
+    "sectionAdvancedDesc": "動的なテキストのための創造的な交互とプログラミングスタイル。",
+    "sectionTransformTitle": "テキスト変換",
+    "sectionTransformDesc": "視覚効果とクリーンアップのための反転、ミラー、アクセント削除。",
+    "sectionActionsTitle": "アクション",
+    "sectionActionsDesc": "結果をコピーするか、フィールドをクリアして最初からやり直します。",
+    "seoTitle": "テキストコンバーターとは？",
+    "seoText": "テキストをさまざまな形式に変換するオンラインツール。",
+    "seoExplain": "このエディタでは、テキストを大文字、小文字、タイトルケース、取り消し線、反転、交互ケース、斜体、モールス信号に変換できます。",
+    "seoUsage": "エディタにテキストを貼り付け、希望の機能を選択し、結果をコピーしてどこでも使用するだけです。",
+    "toolTitle1": "🔡 小文字",
+    "toolDesc1": "テキスト全体を小文字に変換します。",
+    "toolTitle2": "🔡 大文字",
+    "toolDesc2": "テキスト全体を大文字に変換します。",
+    "toolTitle3": "🔤 取り消し線テキスト",
+    "toolDesc3": "自動的に取り消し線テキストを生成します。",
+    "toolTitle4": "📝 タイトルケース",
+    "toolDesc4": "各単語の最初の文字を大文字にします。",
+    "toolTitle5": "🔄 テキストを反転",
+    "toolDesc5": "テキストを反転します。",
+    "toolTitle6": "🔀 交互ケース",
+    "toolDesc6": "大文字と小文字を交互に切り替えます。",
+    "toolTitle7": "📜 斜体テキスト",
+    "toolDesc7": "斜体スタイルのテキストを生成します。",
+    "toolTitle8": "💻 モールス信号",
+    "toolDesc8": "テキストをモールス信号に翻訳します。",
+    "sidebarTools": "🛠️ ツール",
+    "sidebarConverter": "📝 テキスト変換",
+    "sidebarAbout": "ℹ️ 概要",
+    "sidebarMoreTools": "🔧 その他のツール",
+    "sidebarContact": "📧 お問い合わせ",
+    "sidebarFeatures": "機能",
+    "footerTitle": "オンラインテキスト変換",
+    "footerBrandSubtitle": "テキスト変換",
+    "footerDesc": "テキストをさまざまな形式に変換する無料ツール。複数の言語とテーマをサポート。",
+    "footerLinks": "便利なリンク",
+    "footerHome": "ホームページ",
+    "footerTool1": "取り消し線テキスト",
+    "footerTool2": "タイトルケース",
+    "footerTool3": "テキストを反転",
+    "footerPrivacy": "プライバシーポリシー",
+    "footerTerms": "利用規約",
+    "footerAbout": "当社について",
+    "footerContact": "お問い合わせ",
+    "footerCopyright": "© 2026 オンラインテキスト変換。全著作権所有。",
+    "newsletterTitle": "最新情報を受け取る",
+    "newsletterCopy": "メールでヒントや新しいツールを受け取ります。",
+    "newsletterPlaceholder": "あなたのメール",
+    "newsletterButton": "購読",
+    "allToolsTitle": "すべてのオンラインツール",
+    "allToolsDesc": "タイトル、説明、チュートリアル、FAQ、例、カノニカル、schema.org を含む個別ページ。",
+    "blogTitle": "ブログ — テキスト、SEO、開発の実践ガイド",
+    "blogDesc": "テキスト、JSON、XML、CSV、正規表現、エンコーディング、テクニカルSEOに関する20以上の実践的なガイドで、デジタルコンテンツをより効果的に扱えます。",
+    "blogEyebrow": "インデックス可能なブログ",
+    "blogTitleAlt": "テキスト、SEO、開発の実践ガイド",
+    "blogDescAlt": "説明、例、関連ツールを含む最適化された記事。テキスト、技術データ、検索エンジン最適化をより効果的に扱う方法を学びましょう。",
+    "skipLink": "メインコンテンツにスキップ",
+    "langSelectAria": "言語を選択",
+    "inputAria": "変換用テキストエリア",
+    "copyBtn": "テキストをコピー",
+    "clearBtn": "テキストをクリア",
+    "errorHeading": "ページが見つかりません",
+    "errorText": "申し訳ございません。お探しのページは存在しないか、移動されました。",
+    "errorBackHome": "ホームに戻る",
+    "errorVisitBlog": "ブログを見る",
+    "cookieTitle": "Cookie通知",
+    "cookieText": "当サイトでは、体験向上と関連広告表示のためにCookieを使用しています。続けることで、当社の ",
+    "cookieAccept": "同意する",
+    "cookiePolicy": "プライバシーポリシー",
+    "headerBrandSubtitle": "テキスト、開発、SEOツール",
+    "headerBlog": "ブログ",
+    "headerTools": "ツール",
+    "headerTheme": "テーマ",
+    "drawerBlog": "ブログ",
+    "breadcrumbHome": "ホーム",
+    "breadcrumbTools": "ツール",
+    "breadcrumbBlog": "ブログ",
+    "onlineTool": "オンラインツール",
+    "guidedPractice": "実践ガイド",
+    "pageBackLink": "← ホームに戻る",
+    "pageAbout": "概要",
+    "pageContact": "お問い合わせ",
+    "pagePrivacy": "プライバシー",
+    "pageTerms": "利用規約",
+    "mobileMenuBtn": "ツールメニューを開く",
+    "toolEditorTitle": "{tool} editor",
+    "toolEditorCopy": "Paste the content, run the action, and copy the result. Counts update in real time.",
+    "toolInputPlaceholder": "Paste your text here...",
+    "toolInputAria": "Text for {tool}",
+    "toolCopyResult": "Copy result",
+    "toolClearText": "Clear text",
+    "toolCharacters": "Characters:",
+    "toolWords": "Words:",
+    "toolLines": "Lines:",
+    "toolConvert": "Convert",
+    "toolConvertAria": "Convert with {tool}",
+    "toolAsideAria": "About this tool",
+    "toolHowToUseTitle": "How to use",
+    "toolHowToUseCopy": "Follow the steps below to use {tool}.",
+    "toolStepPaste": "Paste the text in the editor above",
+    "toolStepConvert": "Click \"Convert\" to process it",
+    "toolStepCopy": "Copy the result with the 📋 button",
+    "toolExampleTitle": "Example",
+    "toolExampleCopy": "See what the result looks like after conversion.",
+    "relatedToolsTitle": "Related tools",
+    "faqTitle": "Frequently Asked Questions about {tool}",
+    "faqQ1": "Is {tool} free?",
+    "faqA1": "Yes. {tool} is completely free and can be used in the browser without registration. Open the page, paste your text, and convert it.",
+    "faqQ2": "Do I need to sign up or install anything to use {toolLower}?",
+    "faqA2": "No. {toolLower} runs directly in the browser with no registration, download, or software installation required.",
+    "faqQ3": "Is the text I type sent to external servers?",
+    "faqA3": "We do not store typed content. The transformation happens in your browser without sending data to external servers.",
+    "faqQ4": "Can I use {toolLower} on mobile?",
+    "faqA4": "Yes. The page is responsive and works on smaller screens, tablets, and smartphones. You can use {toolLower} from any device.",
+    "faqQ5": "How is {toolLower} different from similar tools?",
+    "faqA5": "{tool} was built for simplicity, privacy, and technical SEO. Each page includes a description, example, FAQ, and structured data.",
+    "articleHeadingWhy": "Why it matters",
+    "articleHeadingSteps": "Step-by-step and best practices",
+    "articleHeadingExamples": "Examples and common mistakes",
+    "articleIntro": "When someone searches for \"{title}\", they usually need a practical, fast, and reliable solution. This guide explains the concept, shows examples, and highlights precautions for working with text, data, and web content with less rework.",
+    "articleP1": "Text can come from editors, spreadsheets, PDFs, legacy systems, APIs, databases, or forms. Each source may include extra spaces, line breaks, accents, encodings, or invisible characters.",
+    "articleP2": "Start with a small sample. Test the transformation, verify that the result keeps the essential information, and only then apply it to a larger volume.",
+    "articleP3": "For SEO, clear titles, readable slugs, concise meta descriptions, and structured data help search engines understand the page. Automation speeds repetitive work, but human review still matters.",
+    "articleP4": "For development, well-formatted data reduces errors. Indented JSON, organized XML, decoded Base64, properly encoded URLs, and checked timestamps make debugging faster.",
+    "articleP5": "Avoid pasting tokens, passwords, private keys, personal data, or confidential information. For sensitive content, use dummy examples or a controlled internal environment.",
+    "articleP6": "A recommended workflow is to paste the text, apply the transformation, validate the result, copy it to the final destination, and keep an original version in case you need to revert.",
+    "articleP7": "Common mistakes include trusting only visual appearance, ignoring broken accents, removing meaningful symbols, publishing JSON without validation, and overusing uppercase text.",
+    "articleP8": "Use short examples to test accents, casing, blank lines, nested objects, and headers before applying the transformation to larger content.",
+    "articleP9": "On ConvertTextEasy, you can pair this article with the {tool} tool. It includes an editor, example, FAQ, and structured data for easier use and discovery.",
+    "articleP10": "Document internal standards for slugs, titles, metadata, accents, encoding, and validation. Clear rules improve consistency across the site or product.",
+    "articleRelatedTitle": "Related tool",
+    "articleRelatedCopy": "Use {tool} to apply this concept in a few clicks.",
+    "articleOpenTool": "Open tool",
+    "articleOpenToolAria": "Open {tool} tool"
+  },
+  "tools": {
+    "uppercase-text": {
+      "title": "大文字変換",
+      "desc": "テキストを大文字に変換、オンラインで無料、文字数カウント付き。",
+      "example": "UPPERCASE TEXT",
+      "tutorial": "Paste a sentence, convert it, and copy the uppercase result."
+    },
+    "lowercase-text": {
+      "title": "小文字変換",
+      "desc": "テキストを小文字に変換し、レコードやリストを統一。",
+      "example": "lowercase text",
+      "tutorial": "Use it to clean copied text with too much uppercase formatting."
+    },
+    "capitalize-text": {
+      "title": "先頭大文字化",
+      "desc": "頭文字を大文字にして、タイトルや名前を見やすくします。",
+      "example": "Text With Capitalized Words",
+      "tutorial": "Useful for titles, names, and product lists."
+    },
+    "smart-capitalization": {
+      "title": "スマート大文字化",
+      "desc": "ピリオド、疑問符、感嘆符の後に最初の文字を大文字に。",
+      "example": "Correct sentence. New correct sentence.",
+      "tutorial": "Ideal for text typed with irregular casing."
+    },
+    "reverse-text": {
+      "title": "テキスト反転",
+      "desc": "単語や文章の文字を数秒で反転します。",
+      "example": "txet desrever",
+      "tutorial": "Create effects, visual tests, and reversed text experiments."
+    },
+    "alternating-case": {
+      "title": "交互大文字小文字",
+      "desc": "大文字と小文字を自動的に交互に生成します。",
+      "example": "AlTeRnAtInG tExT",
+      "tutorial": "Use it in posts, memes, and creative callouts."
+    },
+    "italic-text": {
+      "title": "斜体テキスト",
+      "desc": "プレーンテキストを斜体のUnicode文字に変換します。",
+      "example": "Italic text",
+      "tutorial": "Highlight names, bios, and captions."
+    },
+    "strikethrough-text": {
+      "title": "取り消し線テキスト",
+      "desc": "テキストの各文字に打消し線効果を適用します。",
+      "example": "S̶t̶r̶i̶k̶e̶d̶ text",
+      "tutorial": "Useful for comparisons, humor, and visual markings."
+    },
+    "morse-code-translator": {
+      "title": "モールス信号翻訳",
+      "desc": "文字、数字、一般的な記号をモールス信号に変換。",
+      "example": "... --- ...",
+      "tutorial": "Study, test, or create messages in Morse code."
+    },
+    "contador-caracteres": {
+      "title": "文字数カウンター",
+      "desc": "文字数、単語数、行数をオンラインでリアルタイムにカウント。",
+      "example": "Characters: 123",
+      "tutorial": "Paste any text to track metrics instantly."
+    },
+    "contador-palavras": {
+      "title": "単語数カウンター",
+      "desc": "記事、投稿、広告、課題の単語数をオンラインでカウント。",
+      "example": "Words: 250",
+      "tutorial": "Control limits for SEO, social media, and forms."
+    },
+    "removedor-espacos": {
+      "title": "余分なスペース削除",
+      "desc": "重複するスペースを削除し、貼り付けたテキストを整形。",
+      "example": "text with space",
+      "tutorial": "Clean lists and paragraphs before publishing."
+    },
+    "removedor-linhas-vazias": {
+      "title": "空行削除",
+      "desc": "空行を削除し、有用なコンテンツのみを保持。",
+      "example": "line 1\nline 2",
+      "tutorial": "Organize lists, simple CSVs, and drafts."
+    },
+    "texto-aleatorio": {
+      "title": "ランダムテキスト生成",
+      "desc": "レイアウトテスト、フォーム、プロトタイプ用のサンプルテキストを生成。",
+      "example": "Lorem ipsum convert text easy",
+      "tutorial": "Click to replace the editor with sample text."
+    },
+    "json-formatter": {
+      "title": "JSONフォーマッター",
+      "desc": "JSONをオンラインで整形、インデントと基本的な検証付き。",
+      "example": "{\n  \"site\": \"ConvertTextEasy\"\n}",
+      "tutorial": "Paste minified JSON and turn it into a readable structure."
+    },
+    "json-validator": {
+      "title": "JSONバリデーター",
+      "desc": "JSONをオンラインで検証し、構文エラーをすばやく特定。",
+      "example": "Valid JSON",
+      "tutorial": "Test API payloads, configurations, and data before using them."
+    },
+    "jwt-decoder": {
+      "title": "JWTデコーダー",
+      "desc": "サーバーにデータを送信せずにJWTトークンのヘッダーとペイロードをデコード。",
+      "example": "{ \"alg\": \"HS256\" }",
+      "tutorial": "Inspect claims and expiration dates in the browser."
+    },
+    "base64-encode-decode": {
+      "title": "Base64エンコード/デコード",
+      "desc": "ブラウザでテキストをBase64にエンコード／デコード。",
+      "example": "Q29udmVydFRleHRFYXN5",
+      "tutorial": "Useful for API tests, files, and snippets."
+    },
+    "base64-decode": {
+      "title": "Base64デコード",
+      "desc": "ブラウザでオンラインでBase64をデコード。",
+      "example": "Q29udmVydFRleHRFYXN5 → ConvertTextEasy",
+      "tutorial": "Read test data, payloads, and encoded examples."
+    },
+    "base64-encode": {
+      "title": "Base64エンコード",
+      "desc": "ブラウザでテキストをBase64にオンラインエンコード。",
+      "example": "ConvertTextEasy → Q29udmVydFRleHRFYXN5",
+      "tutorial": "Generate Base64 strings for API tests and documentation."
+    },
+    "url-encoder": {
+      "title": "URLエンコーダー",
+      "desc": "URL、パラメータ、特殊文字をエンコード／デコード。",
+      "example": "text%20with%20space",
+      "tutorial": "Prepare safe strings for links and query strings."
+    },
+    "uuid-generator": {
+      "title": "UUID生成器",
+      "desc": "テスト、レコード、識別子用にランダムなUUID v4を生成。",
+      "example": "550e8400-e29b-41d4-a716-446655440000",
+      "tutorial": "Create unique IDs locally in one click."
+    },
+    "hash-generator": {
+      "title": "ハッシュ生成器",
+      "desc": "ブラウザ上でテキストのSHA-256ハッシュを直接生成。",
+      "example": "e3b0c44298...",
+      "tutorial": "Compare checksums and simple signatures."
+    },
+    "timestamp-converter": {
+      "title": "タイムスタンプ変換",
+      "desc": "Unixタイムスタンプを現地時間に変換し、現在のタイムスタンプを生成。",
+      "example": "1715000000 → date",
+      "tutorial": "Work with logs, APIs, and databases."
+    },
+    "meta-tag-generator": {
+      "title": "メタタグ生成器",
+      "desc": "SEO用のタイトル、メタディスクリプション、正規URL、OpenGraphを作成。",
+      "example": "<meta name=\"description\" ...>",
+      "tutorial": "Build essential tags for indexable pages."
+    },
+    "slug-generator": {
+      "title": "スラッグ生成器",
+      "desc": "タイトルをアクセントなしのクリーンなスラグに変換しURL-readyに。",
+      "example": "how-to-format-json-online",
+      "tutorial": "Standardize SEO-friendly URLs."
+    },
+    "keyword-density-checker": {
+      "title": "キーワード密度チェッカー",
+      "desc": "キーワード密度と最も頻繁な用語を計算。",
+      "example": "seo: 2.4%",
+      "tutorial": "Review repeated terms before publishing."
+    },
+    "xml-formatter": {
+      "title": "XMLフォーマッター",
+      "desc": "XMLをオンラインで改行とインデントで整形。",
+      "example": "<root>\n  <item/>\n</root>",
+      "tutorial": "Improve readability for feeds, sitemaps, and configs."
+    },
+    "csv-to-json": {
+      "title": "CSVからJSONへの変換",
+      "desc": "ヘッダー付きCSVをフォーマットされたJSONリストに変換。",
+      "example": "[{\"name\":\"Ana\"}]",
+      "tutorial": "Transform exported spreadsheets into API payloads."
+    },
+    "remove-accents": {
+      "title": "アクセント削除",
+      "desc": "テキストからアクセントと発音記号を削除。",
+      "example": "action information",
+      "tutorial": "Prepare slugs, legacy systems, and normalized searches."
+    },
+    "clean-special-characters": {
+      "title": "特殊文字クリーナー",
+      "desc": "特殊文字を削除し、英字、数字、基本的な句読点を保持。",
+      "example": "Clean text 123",
+      "tutorial": "Clean content copied from PDFs, spreadsheets, and older systems."
+    }
+  },
+  "blogs": {
+    "como-converter-texto-para-maiusculo": {
+      "title": "テキストを大文字に変換する方法",
+      "desc": "Practical guide with explanations, examples, and tips for working better with text and data."
+    },
+    "diferenca-entre-utf-8-e-ansi": {
+      "title": "UTF-8とANSIの違い",
+      "desc": "Practical guide with explanations, examples, and tips for working better with text and data."
+    },
+    "como-remover-acentos-em-textos": {
+      "title": "テキストからアクセントを削除する方法",
+      "desc": "Practical guide with explanations, examples, and tips for working better with text and data."
+    },
+    "como-formatar-json-online": {
+      "title": "JSONをオンラインでフォーマットする方法",
+      "desc": "Practical guide with explanations, examples, and tips for working better with text and data."
+    },
+    "como-limpar-caracteres-especiais": {
+      "title": "特殊文字を削除する方法",
+      "desc": "Practical guide with explanations, examples, and tips for working better with text and data."
+    },
+    "regex-para-iniciantes": {
+      "title": "初心者のための正規表現",
+      "desc": "Practical guide with explanations, examples, and tips for working better with text and data."
+    },
+    "como-converter-csv-para-json": {
+      "title": "CSVをJSONに変換する方法",
+      "desc": "Practical guide with explanations, examples, and tips for working better with text and data."
+    },
+    "como-validar-json": {
+      "title": "JSONを検証する方法",
+      "desc": "Practical guide with explanations, examples, and tips for working better with text and data."
+    },
+    "como-formatar-xml": {
+      "title": "XMLをフォーマットする方法",
+      "desc": "Practical guide with explanations, examples, and tips for working better with text and data."
+    },
+    "como-contar-caracteres-online": {
+      "title": "オンラインで文字数を数える方法",
+      "desc": "Practical guide with explanations, examples, and tips for working better with text and data."
+    },
+    "contador-de-palavras-para-seo": {
+      "title": "SEOのためのワードカウンター",
+      "desc": "Practical guide with explanations, examples, and tips for working better with text and data."
+    },
+    "base64-encode-decode-guia": {
+      "title": "Base64エンコード/デコード：クイックガイド",
+      "desc": "Practical guide with explanations, examples, and tips for working better with text and data."
+    },
+    "jwt-decoder-online-seguro": {
+      "title": "安全なオンラインJWTデコーダー",
+      "desc": "Practical guide with explanations, examples, and tips for working better with text and data."
+    },
+    "gerar-slug-seo": {
+      "title": "SEOスラッグを生成する方法",
+      "desc": "Practical guide with explanations, examples, and tips for working better with text and data."
+    },
+    "meta-tags-para-iniciantes": {
+      "title": "初心者のためのメタタグ",
+      "desc": "Practical guide with explanations, examples, and tips for working better with text and data."
+    },
+    "densidade-de-palavras-chave": {
+      "title": "キーワード密度の解説",
+      "desc": "Practical guide with explanations, examples, and tips for working better with text and data."
+    },
+    "timestamp-unix-explicado": {
+      "title": "Unixタイムスタンプの解説",
+      "desc": "Practical guide with explanations, examples, and tips for working better with text and data."
+    },
+    "uuid-v4-o-que-e": {
+      "title": "UUID v4：その概要と使用するタイミング",
+      "desc": "Practical guide with explanations, examples, and tips for working better with text and data."
+    },
+    "url-encode-e-decode": {
+      "title": "URLエンコードとデコード",
+      "desc": "Practical guide with explanations, examples, and tips for working better with text and data."
+    },
+    "hash-sha-256-online": {
+      "title": "SHA-256ハッシュをオンラインで",
+      "desc": "Practical guide with explanations, examples, and tips for working better with text and data."
+    },
+    "remover-linhas-vazias": {
+      "title": "空行を削除する方法",
+      "desc": "Practical guide with explanations, examples, and tips for working better with text and data."
+    },
+    "capitalizacao-inteligente": {
+      "title": "スマート大文字化",
+      "desc": "Practical guide with explanations, examples, and tips for working better with text and data."
+    }
+  },
+  "readArticle": "記事を読む",
+  "pages": {
+    "404": {
+      "title": "Page not found",
+      "desc": "The page you are looking for does not exist or may have moved.",
+      "sections": [
+        [
+          "What you can do",
+          "Go back to the home page, visit the blog, or open one of the available tools."
+        ]
+      ]
+    },
+    "about": {
+      "title": "About ConvertTextEasy",
+      "desc": "A free platform with more than 30 online tools to transform text, validate technical data, and optimize content for SEO.",
+      "sections": [
+        [
+          "What we do",
+          "We simplify text editing and standardization with fast, intuitive tools available from any device."
+        ],
+        [
+          "Main features",
+          "Text conversion, JSON/XML/CSV formatting, Base64 and URL encoding, slug generation, UUIDs, hashes, timestamps, Morse code, counters, accent removal, and SEO meta tags."
+        ],
+        [
+          "Privacy and technology",
+          "Most transformations run in your browser, reducing latency and avoiding unnecessary data transfer."
+        ],
+        [
+          "Why use it",
+          "Fast, simple, accessible, and built for repeated everyday text workflows."
+        ]
+      ]
+    },
+    "contact": {
+      "title": "Contact us",
+      "desc": "Send a message, suggestion, or question. Your feedback helps improve the tools for everyone.",
+      "sections": [
+        [
+          "Contact form",
+          "Fill in the fields and send your message."
+        ],
+        [
+          "Support",
+          "We are available to help with questions about using the tools."
+        ],
+        [
+          "Other pages",
+          "Return to the home page or explore other tools."
+        ]
+      ]
+    },
+    "privacy-policy": {
+      "title": "Privacy Policy",
+      "desc": "Learn how ConvertTextEasy handles privacy, cookies, local processing, and user data.",
+      "sections": [
+        [
+          "Overview",
+          "ConvertTextEasy is designed to process text transformations in the browser whenever possible."
+        ],
+        [
+          "Cookies and ads",
+          "We may use cookies to improve the experience and display relevant ads."
+        ],
+        [
+          "Your rights",
+          "You can contact us to ask questions about privacy or data handling."
+        ]
+      ]
+    },
+    "terms": {
+      "title": "Terms of Use",
+      "desc": "Read the terms for using ConvertTextEasy tools and content.",
+      "sections": [
+        [
+          "Use of the service",
+          "The tools are provided for practical text, development, and SEO tasks."
+        ],
+        [
+          "User responsibility",
+          "Review transformed content before using it in professional, legal, or sensitive contexts."
+        ],
+        [
+          "Changes",
+          "These terms may be updated as the service evolves."
+        ]
+      ]
+    }
+  }
+}

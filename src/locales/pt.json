@@ -1,0 +1,562 @@
+{
+  "meta": {
+    "locale": "pt-BR",
+    "ogLocale": "pt_BR",
+    "dir": "ltr",
+    "name": "Português"
+  },
+  "common": {
+    "pageTitle": "Conversor de Texto Online",
+    "desc": "Converta textos online gratuitamente.",
+    "brandSubtitle": "Converter letras maiúsculas e minúsculas online gratuitamente.",
+    "theme": "Tema",
+    "editorPanelTitle": "Editor",
+    "editorPanelCopy": "Cole seu texto, converta ito o formato desejado e siga trabalhando sem sair da página.",
+    "mainTitle": "Conversor de Texto",
+    "subtitle": "Transforme textos rapidamente",
+    "input": "Digite seu texto...",
+    "share": "Compartilhar",
+    "download": "Baixar texto",
+    "charCountLabel": "Contagem de letras",
+    "wordCountLabel": "Contagem de palavras",
+    "lineCountLabel": "Contagem de linhas",
+    "toolbarIntro": "Escolha uma das 8 funcionalidades abaixo para aplicar o formato diretamente ao texto.",
+    "uppercaseToolbar": "Letras Maiusculas",
+    "lowercaseToolbar": "Letras Minusculas",
+    "strikethroughToolbar": "Texto Tachado",
+    "titleCaseToolbar": "Iniciais Maiusculas",
+    "reverseToolbarHome": "Texto Reverso",
+    "alternatingToolbar": "Alternancia",
+    "italicToolbar": "Texto Italico",
+    "morseToolbar": "Codigo Morse",
+    "summaryTitle": "Resumo",
+    "summaryCopy": "Uma interface unica para editar, transformar e revisar textos em segundos.",
+    "featureTitle1": "Conversao instantanea",
+    "featureDesc1": "Os formatos sao aplicados direto no editor sem etapas extras.",
+    "featureTitle2": "Idiomas prontos",
+    "featureDesc2": "Portugues, ingles e espanhol na mesma interface.",
+    "featureTitle3": "Flujo simples",
+    "featureDesc3": "Copiar, limpar e revisar metricas sem sair do bloco principal.",
+    "tipsPanelTitle": "Dicas rapidas",
+    "tipsPanelCopy": "Atalhos visuais para manter o texto consistente.",
+    "tipTitle1": "Padronize titulos",
+    "tipDesc1": "Use ConvertTextEasy para cabecalhos, secoes e chamadas principais.",
+    "tipTitle2": "Limpe textos colados",
+    "tipDesc2": "Normalize caixa, remova ruido visual e recopie ja tratado.",
+    "upper": "MAIÚSCULO",
+    "lower": "minúsculo",
+    "sentence": "Sentence Case",
+    "titleCase": "Texto Título",
+    "alternating": "Alternancia",
+    "reverse": "Reverse Text",
+    "camelToolbar": "Formato Titulo",
+    "reverseToolbar": "iNvErSo",
+    "mirror": "Mirror Text",
+    "accent": "Remover acentos",
+    "copy": "Copiar",
+    "clear": "Limpar",
+    "sectionBasicTitle": "Casos Básicos",
+    "sectionBasicDesc": "Transforme o texto em maiúsculo ou minúscula, ou aplique casos simples para padronização.",
+    "sectionAdvancedTitle": "Casos Avançados",
+    "sectionAdvancedDesc": "Alternâncias criativas e estilos de programação para textos dinâmicos.",
+    "sectionTransformTitle": "Transformações de Texto",
+    "sectionTransformDesc": "Invierte, espelhe ou remova acentos para efeitos visuais e limpeza.",
+    "sectionActionsTitle": "Ações",
+    "sectionActionsDesc": "Copie o resultado ou limpe os campos para começar de novo.",
+    "seoTitle": "O que é um conversor de texto?",
+    "seoText": "Ferramenta online para transformar textos em diferentes formatos.",
+    "seoExplain": "Este editor permite converter seu texto em maiúsculas, minúsculas, estilo título, texto tachado, reverso, alternância, itálico e código Morse.",
+    "seoUsage": "Basta colar o texto no editor, escolher a funcionalidade desejada e copiar o resultado para usar onde quiser.",
+    "toolTitle1": "🔡 Letras Minusculas",
+    "toolDesc1": "Converta todo o texto para minusculas.",
+    "toolTitle2": "🔡 Letras Maiusculas",
+    "toolDesc2": "Converta todo o texto para maiusculas.",
+    "toolTitle3": "🔤 Texto Tachado",
+    "toolDesc3": "Gere texto riscado automaticamente.",
+    "toolTitle4": "📝 Iniciais Maiúsculas",
+    "toolDesc4": "Primeira letra de cada palavra em maiúsculo.",
+    "toolTitle5": "🔄 Texto Reverso",
+    "toolDesc5": "Inverta seu texto.",
+    "toolTitle6": "🔀 Alternancia",
+    "toolDesc6": "Alterna letras maiúsculas e minúsculas.",
+    "toolTitle7": "📜 Texto Itálico",
+    "toolDesc7": "Gera texto estilizado em itálico.",
+    "toolTitle8": "💻 Código Morse",
+    "toolDesc8": "Traduza texto para código Morse.",
+    "sidebarTools": "🛠️ Ferramentas",
+    "sidebarConverter": "📝 Conversor de Texto",
+    "sidebarAbout": "ℹ️ Sobre",
+    "sidebarMoreTools": "🔧 Mais Ferramentas",
+    "sidebarContact": "📧 Contato",
+    "sidebarFeatures": "Funcionalidades",
+    "footerTitle": "Conversor de Texto Online",
+    "footerBrandSubtitle": "Convertidor de Texto",
+    "footerDesc": "Ferramenta gratuita para transformar textos em diferentes formatos. Suporte a múltiplos idiomas e temas.",
+    "footerLinks": "Links Úteis",
+    "footerHome": "Pagina Inicial",
+    "footerTool1": "Texto Tachado",
+    "footerTool2": "Iniciais Maiusculas",
+    "footerTool3": "Texto Reverso",
+    "footerPrivacy": "Política de Privacidade",
+    "footerTerms": "Termos de Uso",
+    "footerAbout": "Sobre Nós",
+    "footerContact": "Contato",
+    "footerCopyright": "© 2026 Convertidor de Texto Online. Todos os direitos reservados.",
+    "newsletterTitle": "Fique Atualizado",
+    "newsletterCopy": "Receba dicas e novas ferramentas por email.",
+    "newsletterPlaceholder": "Seu email",
+    "newsletterButton": "Inscrever",
+    "allToolsTitle": "Todas as ferramentas online",
+    "allToolsDesc": "Páginas individuais com título, descrição, tutorial, FAQ, exemplos, canonical e schema.org.",
+    "blogTitle": "Blog — Guias práticos de texto, SEO e desenvolvimento",
+    "blogDesc": "Mais de 20 guias reais sobre texto, JSON, XML, CSV, regex, codificação e SEO técnico para ajudar você a trabalhar melhor com conteúdo digital.",
+    "blogEyebrow": "Blog indexável",
+    "blogTitleAlt": "Guias práticos de texto, SEO e desenvolvimento",
+    "blogDescAlt": "Artigos otimizados com explicações, exemplos e ferramentas relacionadas. Aprenda a trabalhar melhor com texto, dados técnicos e otimização para buscadores.",
+    "skipLink": "Pular para o conteúdo principal",
+    "langSelectAria": "Selecionar idioma",
+    "inputAria": "Área de texto para converter",
+    "copyBtn": "Copiar texto",
+    "clearBtn": "Limpar texto",
+    "errorHeading": "Página não encontrada",
+    "errorText": "Desculpe, a página que você está procurando não existe ou foi movida.",
+    "errorBackHome": "Voltar para a Página Inicial",
+    "errorVisitBlog": "Visitar o Blog",
+    "cookieTitle": "Aviso de cookies",
+    "cookieText": "Utilizamos cookies para melhorar sua experiência e exibir anúncios relevantes. Ao continuar, você concorda com nossa ",
+    "cookieAccept": "Aceitar",
+    "cookiePolicy": "Política de Privacidade",
+    "headerBrandSubtitle": "Ferramentas de texto, dev e SEO",
+    "headerBlog": "Blog",
+    "headerTools": "Ferramentas",
+    "headerTheme": "Tema",
+    "drawerBlog": "Blog",
+    "breadcrumbHome": "Início",
+    "breadcrumbTools": "Ferramentas",
+    "breadcrumbBlog": "Blog",
+    "onlineTool": "Ferramenta online",
+    "guidedPractice": "Guia prático",
+    "pageBackLink": "← Voltar para a home",
+    "pageAbout": "Sobre",
+    "pageContact": "Contato",
+    "pagePrivacy": "Privacidade",
+    "pageTerms": "Termos",
+    "mobileMenuBtn": "Abrir menu de ferramentas",
+    "toolEditorTitle": "Editor de {tool}",
+    "toolEditorCopy": "Cole o conteúdo, execute a ação e copie o resultado. A contagem é atualizada em tempo real.",
+    "toolInputPlaceholder": "Cole seu texto aqui...",
+    "toolInputAria": "Texto para {tool}",
+    "toolCopyResult": "Copiar resultado",
+    "toolClearText": "Limpar texto",
+    "toolCharacters": "Caracteres:",
+    "toolWords": "Palavras:",
+    "toolLines": "Linhas:",
+    "toolConvert": "Converter",
+    "toolConvertAria": "Converter para {tool}",
+    "toolAsideAria": "Sobre a ferramenta",
+    "toolHowToUseTitle": "Como usar",
+    "toolHowToUseCopy": "Siga o passo a passo abaixo para utilizar {tool}.",
+    "toolStepPaste": "Cole o texto na área de edição acima",
+    "toolStepConvert": "Clique em \"Converter\" para processar",
+    "toolStepCopy": "Copie o resultado usando o botão 📋",
+    "toolExampleTitle": "Exemplo",
+    "toolExampleCopy": "Veja como fica o resultado após a conversão.",
+    "relatedToolsTitle": "Ferramentas relacionadas",
+    "faqTitle": "Perguntas Frequentes sobre {tool}",
+    "faqQ1": "{tool} é gratuito?",
+    "faqA1": "Sim. {tool} é totalmente gratuito e pode ser usado sem cadastro diretamente no navegador. Basta acessar a página, colar o texto e converter.",
+    "faqQ2": "Preciso cadastrar ou instalar algo para usar {toolLower}?",
+    "faqA2": "Não. {toolLower} funciona diretamente no navegador, sem necessidade de cadastro, download ou instalação de qualquer software.",
+    "faqQ3": "Os dados que digito são enviados para servidores externos?",
+    "faqA3": "Não armazenamos o conteúdo digitado. A transformação acontece exclusivamente no seu navegador sem enviar dados para servidores externos.",
+    "faqQ4": "Posso usar {toolLower} no celular?",
+    "faqA4": "Sim. A página é responsiva e funciona em telas menores, tablets e smartphones. Você pode usar {toolLower} de qualquer dispositivo.",
+    "faqQ5": "Qual a diferença entre {toolLower} e outras ferramentas similares?",
+    "faqA5": "{tool} foi desenvolvido com foco em simplicidade, privacidade e SEO técnico. Cada página possui descrição, exemplo, tutorial e marcação estruturada.",
+    "articleHeadingWhy": "Por que isso importa?",
+    "articleHeadingSteps": "Passo a passo e boas práticas",
+    "articleHeadingExamples": "Exemplos e erros comuns",
+    "articleIntro": "Quando alguém procura por \"{title}\", geralmente quer uma solução prática, rápida e confiável. Este guia explica o conceito, mostra exemplos e indica cuidados para trabalhar com textos, dados e conteúdo web com menos retrabalho.",
+    "articleP1": "Textos podem vir de editores, planilhas, PDFs, sistemas antigos, APIs, bancos de dados ou formulários. Cada origem pode carregar espaços extras, quebras de linha, acentos, codificações diferentes ou símbolos invisíveis.",
+    "articleP2": "Comece copiando uma amostra pequena. Teste a transformação, confira se o resultado mantém as informações essenciais e só então aplique em um volume maior.",
+    "articleP3": "Para SEO, títulos claros, slugs legíveis, meta descriptions objetivas e dados estruturados ajudam buscadores a compreenderem a página. A automação acelera tarefas repetitivas, mas não substitui revisão humana.",
+    "articleP4": "Em desenvolvimento, dados bem formatados reduzem erros. JSON indentado, XML organizado, Base64 decodificado, URLs codificadas corretamente e timestamps conferidos tornam o diagnóstico mais rápido.",
+    "articleP5": "Evite colar tokens, senhas, chaves privadas, dados pessoais ou informações confidenciais. Para conteúdo sensível, use exemplos fictícios ou um ambiente interno controlado.",
+    "articleP6": "Um fluxo recomendado é colar o texto, aplicar a transformação, validar o resultado, copiar para o destino final e salvar uma versão original caso precise desfazer.",
+    "articleP7": "Erros comuns incluem confiar apenas na aparência visual, ignorar acentos quebrados, remover símbolos importantes, publicar JSON sem validar e usar caixa alta em excesso.",
+    "articleP8": "Use exemplos curtos para testar acentos, capitalização, linhas vazias, objetos aninhados e cabeçalhos antes de aplicar a transformação em conteúdo maior.",
+    "articleP9": "No ConvertTextEasy, você pode combinar este artigo com a ferramenta {tool}. Ela oferece editor, exemplo, FAQ e marcação estruturada para facilitar uso e descoberta.",
+    "articleP10": "Documente padrões internos para slugs, títulos, metadados, acentuação, codificação e validação. Um padrão claro melhora a consistência do site ou produto.",
+    "articleRelatedTitle": "Ferramenta relacionada",
+    "articleRelatedCopy": "Use {tool} para aplicar este conceito em poucos cliques.",
+    "articleOpenTool": "Abrir ferramenta",
+    "articleOpenToolAria": "Abrir ferramenta {tool}"
+  },
+  "tools": {
+    "uppercase-text": {
+      "title": "Conversor para Maiúsculas",
+      "desc": "Converta texto para MAIÚSCULAS online, grátis e com contagem de caracteres.",
+      "example": "UPPERCASE TEXT",
+      "tutorial": "Paste a sentence, convert it, and copy the uppercase result."
+    },
+    "lowercase-text": {
+      "title": "Conversor para Minúsculas",
+      "desc": "Transforme textos em letras minúsculas para padronizar cadastros, listas e conteúdos.",
+      "example": "lowercase text",
+      "tutorial": "Use it to clean copied text with too much uppercase formatting."
+    },
+    "capitalize-text": {
+      "title": "Capitalização de Texto",
+      "desc": "Coloque iniciais em maiúsculas e deixe títulos, nomes e chamadas mais legíveis.",
+      "example": "Text With Capitalized Words",
+      "tutorial": "Useful for titles, names, and product lists."
+    },
+    "smart-capitalization": {
+      "title": "Capitalização Inteligente",
+      "desc": "Ajuste frases com primeira letra maiúscula após pontos, perguntas e exclamações.",
+      "example": "Correct sentence. New correct sentence.",
+      "tutorial": "Ideal for text typed with irregular casing."
+    },
+    "reverse-text": {
+      "title": "Inverter Texto",
+      "desc": "Inverta caracteres de palavras e frases em segundos.",
+      "example": "txet desrever",
+      "tutorial": "Create effects, visual tests, and reversed text experiments."
+    },
+    "alternating-case": {
+      "title": "Texto Alternado",
+      "desc": "Gere letras alternadas entre maiúsculas e minúsculas automaticamente.",
+      "example": "AlTeRnAtInG tExT",
+      "tutorial": "Use it in posts, memes, and creative callouts."
+    },
+    "italic-text": {
+      "title": "Texto Itálico Unicode",
+      "desc": "Converta texto comum em caracteres Unicode com aparência itálica.",
+      "example": "Italic text",
+      "tutorial": "Highlight names, bios, and captions."
+    },
+    "strikethrough-text": {
+      "title": "Texto Tachado",
+      "desc": "Aplique o efeito riscado em cada caractere do texto.",
+      "example": "S̶t̶r̶i̶k̶e̶d̶ text",
+      "tutorial": "Useful for comparisons, humor, and visual markings."
+    },
+    "morse-code-translator": {
+      "title": "Tradutor de Código Morse",
+      "desc": "Converta letras, números e sinais comuns para código Morse.",
+      "example": "... --- ...",
+      "tutorial": "Study, test, or create messages in Morse code."
+    },
+    "contador-caracteres": {
+      "title": "Contador de Caracteres",
+      "desc": "Conte caracteres, palavras e linhas online em tempo real.",
+      "example": "Characters: 123",
+      "tutorial": "Paste any text to track metrics instantly."
+    },
+    "contador-palavras": {
+      "title": "Contador de Palavras",
+      "desc": "Conte palavras online para artigos, posts, anúncios e trabalhos.",
+      "example": "Words: 250",
+      "tutorial": "Control limits for SEO, social media, and forms."
+    },
+    "removedor-espacos": {
+      "title": "Removedor de Espaços Extras",
+      "desc": "Remova espaços duplicados e normalize textos colados.",
+      "example": "text with space",
+      "tutorial": "Clean lists and paragraphs before publishing."
+    },
+    "removedor-linhas-vazias": {
+      "title": "Removedor de Linhas Vazias",
+      "desc": "Apague linhas em branco mantendo somente conteúdo útil.",
+      "example": "line 1\nline 2",
+      "tutorial": "Organize lists, simple CSVs, and drafts."
+    },
+    "texto-aleatorio": {
+      "title": "Gerador de Texto Aleatório",
+      "desc": "Gere texto de exemplo para testes de layout, formulários e protótipos.",
+      "example": "Lorem ipsum convert text easy",
+      "tutorial": "Click to replace the editor with sample text."
+    },
+    "json-formatter": {
+      "title": "JSON Formatter",
+      "desc": "Formate JSON online com indentação, validação básica e leitura fácil.",
+      "example": "{\n  \"site\": \"ConvertTextEasy\"\n}",
+      "tutorial": "Paste minified JSON and turn it into a readable structure."
+    },
+    "json-validator": {
+      "title": "Validador de JSON",
+      "desc": "Valide JSON online e identifique erros de sintaxe rapidamente.",
+      "example": "Valid JSON",
+      "tutorial": "Test API payloads, configurations, and data before using them."
+    },
+    "jwt-decoder": {
+      "title": "JWT Decoder",
+      "desc": "Decodifique header e payload de tokens JWT sem enviar dados ao servidor.",
+      "example": "{ \"alg\": \"HS256\" }",
+      "tutorial": "Inspect claims and expiration dates in the browser."
+    },
+    "base64-encode-decode": {
+      "title": "Base64 Encode Decode",
+      "desc": "Codifique e decodifique textos em Base64 no navegador.",
+      "example": "Q29udmVydFRleHRFYXN5",
+      "tutorial": "Useful for API tests, files, and snippets."
+    },
+    "base64-decode": {
+      "title": "Base64 Decode",
+      "desc": "Decodifique Base64 online no navegador.",
+      "example": "Q29udmVydFRleHRFYXN5 → ConvertTextEasy",
+      "tutorial": "Read test data, payloads, and encoded examples."
+    },
+    "base64-encode": {
+      "title": "Base64 Encode",
+      "desc": "Codifique texto em Base64 online no navegador.",
+      "example": "ConvertTextEasy → Q29udmVydFRleHRFYXN5",
+      "tutorial": "Generate Base64 strings for API tests and documentation."
+    },
+    "url-encoder": {
+      "title": "URL Encoder",
+      "desc": "Codifique e decodifique URLs, parâmetros e caracteres especiais.",
+      "example": "text%20with%20space",
+      "tutorial": "Prepare safe strings for links and query strings."
+    },
+    "uuid-generator": {
+      "title": "Gerador de UUID",
+      "desc": "Gere UUID v4 aleatório para testes, registros e identificadores.",
+      "example": "550e8400-e29b-41d4-a716-446655440000",
+      "tutorial": "Create unique IDs locally in one click."
+    },
+    "hash-generator": {
+      "title": "Hash Generator",
+      "desc": "Gere hashes SHA-256 de textos diretamente no navegador.",
+      "example": "e3b0c44298...",
+      "tutorial": "Compare checksums and simple signatures."
+    },
+    "timestamp-converter": {
+      "title": "Timestamp Converter",
+      "desc": "Converta timestamp Unix para data local e gere timestamps atuais.",
+      "example": "1715000000 → date",
+      "tutorial": "Work with logs, APIs, and databases."
+    },
+    "meta-tag-generator": {
+      "title": "Meta Tag Generator",
+      "desc": "Crie title, meta description, canonical e OpenGraph para SEO.",
+      "example": "<meta name=\"description\" ...>",
+      "tutorial": "Build essential tags for indexable pages."
+    },
+    "slug-generator": {
+      "title": "Slug Generator",
+      "desc": "Transforme títulos em slugs limpos, sem acentos e prontos para URLs.",
+      "example": "how-to-format-json-online",
+      "tutorial": "Standardize SEO-friendly URLs."
+    },
+    "keyword-density-checker": {
+      "title": "Keyword Density Checker",
+      "desc": "Calcule densidade de palavras-chave e termos mais frequentes.",
+      "example": "seo: 2.4%",
+      "tutorial": "Review repeated terms before publishing."
+    },
+    "xml-formatter": {
+      "title": "Formatador de XML",
+      "desc": "Formate XML online com quebras de linha e indentação simples.",
+      "example": "<root>\n  <item/>\n</root>",
+      "tutorial": "Improve readability for feeds, sitemaps, and configs."
+    },
+    "csv-to-json": {
+      "title": "Conversor CSV para JSON",
+      "desc": "Converta CSV com cabeçalho em uma lista JSON formatada.",
+      "example": "[{\"name\":\"Ana\"}]",
+      "tutorial": "Transform exported spreadsheets into API payloads."
+    },
+    "remove-accents": {
+      "title": "Removedor de Acentos",
+      "desc": "Remova acentos e marcas diacríticas de textos.",
+      "example": "action information",
+      "tutorial": "Prepare slugs, legacy systems, and normalized searches."
+    },
+    "clean-special-characters": {
+      "title": "Limpador de Caracteres Especiais",
+      "desc": "Remova caracteres especiais mantendo letras, números e pontuação básica.",
+      "example": "Clean text 123",
+      "tutorial": "Clean content copied from PDFs, spreadsheets, and older systems."
+    }
+  },
+  "blogs": {
+    "como-converter-texto-para-maiusculo": {
+      "title": "Como converter texto para maiúsculo",
+      "desc": "Guia prático com explicações, exemplos e cuidados para trabalhar melhor com texto e dados."
+    },
+    "diferenca-entre-utf-8-e-ansi": {
+      "title": "Diferença entre UTF-8 e ANSI",
+      "desc": "Guia prático com explicações, exemplos e cuidados para trabalhar melhor com texto e dados."
+    },
+    "como-remover-acentos-em-textos": {
+      "title": "Como remover acentos em textos",
+      "desc": "Guia prático com explicações, exemplos e cuidados para trabalhar melhor com texto e dados."
+    },
+    "como-formatar-json-online": {
+      "title": "Como formatar JSON online",
+      "desc": "Guia prático com explicações, exemplos e cuidados para trabalhar melhor com texto e dados."
+    },
+    "como-limpar-caracteres-especiais": {
+      "title": "Como limpar caracteres especiais",
+      "desc": "Guia prático com explicações, exemplos e cuidados para trabalhar melhor com texto e dados."
+    },
+    "regex-para-iniciantes": {
+      "title": "Regex para iniciantes",
+      "desc": "Guia prático com explicações, exemplos e cuidados para trabalhar melhor com texto e dados."
+    },
+    "como-converter-csv-para-json": {
+      "title": "Como converter CSV para JSON",
+      "desc": "Guia prático com explicações, exemplos e cuidados para trabalhar melhor com texto e dados."
+    },
+    "como-validar-json": {
+      "title": "Como validar JSON",
+      "desc": "Guia prático com explicações, exemplos e cuidados para trabalhar melhor com texto e dados."
+    },
+    "como-formatar-xml": {
+      "title": "Como formatar XML",
+      "desc": "Guia prático com explicações, exemplos e cuidados para trabalhar melhor com texto e dados."
+    },
+    "como-contar-caracteres-online": {
+      "title": "Como contar caracteres online",
+      "desc": "Guia prático com explicações, exemplos e cuidados para trabalhar melhor com texto e dados."
+    },
+    "contador-de-palavras-para-seo": {
+      "title": "Contador de palavras para SEO",
+      "desc": "Guia prático com explicações, exemplos e cuidados para trabalhar melhor com texto e dados."
+    },
+    "base64-encode-decode-guia": {
+      "title": "Base64 encode/decode: guia rápido",
+      "desc": "Guia prático com explicações, exemplos e cuidados para trabalhar melhor com texto e dados."
+    },
+    "jwt-decoder-online-seguro": {
+      "title": "JWT decoder online seguro",
+      "desc": "Guia prático com explicações, exemplos e cuidados para trabalhar melhor com texto e dados."
+    },
+    "gerar-slug-seo": {
+      "title": "Como gerar slug SEO",
+      "desc": "Guia prático com explicações, exemplos e cuidados para trabalhar melhor com texto e dados."
+    },
+    "meta-tags-para-iniciantes": {
+      "title": "Meta tags para iniciantes",
+      "desc": "Guia prático com explicações, exemplos e cuidados para trabalhar melhor com texto e dados."
+    },
+    "densidade-de-palavras-chave": {
+      "title": "Densidade de palavras-chave",
+      "desc": "Guia prático com explicações, exemplos e cuidados para trabalhar melhor com texto e dados."
+    },
+    "timestamp-unix-explicado": {
+      "title": "Timestamp Unix explicado",
+      "desc": "Guia prático com explicações, exemplos e cuidados para trabalhar melhor com texto e dados."
+    },
+    "uuid-v4-o-que-e": {
+      "title": "UUID v4: o que é e quando usar",
+      "desc": "Guia prático com explicações, exemplos e cuidados para trabalhar melhor com texto e dados."
+    },
+    "url-encode-e-decode": {
+      "title": "URL encode e decode",
+      "desc": "Guia prático com explicações, exemplos e cuidados para trabalhar melhor com texto e dados."
+    },
+    "hash-sha-256-online": {
+      "title": "Hash SHA-256 online",
+      "desc": "Guia prático com explicações, exemplos e cuidados para trabalhar melhor com texto e dados."
+    },
+    "remover-linhas-vazias": {
+      "title": "Como remover linhas vazias",
+      "desc": "Guia prático com explicações, exemplos e cuidados para trabalhar melhor com texto e dados."
+    },
+    "capitalizacao-inteligente": {
+      "title": "Capitalização inteligente",
+      "desc": "Guia prático com explicações, exemplos e cuidados para trabalhar melhor com texto e dados."
+    }
+  },
+  "readArticle": "Ler artigo",
+  "pages": {
+    "404": {
+      "title": "Página não encontrada",
+      "desc": "A página que você procura não existe ou pode ter sido movida.",
+      "sections": [
+        [
+          "O que fazer",
+          "Volte para a página inicial, visite o blog ou abra uma das ferramentas disponíveis."
+        ]
+      ]
+    },
+    "about": {
+      "title": "Conheça o ConvertTextEasy",
+      "desc": "Uma plataforma gratuita com mais de 30 ferramentas online para transformar textos, validar dados técnicos e otimizar conteúdos para SEO.",
+      "sections": [
+        [
+          "O que fazemos",
+          "Simplificamos a edição e padronização de texto com ferramentas rápidas, intuitivas e acessíveis de qualquer dispositivo."
+        ],
+        [
+          "Principais funcionalidades",
+          "Conversão de texto, formatação JSON/XML/CSV, Base64, URL, slugs, UUIDs, hashes, timestamps, Morse, contadores, remoção de acentos e meta tags para SEO."
+        ],
+        [
+          "Tecnologia e privacidade",
+          "Sempre que possível, as transformações rodam no navegador, reduzindo latência e evitando envio desnecessário de dados."
+        ],
+        [
+          "Por que usar",
+          "Rápido, simples, acessível e feito para fluxos recorrentes de texto."
+        ]
+      ]
+    },
+    "contact": {
+      "title": "Fale conosco",
+      "desc": "Envie sua mensagem, sugestão ou dúvida. Seu feedback ajuda a melhorar as ferramentas para todos.",
+      "sections": [
+        [
+          "Formulário de contato",
+          "Preencha os campos e envie sua mensagem."
+        ],
+        [
+          "Suporte",
+          "Estamos disponíveis para ajudar em dúvidas sobre o uso das ferramentas."
+        ],
+        [
+          "Outras páginas",
+          "Volte para a página inicial ou explore outras ferramentas."
+        ]
+      ]
+    },
+    "privacy-policy": {
+      "title": "Política de Privacidade",
+      "desc": "Entenda como o ConvertTextEasy trata privacidade, cookies, processamento local e dados de usuários.",
+      "sections": [
+        [
+          "Visão geral",
+          "O ConvertTextEasy foi pensado para processar transformações de texto no navegador sempre que possível."
+        ],
+        [
+          "Cookies e anúncios",
+          "Podemos usar cookies para melhorar a experiência e exibir anúncios relevantes."
+        ],
+        [
+          "Seus direitos",
+          "Você pode entrar em contato para dúvidas sobre privacidade ou tratamento de dados."
+        ]
+      ]
+    },
+    "terms": {
+      "title": "Termos de Uso",
+      "desc": "Leia os termos para usar as ferramentas e conteúdos do ConvertTextEasy.",
+      "sections": [
+        [
+          "Uso do serviço",
+          "As ferramentas são oferecidas para tarefas práticas de texto, desenvolvimento e SEO."
+        ],
+        [
+          "Responsabilidade do usuário",
+          "Revise conteúdos transformados antes de usar em contextos profissionais, legais ou sensíveis."
+        ],
+        [
+          "Alterações",
+          "Estes termos podem ser atualizados conforme o serviço evolui."
+        ]
+      ]
+    }
+  }
+}

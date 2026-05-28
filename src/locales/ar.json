@@ -1,0 +1,562 @@
+{
+  "meta": {
+    "locale": "ar-SA",
+    "ogLocale": "ar_SA",
+    "dir": "rtl",
+    "name": "العربية"
+  },
+  "common": {
+    "pageTitle": "محول النص أونلاين",
+    "desc": "حول النص مجانًا أونلاين.",
+    "brandSubtitle": "حول الأحرف الكبيرة والصغيرة مجانًا أونلاين.",
+    "theme": "السمة",
+    "editorPanelTitle": "المحرر",
+    "editorPanelCopy": "الصق نصك، وحوله إلى التنسيق المطلوب، واستمر في العمل دون مغادرة الصفحة.",
+    "mainTitle": "محول النص",
+    "subtitle": "حول نصوصك بسرعة",
+    "input": "اكتب نصك...",
+    "share": "مشاركة",
+    "download": "تحميل النص",
+    "charCountLabel": "عدد الأحرف",
+    "wordCountLabel": "عدد الكلمات",
+    "lineCountLabel": "عدد الأسطر",
+    "toolbarIntro": "اختر واحدة من 8 وظائف أدناه لتطبيق التنسيق مباشرة على النص.",
+    "uppercaseToolbar": "أحرف كبيرة",
+    "lowercaseToolbar": "أحرف صغيرة",
+    "strikethroughToolbar": "نص مشطوب",
+    "titleCaseToolbar": "تنسيق العنوان",
+    "reverseToolbarHome": "نص معكوس",
+    "alternatingToolbar": "تبادل الأحرف",
+    "italicToolbar": "نص مائل",
+    "morseToolbar": "شفرة مورس",
+    "summaryTitle": "ملخص",
+    "summaryCopy": "واجهة واحدة لتحرير النص وتحويله ومراجعته في ثوانٍ.",
+    "featureTitle1": "تحويل فوري",
+    "featureDesc1": "يتم تطبيق التنسيقات مباشرة في المحرر دون خطوات إضافية.",
+    "featureTitle2": "لغات جاهزة",
+    "featureDesc2": "العربية والإنجليزية والبرتغالية والإسبانية في نفس الواجهة.",
+    "featureTitle3": "تدفق بسيط",
+    "featureDesc3": "انسخ، امسح، وراجع المقاييس دون مغادرة الكتلة الرئيسية.",
+    "tipsPanelTitle": "نصائح سريعة",
+    "tipsPanelCopy": "اختصارات بصرية للحفاظ على اتساق النص.",
+    "tipTitle1": "توحيد العناوين",
+    "tipDesc1": "استخدم ConvertTextEasy للعناوين والأقسام والنداءات الرئيسية.",
+    "tipTitle2": "تنظيف النصوص الملصقة",
+    "tipDesc2": "طبيع حالة الأحرف، أزل الضوضاء البصرية، وأعد نسخ النص المعالج.",
+    "upper": "كبير",
+    "lower": "صغير",
+    "sentence": "حالة الجملة",
+    "titleCase": "تنسيق العنوان",
+    "alternating": "تبادل",
+    "reverse": "نص معكوس",
+    "camelToolbar": "تنسيق العنوان",
+    "reverseToolbar": "مكوسع",
+    "mirror": "نص مرآة",
+    "accent": "إزالة التشكيل",
+    "copy": "نسخ",
+    "clear": "مسح",
+    "sectionBasicTitle": "الحالات الأساسية",
+    "sectionBasicDesc": "حول النص إلى أحرف كبيرة أو صغيرة، أو طبق حالات بسيطة للتوحيد.",
+    "sectionAdvancedTitle": "الحالات المتقدمة",
+    "sectionAdvancedDesc": "تبادلات إبداعية وأنماط برمجة للنصوص الديناميكية.",
+    "sectionTransformTitle": "تحويلات النص",
+    "sectionTransformDesc": "اعكس، أو مرآة، أو أزل التشكيل للتأثيرات البصرية والتنظيف.",
+    "sectionActionsTitle": "إجراءات",
+    "sectionActionsDesc": "انسخ النتيجة أو امسح الحقول لبدء من جديد.",
+    "seoTitle": "ما هو محول النص؟",
+    "seoText": "أداة أونلاين لتحويل النص إلى تنسيقات مختلفة.",
+    "seoExplain": "يتيح لك هذا المحرر تحويل نصك إلى أحرف كبيرة، صغيرة، تنسيق عنوان، مشطوب، معكوس، متبادل، مائل وشفرة مورس.",
+    "seoUsage": "ما عليك سوى لصق النص في المحرر، اختر الوظيفة المطلوبة، وانسخ النتيجة لاستخدامها في أي مكان.",
+    "toolTitle1": "🔡 أحرف صغيرة",
+    "toolDesc1": "حول النص بأكمله إلى أحرف صغيرة.",
+    "toolTitle2": "🔡 أحرف كبيرة",
+    "toolDesc2": "حول النص بأكمله إلى أحرف كبيرة.",
+    "toolTitle3": "🔤 نص مشطوب",
+    "toolDesc3": "أنشئ نصًا مشطوبًا تلقائيًا.",
+    "toolTitle4": "📝 تنسيق العنوان",
+    "toolDesc4": "الحرف الأول من كل كلمة كبير.",
+    "toolTitle5": "🔄 نص معكوس",
+    "toolDesc5": "اعكس نصك.",
+    "toolTitle6": "🔀 تبادل",
+    "toolDesc6": "تبديل الأحرف الكبيرة والصغيرة.",
+    "toolTitle7": "📜 نص مائل",
+    "toolDesc7": "ينشئ نصًا منمقًا مائلًا.",
+    "toolTitle8": "💻 شفرة مورس",
+    "toolDesc8": "ترجمة النص إلى شفرة مورس.",
+    "sidebarTools": "🛠️ أدوات",
+    "sidebarConverter": "📝 محول النص",
+    "sidebarAbout": "ℹ️ حول",
+    "sidebarMoreTools": "🔧 أدوات أخرى",
+    "sidebarContact": "📧 اتصال",
+    "sidebarFeatures": "الميزات",
+    "footerTitle": "محول النص أونلاين",
+    "footerBrandSubtitle": "محول النص",
+    "footerDesc": "أداة مجانية لتحويل النص إلى تنسيقات مختلفة. دعم لغات وسمات متعددة.",
+    "footerLinks": "روابط مفيدة",
+    "footerHome": "الصفحة الرئيسية",
+    "footerTool1": "نص مشطوب",
+    "footerTool2": "تنسيق العنوان",
+    "footerTool3": "نص معكوس",
+    "footerPrivacy": "سياسة الخصوصية",
+    "footerTerms": "شروط الاستخدام",
+    "footerAbout": "معلومات عنا",
+    "footerContact": "اتصل بنا",
+    "footerCopyright": "© 2026 محول النص أونلاين. جميع الحقوق محفوظة.",
+    "newsletterTitle": "ابق على اطلاع",
+    "newsletterCopy": "تلقي النصائح والأدوات الجديدة عبر البريد الإلكتروني.",
+    "newsletterPlaceholder": "بريدك الإلكتروني",
+    "newsletterButton": "اشتراك",
+    "allToolsTitle": "جميع الأدوات أونلاين",
+    "allToolsDesc": "صفحات فردية مع عنوان ووصف ودليل وأسئلة شائعة وأمثلة ورابط أساسي و schema.org.",
+    "blogTitle": "المدونة — أدلة عملية حول النص وتحسين محركات البحث والتطوير",
+    "blogDesc": "أكثر من 20 دليلاً حقيقياً حول النص و JSON و XML و CSV والتعبيرات العادية والترميز وتحسين محركات البحث التقني لمساعدتك في العمل بشكل أفضل مع المحتوى الرقمي.",
+    "blogEyebrow": "مدونة قابلة للفهرسة",
+    "blogTitleAlt": "أدلة عملية حول النص وتحسين محركات البحث والتطوير",
+    "blogDescAlt": "مقالات محسّنة مع شروحات وأمثلة وأدوات ذات صلة. تعلم كيفية العمل بشكل أفضل مع النص والبيانات التقنية وتحسين محركات البحث.",
+    "skipLink": "التجاوز إلى المحتوى الرئيسي",
+    "langSelectAria": "اختر اللغة",
+    "inputAria": "منطقة النص للتحويل",
+    "copyBtn": "نسخ النص",
+    "clearBtn": "مسح النص",
+    "errorHeading": "الصفحة غير موجودة",
+    "errorText": "عذراً، الصفحة التي تبحث عنها غير موجودة أو تم نقلها.",
+    "errorBackHome": "العودة إلى الصفحة الرئيسية",
+    "errorVisitBlog": "زيارة المدونة",
+    "cookieTitle": "إشعار ملفات تعريف الارتباط",
+    "cookieText": "نستخدم ملفات تعريف الارتباط لتحسين تجربتك وعرض إعلانات ذات صلة. بالمتابعة، أنت توافق على ",
+    "cookieAccept": "قبول",
+    "cookiePolicy": "سياسة الخصوصية",
+    "headerBrandSubtitle": "أدوات النص والتطوير وتحسين محركات البحث",
+    "headerBlog": "المدونة",
+    "headerTools": "الأدوات",
+    "headerTheme": "السمة",
+    "drawerBlog": "المدونة",
+    "breadcrumbHome": "الرئيسية",
+    "breadcrumbTools": "الأدوات",
+    "breadcrumbBlog": "المدونة",
+    "onlineTool": "أداة أونلاين",
+    "guidedPractice": "دليل عملي",
+    "pageBackLink": "← العودة إلى الرئيسية",
+    "pageAbout": "حول",
+    "pageContact": "اتصل بنا",
+    "pagePrivacy": "الخصوصية",
+    "pageTerms": "الشروط",
+    "mobileMenuBtn": "فتح قائمة الأدوات",
+    "toolEditorTitle": "{tool} editor",
+    "toolEditorCopy": "Paste the content, run the action, and copy the result. Counts update in real time.",
+    "toolInputPlaceholder": "Paste your text here...",
+    "toolInputAria": "Text for {tool}",
+    "toolCopyResult": "Copy result",
+    "toolClearText": "Clear text",
+    "toolCharacters": "Characters:",
+    "toolWords": "Words:",
+    "toolLines": "Lines:",
+    "toolConvert": "Convert",
+    "toolConvertAria": "Convert with {tool}",
+    "toolAsideAria": "About this tool",
+    "toolHowToUseTitle": "How to use",
+    "toolHowToUseCopy": "Follow the steps below to use {tool}.",
+    "toolStepPaste": "Paste the text in the editor above",
+    "toolStepConvert": "Click \"Convert\" to process it",
+    "toolStepCopy": "Copy the result with the 📋 button",
+    "toolExampleTitle": "Example",
+    "toolExampleCopy": "See what the result looks like after conversion.",
+    "relatedToolsTitle": "Related tools",
+    "faqTitle": "Frequently Asked Questions about {tool}",
+    "faqQ1": "Is {tool} free?",
+    "faqA1": "Yes. {tool} is completely free and can be used in the browser without registration. Open the page, paste your text, and convert it.",
+    "faqQ2": "Do I need to sign up or install anything to use {toolLower}?",
+    "faqA2": "No. {toolLower} runs directly in the browser with no registration, download, or software installation required.",
+    "faqQ3": "Is the text I type sent to external servers?",
+    "faqA3": "We do not store typed content. The transformation happens in your browser without sending data to external servers.",
+    "faqQ4": "Can I use {toolLower} on mobile?",
+    "faqA4": "Yes. The page is responsive and works on smaller screens, tablets, and smartphones. You can use {toolLower} from any device.",
+    "faqQ5": "How is {toolLower} different from similar tools?",
+    "faqA5": "{tool} was built for simplicity, privacy, and technical SEO. Each page includes a description, example, FAQ, and structured data.",
+    "articleHeadingWhy": "Why it matters",
+    "articleHeadingSteps": "Step-by-step and best practices",
+    "articleHeadingExamples": "Examples and common mistakes",
+    "articleIntro": "When someone searches for \"{title}\", they usually need a practical, fast, and reliable solution. This guide explains the concept, shows examples, and highlights precautions for working with text, data, and web content with less rework.",
+    "articleP1": "Text can come from editors, spreadsheets, PDFs, legacy systems, APIs, databases, or forms. Each source may include extra spaces, line breaks, accents, encodings, or invisible characters.",
+    "articleP2": "Start with a small sample. Test the transformation, verify that the result keeps the essential information, and only then apply it to a larger volume.",
+    "articleP3": "For SEO, clear titles, readable slugs, concise meta descriptions, and structured data help search engines understand the page. Automation speeds repetitive work, but human review still matters.",
+    "articleP4": "For development, well-formatted data reduces errors. Indented JSON, organized XML, decoded Base64, properly encoded URLs, and checked timestamps make debugging faster.",
+    "articleP5": "Avoid pasting tokens, passwords, private keys, personal data, or confidential information. For sensitive content, use dummy examples or a controlled internal environment.",
+    "articleP6": "A recommended workflow is to paste the text, apply the transformation, validate the result, copy it to the final destination, and keep an original version in case you need to revert.",
+    "articleP7": "Common mistakes include trusting only visual appearance, ignoring broken accents, removing meaningful symbols, publishing JSON without validation, and overusing uppercase text.",
+    "articleP8": "Use short examples to test accents, casing, blank lines, nested objects, and headers before applying the transformation to larger content.",
+    "articleP9": "On ConvertTextEasy, you can pair this article with the {tool} tool. It includes an editor, example, FAQ, and structured data for easier use and discovery.",
+    "articleP10": "Document internal standards for slugs, titles, metadata, accents, encoding, and validation. Clear rules improve consistency across the site or product.",
+    "articleRelatedTitle": "Related tool",
+    "articleRelatedCopy": "Use {tool} to apply this concept in a few clicks.",
+    "articleOpenTool": "Open tool",
+    "articleOpenToolAria": "Open {tool} tool"
+  },
+  "tools": {
+    "uppercase-text": {
+      "title": "محول إلى أحرف كبيرة",
+      "desc": "حوّل النص إلى أحرف كبيرة أونلاين مجاناً مع عدد الأحرف.",
+      "example": "UPPERCASE TEXT",
+      "tutorial": "Paste a sentence, convert it, and copy the uppercase result."
+    },
+    "lowercase-text": {
+      "title": "محول إلى أحرف صغيرة",
+      "desc": "حوّل النصوص إلى أحرف صغيرة لتوحيد السجلات والقوائم.",
+      "example": "lowercase text",
+      "tutorial": "Use it to clean copied text with too much uppercase formatting."
+    },
+    "capitalize-text": {
+      "title": "تكبير النص",
+      "desc": "اجعل الحروف الأولى كبيرة لتحسين قراءة العناوين والأسماء.",
+      "example": "Text With Capitalized Words",
+      "tutorial": "Useful for titles, names, and product lists."
+    },
+    "smart-capitalization": {
+      "title": "تكبير ذكي",
+      "desc": "اضبط الجمل بحرف أول كبير بعد النقاط وعلامات الاستفهام والتعجب.",
+      "example": "Correct sentence. New correct sentence.",
+      "tutorial": "Ideal for text typed with irregular casing."
+    },
+    "reverse-text": {
+      "title": "عكس النص",
+      "desc": "اعكس ترتيب أحرف الكلمات والجمل في ثوانٍ.",
+      "example": "txet desrever",
+      "tutorial": "Create effects, visual tests, and reversed text experiments."
+    },
+    "alternating-case": {
+      "title": "حالة متناوبة",
+      "desc": "أنشئ أحرفاً متناوبة بين الكبيرة والصغيرة تلقائياً.",
+      "example": "AlTeRnAtInG tExT",
+      "tutorial": "Use it in posts, memes, and creative callouts."
+    },
+    "italic-text": {
+      "title": "نص مائل",
+      "desc": "حوّل النص العادي إلى أحرف يونيكود بمظهر مائل.",
+      "example": "Italic text",
+      "tutorial": "Highlight names, bios, and captions."
+    },
+    "strikethrough-text": {
+      "title": "نص مشطوب",
+      "desc": "طبّق تأثير الخط المشطوب على كل حرف في النص.",
+      "example": "S̶t̶r̶i̶k̶e̶d̶ text",
+      "tutorial": "Useful for comparisons, humor, and visual markings."
+    },
+    "morse-code-translator": {
+      "title": "مترجم شفرة مورس",
+      "desc": "حوّل الحروف والأرقام والعلامات الشائعة إلى شفرة مورس.",
+      "example": "... --- ...",
+      "tutorial": "Study, test, or create messages in Morse code."
+    },
+    "contador-caracteres": {
+      "title": "عداد الأحرف",
+      "desc": "احسب الأحرف والكلمات والأسطر أونلاين في الوقت الفعلي.",
+      "example": "Characters: 123",
+      "tutorial": "Paste any text to track metrics instantly."
+    },
+    "contador-palavras": {
+      "title": "عداد الكلمات",
+      "desc": "احسب الكلمات أونلاين للمقالات والمنشورات والإعلانات والواجبات.",
+      "example": "Words: 250",
+      "tutorial": "Control limits for SEO, social media, and forms."
+    },
+    "removedor-espacos": {
+      "title": "إزالة المسافات الزائدة",
+      "desc": "أزل المسافات المكررة ووحّد النصوص الملصقة.",
+      "example": "text with space",
+      "tutorial": "Clean lists and paragraphs before publishing."
+    },
+    "removedor-linhas-vazias": {
+      "title": "إزالة الأسطر الفارغة",
+      "desc": "احذف الأسطر الفارغة مع الاحتفاظ بالمحتوى المفيد فقط.",
+      "example": "line 1\nline 2",
+      "tutorial": "Organize lists, simple CSVs, and drafts."
+    },
+    "texto-aleatorio": {
+      "title": "مولد نص عشوائي",
+      "desc": "أنشئ نصاً نموذجياً لاختبارات التصميم والنماذج الأولية.",
+      "example": "Lorem ipsum convert text easy",
+      "tutorial": "Click to replace the editor with sample text."
+    },
+    "json-formatter": {
+      "title": "منسق JSON",
+      "desc": "نسّق JSON أونلاين مع مسافات بادئة والتحقق الأساسي.",
+      "example": "{\n  \"site\": \"ConvertTextEasy\"\n}",
+      "tutorial": "Paste minified JSON and turn it into a readable structure."
+    },
+    "json-validator": {
+      "title": "مدقق JSON",
+      "desc": "تحقق من JSON أونلاين وحدد أخطاء الصياغة بسرعة.",
+      "example": "Valid JSON",
+      "tutorial": "Test API payloads, configurations, and data before using them."
+    },
+    "jwt-decoder": {
+      "title": "مفكك JWT",
+      "desc": "فك ترميز header و payload لرموز JWT دون إرسال البيانات للخادم.",
+      "example": "{ \"alg\": \"HS256\" }",
+      "tutorial": "Inspect claims and expiration dates in the browser."
+    },
+    "base64-encode-decode": {
+      "title": "ترميز/فك Base64",
+      "desc": "شفر وفك تشفير النصوص بصيغة Base64 في المتصفح.",
+      "example": "Q29udmVydFRleHRFYXN5",
+      "tutorial": "Useful for API tests, files, and snippets."
+    },
+    "base64-decode": {
+      "title": "فك Base64",
+      "desc": "فك تشفير Base64 أونلاين في المتصفح.",
+      "example": "Q29udmVydFRleHRFYXN5 → ConvertTextEasy",
+      "tutorial": "Read test data, payloads, and encoded examples."
+    },
+    "base64-encode": {
+      "title": "ترميز Base64",
+      "desc": "شفر النص إلى Base64 أونلاين في المتصفح.",
+      "example": "ConvertTextEasy → Q29udmVydFRleHRFYXN5",
+      "tutorial": "Generate Base64 strings for API tests and documentation."
+    },
+    "url-encoder": {
+      "title": "مشفر URL",
+      "desc": "شفر وفك تشفير الروابط والمعاملات والأحرف الخاصة.",
+      "example": "text%20with%20space",
+      "tutorial": "Prepare safe strings for links and query strings."
+    },
+    "uuid-generator": {
+      "title": "مولد UUID",
+      "desc": "أنشئ UUID v4 عشوائياً للاختبارات والسجلات والمعرفات.",
+      "example": "550e8400-e29b-41d4-a716-446655440000",
+      "tutorial": "Create unique IDs locally in one click."
+    },
+    "hash-generator": {
+      "title": "مولد التجزئة",
+      "desc": "أنشئ تجزئات SHA-256 للنصوص مباشرة في المتصفح.",
+      "example": "e3b0c44298...",
+      "tutorial": "Compare checksums and simple signatures."
+    },
+    "timestamp-converter": {
+      "title": "محول الطابع الزمني",
+      "desc": "حوّل الطابع الزمني Unix إلى تاريخ محلي وأنشئ أختاماً زمنية حالية.",
+      "example": "1715000000 → date",
+      "tutorial": "Work with logs, APIs, and databases."
+    },
+    "meta-tag-generator": {
+      "title": "مولد العلامات الوصفية",
+      "desc": "أنشئ title و meta description و canonical و OpenGraph لتحسين محركات البحث.",
+      "example": "<meta name=\"description\" ...>",
+      "tutorial": "Build essential tags for indexable pages."
+    },
+    "slug-generator": {
+      "title": "مولد الرابط النصي",
+      "desc": "حوّل العناوين إلى slugs نظيفة بدون تشكيل وجاهزة للروابط.",
+      "example": "how-to-format-json-online",
+      "tutorial": "Standardize SEO-friendly URLs."
+    },
+    "keyword-density-checker": {
+      "title": "مدقق كثافة الكلمات المفتاحية",
+      "desc": "احسب كثافة الكلمات المفتاحية وأكثر المصطلحات تكراراً.",
+      "example": "seo: 2.4%",
+      "tutorial": "Review repeated terms before publishing."
+    },
+    "xml-formatter": {
+      "title": "منسق XML",
+      "desc": "نسّق XML أونلاين مع فواصل أسطر ومسافات بادئة بسيطة.",
+      "example": "<root>\n  <item/>\n</root>",
+      "tutorial": "Improve readability for feeds, sitemaps, and configs."
+    },
+    "csv-to-json": {
+      "title": "محول CSV إلى JSON",
+      "desc": "حوّل CSV مع رأس إلى قائمة JSON منسّقة.",
+      "example": "[{\"name\":\"Ana\"}]",
+      "tutorial": "Transform exported spreadsheets into API payloads."
+    },
+    "remove-accents": {
+      "title": "إزالة التشكيل",
+      "desc": "أزل التشكيل والعلامات الصوتية من النصوص.",
+      "example": "action information",
+      "tutorial": "Prepare slugs, legacy systems, and normalized searches."
+    },
+    "clean-special-characters": {
+      "title": "منظف الأحرف الخاصة",
+      "desc": "أزل الأحرف الخاصة مع الاحتفاظ بالحروف والأرقام وعلامات الترقيم الأساسية.",
+      "example": "Clean text 123",
+      "tutorial": "Clean content copied from PDFs, spreadsheets, and older systems."
+    }
+  },
+  "blogs": {
+    "como-converter-texto-para-maiusculo": {
+      "title": "كيفية تحويل النص إلى أحرف كبيرة",
+      "desc": "Practical guide with explanations, examples, and tips for working better with text and data."
+    },
+    "diferenca-entre-utf-8-e-ansi": {
+      "title": "الفرق بين UTF-8 و ANSI",
+      "desc": "Practical guide with explanations, examples, and tips for working better with text and data."
+    },
+    "como-remover-acentos-em-textos": {
+      "title": "كيفية إزالة التشكيل من النصوص",
+      "desc": "Practical guide with explanations, examples, and tips for working better with text and data."
+    },
+    "como-formatar-json-online": {
+      "title": "كيفية تنسيق JSON عبر الإنترنت",
+      "desc": "Practical guide with explanations, examples, and tips for working better with text and data."
+    },
+    "como-limpar-caracteres-especiais": {
+      "title": "كيفية إزالة الأحرف الخاصة",
+      "desc": "Practical guide with explanations, examples, and tips for working better with text and data."
+    },
+    "regex-para-iniciantes": {
+      "title": "التعبيرات المنتظمة للمبتدئين",
+      "desc": "Practical guide with explanations, examples, and tips for working better with text and data."
+    },
+    "como-converter-csv-para-json": {
+      "title": "كيفية تحويل CSV إلى JSON",
+      "desc": "Practical guide with explanations, examples, and tips for working better with text and data."
+    },
+    "como-validar-json": {
+      "title": "كيفية التحقق من صحة JSON",
+      "desc": "Practical guide with explanations, examples, and tips for working better with text and data."
+    },
+    "como-formatar-xml": {
+      "title": "كيفية تنسيق XML",
+      "desc": "Practical guide with explanations, examples, and tips for working better with text and data."
+    },
+    "como-contar-caracteres-online": {
+      "title": "كيفية حساب الأحرف عبر الإنترنت",
+      "desc": "Practical guide with explanations, examples, and tips for working better with text and data."
+    },
+    "contador-de-palavras-para-seo": {
+      "title": "عداد الكلمات لتحسين محركات البحث",
+      "desc": "Practical guide with explanations, examples, and tips for working better with text and data."
+    },
+    "base64-encode-decode-guia": {
+      "title": "Base64 ترميز/فك الترميز: دليل سريع",
+      "desc": "Practical guide with explanations, examples, and tips for working better with text and data."
+    },
+    "jwt-decoder-online-seguro": {
+      "title": "أداة فك تشفير JWT عبر الإنترنت آمنة",
+      "desc": "Practical guide with explanations, examples, and tips for working better with text and data."
+    },
+    "gerar-slug-seo": {
+      "title": "كيفية إنشاء رابط SEO",
+      "desc": "Practical guide with explanations, examples, and tips for working better with text and data."
+    },
+    "meta-tags-para-iniciantes": {
+      "title": "العلامات الوصفية للمبتدئين",
+      "desc": "Practical guide with explanations, examples, and tips for working better with text and data."
+    },
+    "densidade-de-palavras-chave": {
+      "title": "كثافة الكلمات المفتاحية",
+      "desc": "Practical guide with explanations, examples, and tips for working better with text and data."
+    },
+    "timestamp-unix-explicado": {
+      "title": "شرح الطابع الزمني Unix",
+      "desc": "Practical guide with explanations, examples, and tips for working better with text and data."
+    },
+    "uuid-v4-o-que-e": {
+      "title": "UUID v4: ما هو ومتى يستخدم",
+      "desc": "Practical guide with explanations, examples, and tips for working better with text and data."
+    },
+    "url-encode-e-decode": {
+      "title": "ترميز وفك ترميز URL",
+      "desc": "Practical guide with explanations, examples, and tips for working better with text and data."
+    },
+    "hash-sha-256-online": {
+      "title": "تجزئة SHA-256 عبر الإنترنت",
+      "desc": "Practical guide with explanations, examples, and tips for working better with text and data."
+    },
+    "remover-linhas-vazias": {
+      "title": "كيفية إزالة الأسطر الفارغة",
+      "desc": "Practical guide with explanations, examples, and tips for working better with text and data."
+    },
+    "capitalizacao-inteligente": {
+      "title": "الأحرف الكبيرة الذكية",
+      "desc": "Practical guide with explanations, examples, and tips for working better with text and data."
+    }
+  },
+  "readArticle": "اقرأ المقال",
+  "pages": {
+    "404": {
+      "title": "Page not found",
+      "desc": "The page you are looking for does not exist or may have moved.",
+      "sections": [
+        [
+          "What you can do",
+          "Go back to the home page, visit the blog, or open one of the available tools."
+        ]
+      ]
+    },
+    "about": {
+      "title": "About ConvertTextEasy",
+      "desc": "A free platform with more than 30 online tools to transform text, validate technical data, and optimize content for SEO.",
+      "sections": [
+        [
+          "What we do",
+          "We simplify text editing and standardization with fast, intuitive tools available from any device."
+        ],
+        [
+          "Main features",
+          "Text conversion, JSON/XML/CSV formatting, Base64 and URL encoding, slug generation, UUIDs, hashes, timestamps, Morse code, counters, accent removal, and SEO meta tags."
+        ],
+        [
+          "Privacy and technology",
+          "Most transformations run in your browser, reducing latency and avoiding unnecessary data transfer."
+        ],
+        [
+          "Why use it",
+          "Fast, simple, accessible, and built for repeated everyday text workflows."
+        ]
+      ]
+    },
+    "contact": {
+      "title": "Contact us",
+      "desc": "Send a message, suggestion, or question. Your feedback helps improve the tools for everyone.",
+      "sections": [
+        [
+          "Contact form",
+          "Fill in the fields and send your message."
+        ],
+        [
+          "Support",
+          "We are available to help with questions about using the tools."
+        ],
+        [
+          "Other pages",
+          "Return to the home page or explore other tools."
+        ]
+      ]
+    },
+    "privacy-policy": {
+      "title": "Privacy Policy",
+      "desc": "Learn how ConvertTextEasy handles privacy, cookies, local processing, and user data.",
+      "sections": [
+        [
+          "Overview",
+          "ConvertTextEasy is designed to process text transformations in the browser whenever possible."
+        ],
+        [
+          "Cookies and ads",
+          "We may use cookies to improve the experience and display relevant ads."
+        ],
+        [
+          "Your rights",
+          "You can contact us to ask questions about privacy or data handling."
+        ]
+      ]
+    },
+    "terms": {
+      "title": "Terms of Use",
+      "desc": "Read the terms for using ConvertTextEasy tools and content.",
+      "sections": [
+        [
+          "Use of the service",
+          "The tools are provided for practical text, development, and SEO tasks."
+        ],
+        [
+          "User responsibility",
+          "Review transformed content before using it in professional, legal, or sensitive contexts."
+        ],
+        [
+          "Changes",
+          "These terms may be updated as the service evolves."
+        ]
+      ]
+    }
+  }
+}
