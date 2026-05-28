@@ -1278,3 +1278,166 @@ a.tool-card {
 body.drawer-open {
   overflow: hidden;
 }
+
+/* ===== CUSTOM LANGUAGE SELECT ===== */
+.custom-lang-select {
+  position: relative;
+  display: inline-flex;
+  align-items: stretch;
+}
+
+.custom-lang-select-trigger {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  width: 100%;
+  min-width: 180px;
+  background: var(--surface-interactive);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 0.55rem 0.85rem;
+  min-height: 44px;
+  color: var(--text);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+  line-height: 1.2;
+  white-space: nowrap;
+  text-align: left;
+  font-family: inherit;
+}
+
+.custom-lang-select-trigger:hover {
+  background: var(--surface-interactive-hover);
+  border-color: rgba(96, 165, 250, 0.24);
+}
+
+.custom-lang-select-trigger:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+.custom-lang-select-value {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.custom-lang-select-arrow {
+  font-size: 0.65rem;
+  opacity: 0.7;
+  transition: transform 0.2s ease;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.custom-lang-select.open .custom-lang-select-arrow {
+  transform: rotate(180deg);
+}
+
+.custom-lang-select-dropdown {
+  position: absolute;
+  top: calc(100% + 0.35rem);
+  right: 0;
+  min-width: 100%;
+  width: max-content;
+  max-height: 280px;
+  overflow-y: auto;
+  background: var(--surface-strong);
+  border: 1px solid var(--line);
+  border-radius: 0.85rem;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.35);
+  padding: 0.35rem;
+  z-index: 100;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-4px);
+  transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s ease;
+}
+
+.custom-lang-select.open .custom-lang-select-dropdown {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.custom-lang-select-dropdown::-webkit-scrollbar {
+  width: 4px;
+}
+
+.custom-lang-select-dropdown::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-lang-select-dropdown::-webkit-scrollbar-thumb {
+  background: var(--line);
+  border-radius: 4px;
+}
+
+.custom-lang-select-option {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.5rem 0.7rem;
+  border: none;
+  border-radius: 0.55rem;
+  background: transparent;
+  color: var(--text);
+  font-size: 0.88rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.12s ease;
+  white-space: nowrap;
+  text-align: left;
+  font-family: inherit;
+  line-height: 1.3;
+}
+
+.custom-lang-select-option:hover {
+  background: var(--surface-interactive-hover);
+}
+
+.custom-lang-select-option:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: -2px;
+}
+
+.custom-lang-select-option.selected {
+  background: rgba(59, 130, 246, 0.15);
+  color: var(--primary);
+  font-weight: 600;
+}
+
+/* Drawer footer custom select */
+.mobile-drawer-footer .custom-lang-select-trigger {
+  min-width: 0;
+  font-size: 0.8rem;
+  padding: 0.4rem 0.5rem;
+  min-height: 36px;
+  border-radius: 0.7rem;
+  justify-content: center;
+}
+
+.mobile-drawer-footer .custom-lang-select-dropdown {
+  right: auto;
+  left: 0;
+}
+
+/* Tablet/mid screens */
+@media (min-width: 769px) and (max-width: 1080px) {
+  .custom-lang-select-trigger {
+    min-width: 132px;
+  }
+}
+
+/* Mobile: hide topbar custom select, show drawer one */
+@media (max-width: 768px) {
+  .topbar .theme-toggle,
+  .topbar .lang-select,
+  .topbar .custom-lang-select {
+    display: none;
+  }
+}

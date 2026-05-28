@@ -1728,6 +1728,20 @@ function changeLang(lang, options) {
     select.value = targetLang;
   });
 
+  document.querySelectorAll('.custom-lang-select').forEach(function(wrapper) {
+    var valueEl = wrapper.querySelector('.custom-lang-select-value');
+    var targetOption = wrapper.querySelector('.custom-lang-select-option[data-value="' + targetLang + '"]');
+    if (valueEl && targetOption) {
+      valueEl.textContent = targetOption.textContent;
+      wrapper.querySelectorAll('.custom-lang-select-option').forEach(function(o) {
+        o.classList.remove('selected');
+        o.setAttribute('aria-selected', 'false');
+      });
+      targetOption.classList.add('selected');
+      targetOption.setAttribute('aria-selected', 'true');
+    }
+  });
+
   const setButtonLabel = (id, prefix, label) => {
     const el = document.getElementById(id);
     if (el) {
@@ -2199,6 +2213,123 @@ updateCounts();
   }
 })();
 
+// ===== CUSTOM LANGUAGE SELECT =====
+function initCustomLangSelects(container) {
+  container = container || document;
+  var selects = container.querySelectorAll('.lang-select');
+  selects.forEach(function(nativeSelect) {
+    if (nativeSelect.closest('.custom-lang-select')) return;
+
+    var selectedIdx = nativeSelect.selectedIndex;
+    var selectedText = '';
+    if (selectedIdx >= 0 && nativeSelect.options[selectedIdx]) {
+      selectedText = nativeSelect.options[selectedIdx].textContent;
+    }
+
+    var wrapper = document.createElement('div');
+    wrapper.className = 'custom-lang-select';
+
+    var trigger = document.createElement('button');
+    trigger.className = 'custom-lang-select-trigger';
+    trigger.type = 'button';
+    trigger.setAttribute('aria-haspopup', 'listbox');
+    trigger.setAttribute('aria-expanded', 'false');
+
+    var valueSpan = document.createElement('span');
+    valueSpan.className = 'custom-lang-select-value';
+    valueSpan.textContent = selectedText;
+    trigger.appendChild(valueSpan);
+
+    var arrowSpan = document.createElement('span');
+    arrowSpan.className = 'custom-lang-select-arrow';
+    arrowSpan.textContent = '\u25BE';
+    trigger.appendChild(arrowSpan);
+
+    wrapper.appendChild(trigger);
+
+    var dropdown = document.createElement('div');
+    dropdown.className = 'custom-lang-select-dropdown';
+    dropdown.setAttribute('role', 'listbox');
+
+    for (var i = 0; i < nativeSelect.options.length; i++) {
+      var opt = nativeSelect.options[i];
+      var optBtn = document.createElement('button');
+      optBtn.className = 'custom-lang-select-option';
+      if (opt.selected) {
+        optBtn.classList.add('selected');
+        optBtn.setAttribute('aria-selected', 'true');
+      } else {
+        optBtn.setAttribute('aria-selected', 'false');
+      }
+      optBtn.setAttribute('role', 'option');
+      optBtn.setAttribute('data-value', opt.value);
+      optBtn.textContent = opt.textContent;
+      dropdown.appendChild(optBtn);
+    }
+
+    wrapper.appendChild(dropdown);
+    nativeSelect.parentNode.insertBefore(wrapper, nativeSelect);
+    nativeSelect.style.display = 'none';
+
+    trigger.addEventListener('click', function(e) {
+      e.stopPropagation();
+      wrapper.classList.toggle('open');
+      trigger.setAttribute('aria-expanded', wrapper.classList.contains('open'));
+    });
+
+    document.addEventListener('click', function(e) {
+      if (!wrapper.contains(e.target)) {
+        wrapper.classList.remove('open');
+        trigger.setAttribute('aria-expanded', 'false');
+      }
+    });
+
+    wrapper.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        wrapper.classList.remove('open');
+        trigger.setAttribute('aria-expanded', 'false');
+        trigger.focus();
+      }
+    });
+
+    dropdown.querySelectorAll('.custom-lang-select-option').forEach(function(opt) {
+      opt.addEventListener('click', function() {
+        selectCustomOption(wrapper, opt, nativeSelect);
+      });
+    });
+  });
+}
+
+function selectCustomOption(wrapper, opt, nativeSelect) {
+  var value = opt.getAttribute('data-value');
+  var dropdown = wrapper.querySelector('.custom-lang-select-dropdown');
+  var valueSpan = wrapper.querySelector('.custom-lang-select-value');
+  var trigger = wrapper.querySelector('.custom-lang-select-trigger');
+
+  valueSpan.textContent = opt.textContent;
+
+  dropdown.querySelectorAll('.custom-lang-select-option').forEach(function(o) {
+    o.classList.remove('selected');
+    o.setAttribute('aria-selected', 'false');
+  });
+  opt.classList.add('selected');
+  opt.setAttribute('aria-selected', 'true');
+
+  wrapper.classList.remove('open');
+  trigger.setAttribute('aria-expanded', 'false');
+
+  if (nativeSelect) {
+    nativeSelect.value = value;
+    nativeSelect.dispatchEvent(new Event('change', { bubbles: true }));
+  }
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', function() { initCustomLangSelects(); });
+} else {
+  initCustomLangSelects();
+}
+
 // ===== MOBILE MENU =====
 (function () {
   function populateDrawer() {
@@ -2310,6 +2441,8 @@ updateCounts();
 
     document.body.appendChild(backdrop);
     document.body.appendChild(drawer);
+
+    initCustomLangSelects(drawer);
 
     populateDrawer();
 
