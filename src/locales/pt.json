@@ -190,7 +190,26 @@
     "articleRelatedTitle": "Ferramenta relacionada",
     "articleRelatedCopy": "Use {tool} para aplicar este conceito em poucos cliques.",
     "articleOpenTool": "Abrir ferramenta",
-    "articleOpenToolAria": "Abrir ferramenta {tool}"
+    "articleOpenToolAria": "Abrir ferramenta {tool}",
+    "brandSeoTitle": "ConvertTextEasy - Ferramentas Online Gratuitas",
+    "brandSeoDescription": "ConvertTextEasy é a plataforma oficial gratuita para converter textos, formatar dados, usar utilidades de desenvolvimento e preparar conteúdos para SEO.",
+    "brandSeoSectionTitle": "ConvertTextEasy: kit oficial de ferramentas de texto online",
+    "brandSeoSectionLead": "O ConvertTextEasy reúne conversão de texto, formatação, validação e utilidades de SEO em um espaço rápido no navegador.",
+    "brandSeoSectionCopy1": "Use o ConvertTextEasy para converter maiúsculas e minúsculas, formatar JSON e XML, gerar slugs, inspecionar JWTs, codificar URLs, contar palavras e limpar conteúdo antes de publicar.",
+    "brandSeoSectionCopy2": "A plataforma foi criada para redatores, analistas de SEO, desenvolvedores, estudantes e equipes de suporte que precisam de ferramentas confiáveis sem instalar software ou criar conta.",
+    "homeFaqTitle": "FAQ do ConvertTextEasy",
+    "homeFaqQ1": "O que é o ConvertTextEasy?",
+    "homeFaqA1": "ConvertTextEasy é uma plataforma gratuita de ferramentas online para conversão de texto, formatação, utilidades de desenvolvimento e fluxos de SEO.",
+    "homeFaqQ2": "ConvertTextEasy é o site oficial?",
+    "homeFaqA2": "Sim. O site oficial é ConvertTextEasy em converttexteasy.com.",
+    "homeFaqQ3": "Preciso criar conta para usar o ConvertTextEasy?",
+    "homeFaqA3": "Não. As ferramentas funcionam diretamente no navegador sem cadastro.",
+    "closeMenu": "Fechar menu",
+    "invalidJwt": "JWT inválido: esperado header.payload.signature",
+    "randomDemoText": "ConvertTextEasy ajuda a transformar textos, validar dados e criar conteúdos otimizados. Use este texto aleatório para testar layouts, formulários, contadores e ferramentas online sem depender de conteúdo real.",
+    "validJson": "JSON válido",
+    "metaTagsSampleTitle": "Título da página",
+    "metaTagsSampleDescription": "Descrição da página com até 160 caracteres."
   },
   "tools": {
     "uppercase-text": {

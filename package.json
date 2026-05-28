@@ -7,8 +7,9 @@
   "scripts": {
     "start": "node src/index.js",
     "generate:content": "node scripts/generate-seo-content.mjs",
-    "check": "node --check src/index.js && node --check public/assets/js/script.js && node --check scripts/check-hardcoded-i18n.mjs",
-    "check:i18n": "node scripts/check-hardcoded-i18n.mjs"
+    "check": "node --check src/index.js && node --check public/assets/js/script.js && node --check scripts/check-hardcoded-i18n.mjs && node --check scripts/check-seo.mjs",
+    "check:i18n": "node scripts/check-hardcoded-i18n.mjs",
+    "check:seo": "node scripts/check-seo.mjs"
   },
   "keywords": [],
   "author": "",

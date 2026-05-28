@@ -12,7 +12,15 @@ dotenv.config();
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const publicDir = path.join(__dirname, "..", "public");
 const localesDir = path.join(__dirname, "locales");
-const siteOrigin = process.env.SITE_ORIGIN || "https://converttexteasy.com";
+const BRAND_NAME = "ConvertTextEasy";
+const BRAND_DOMAIN = "converttexteasy.com";
+const siteOrigin = (process.env.SITE_ORIGIN || `https://${BRAND_DOMAIN}`).replace(/\/+$/, "");
+const canonicalHost = new URL(siteOrigin).host;
+const logoUrl = new URL("/assets/img/iconeTextLab.png", siteOrigin).toString();
+const sameAsLinks = (process.env.BRAND_SAME_AS || "")
+  .split(",")
+  .map((url) => url.trim())
+  .filter(Boolean);
 const gzip = promisify(zlib.gzip);
 const brotliCompress = promisify(zlib.brotliCompress);
 const compressibleExtensions = new Set([".html", ".css", ".js", ".json", ".xml", ".txt"]);
@@ -34,7 +42,25 @@ app.use((req, res, next) => {
   res.setHeader("X-XSS-Protection", "1; mode=block");
   res.setHeader("Referrer-Policy", "strict-origin-when-cross-origin");
   res.setHeader("Permissions-Policy", "camera=(), microphone=(), geolocation=()");
-  res.setHeader("Vary", "Accept-Encoding");
+  res.setHeader("Vary", "Accept-Encoding, Accept-Language");
+  next();
+});
+
+app.set("trust proxy", true);
+
+app.use((req, res, next) => {
+  if (req.method !== "GET" && req.method !== "HEAD") return next();
+  const host = req.get("host");
+  if (!host || host.startsWith("localhost") || host.startsWith("127.0.0.1")) return next();
+
+  const forwardedProto = req.get("x-forwarded-proto");
+  const isHttps = req.secure || forwardedProto === "https";
+  const normalizedHost = host.replace(/^www\./i, "");
+
+  if (!isHttps || normalizedHost !== canonicalHost) {
+    return res.redirect(301, `${siteOrigin}${req.originalUrl}`);
+  }
+
   next();
 });
 
@@ -83,6 +109,31 @@ function localizedPath(locale, routePath = "/") {
 
 function localizedUrl(locale, routePath = "/") {
   return new URL(localizedPath(locale, routePath), siteOrigin).toString();
+}
+
+function normalizeLocale(value) {
+  if (!value || typeof value !== "string") return null;
+  const code = value.trim().replace("_", "-").split("-")[0].toLowerCase();
+  return supportedLocaleSet.has(code) ? code : null;
+}
+
+function detectRequestLocale(req) {
+  const header = req.get("accept-language") || "";
+  const locales = header
+    .split(",")
+    .map((part) => {
+      const [rawLocale, ...params] = part.trim().split(";");
+      const qualityParam = params.find((param) => param.trim().startsWith("q="));
+      const quality = qualityParam ? Number(qualityParam.split("=")[1]) : 1;
+      return {
+        locale: normalizeLocale(rawLocale),
+        quality: Number.isFinite(quality) ? quality : 0
+      };
+    })
+    .filter((entry) => entry.locale)
+    .sort((a, b) => b.quality - a.quality);
+
+  return locales[0]?.locale || DEFAULT_LOCALE;
 }
 
 function escapeHtml(value) {
@@ -154,6 +205,42 @@ function localizedContentForRoute(req) {
   };
 }
 
+function routeType(req) {
+  const routePath = req.routePath || "/";
+  const slug = routePath.split("/").filter(Boolean).at(-1);
+  if (routePath === "/") return "home";
+  if (routePath === "/blog") return "blogIndex";
+  if (routePath.startsWith("/blog/")) return "article";
+  if (toolBySlug?.has(slug)) return "tool";
+  if (["about", "contact", "privacy-policy", "terms"].includes(slug)) return "page";
+  return "page";
+}
+
+function localizedSeoForRoute(req) {
+  const content = localizedContentForRoute(req);
+  const type = routeType(req);
+  const lang = req.lang || DEFAULT_LOCALE;
+  const fallbackCommon = getLocaleData(DEFAULT_LOCALE)?.common || {};
+  const common = req.localeData?.common || fallbackCommon;
+  const homeTitle = common.brandSeoTitle || fallbackCommon.brandSeoTitle || `${BRAND_NAME} - Free Online Text Tools`;
+  const homeDesc = common.brandSeoDescription || fallbackCommon.brandSeoDescription || "ConvertTextEasy is the official free online toolkit for text conversion, formatting, developer utilities, and SEO workflows.";
+
+  if (type === "home") {
+    return {
+      title: homeTitle,
+      desc: homeDesc,
+      ogType: "website"
+    };
+  }
+
+  const suffix = lang === DEFAULT_LOCALE ? ` | ${BRAND_NAME}` : ` | ${BRAND_NAME}`;
+  return {
+    title: `${content.title}${suffix}`,
+    desc: content.desc,
+    ogType: type === "article" ? "article" : "website"
+  };
+}
+
 function getRouteSlug(req) {
   return (req.routePath || "/").split("/").filter(Boolean).at(-1);
 }
@@ -176,7 +263,7 @@ function getLocalizedBlog(req, slug = getRouteSlug(req)) {
 
 app.use((req, res, next) => {
   if (req.path === '/assets' || req.path.startsWith('/assets/')) return next();
-  if (["/sitemap.xml", "/robots.txt", "/ads.txt"].includes(req.path)) return next();
+  if (/^\/sitemap(?:-[a-z]+)?\.xml$/.test(req.path) || ["/robots.txt", "/ads.txt", "/site.webmanifest"].includes(req.path)) return next();
 
   const match = req.path.match(LOCALE_REGEX);
   if (match) {
@@ -196,17 +283,30 @@ app.use((req, res, next) => {
   req.localeData = getLocaleData(req.lang);
   res.setHeader('Content-Language', req.lang);
 
-  if (req.method === "GET" && !req.langPrefix) {
+  const shouldRedirectMethod = req.method === "GET" || req.method === "HEAD";
+
+  if (shouldRedirectMethod && !req.langPrefix) {
+    const detectedLocale = detectRequestLocale(req);
+    res.setHeader('Content-Language', detectedLocale);
     const legacyToolMatch = req.routePath.match(/^\/tools\/([^/]+)$/);
     if (legacyToolMatch && legacyToolRoutes[legacyToolMatch[1]]) {
-      return res.redirect(301, localizedPath(DEFAULT_LOCALE, legacyToolRoutes[legacyToolMatch[1]]));
+      return res.redirect(301, localizedPath(detectedLocale, legacyToolRoutes[legacyToolMatch[1]]));
     }
 
-    return res.redirect(301, localizedPath(DEFAULT_LOCALE, req.routePath));
+    return res.redirect(301, localizedPath(detectedLocale, req.routePath));
   }
 
-  if (req.method === "GET" && req.originalUrl === `/${req.lang}`) {
+  if (shouldRedirectMethod && req.originalUrl === `/${req.lang}`) {
     return res.redirect(301, `/${req.lang}/`);
+  }
+
+  if (shouldRedirectMethod && req.langPrefix) {
+    const originalPath = req.originalUrl.split("?")[0];
+    const expectedPath = localizedPath(req.lang, req.routePath);
+    if (originalPath !== expectedPath && originalPath !== `/${req.lang}`) {
+      const query = req.originalUrl.includes("?") ? `?${req.originalUrl.split("?").slice(1).join("?")}` : "";
+      return res.redirect(301, `${expectedPath}${query}`);
+    }
   }
 
   next();
@@ -249,10 +349,131 @@ function versionHtml(html) {
   );
 }
 
+function insertBeforeHeadEnd(html, markup) {
+  return html.includes("</head>") ? html.replace("</head>", `${markup}</head>`) : html;
+}
+
+function upsertMeta(html, selector, markup) {
+  return selector.test(html) ? html.replace(selector, markup) : insertBeforeHeadEnd(html, `${markup}\n`);
+}
+
+function buildBreadcrumbItems(req) {
+  const routePath = req.routePath || "/";
+  const content = localizedContentForRoute(req);
+  const items = [
+    { "@type": "ListItem", position: 1, name: t(req, "breadcrumbHome") || "Home", item: localizedUrl(req.lang, "/") }
+  ];
+
+  if (routePath === "/") return items;
+  if (routePath === "/blog" || routePath.startsWith("/blog/")) {
+    items.push({ "@type": "ListItem", position: 2, name: t(req, "breadcrumbBlog") || "Blog", item: localizedUrl(req.lang, "/blog") });
+    if (routePath.startsWith("/blog/")) {
+      items.push({ "@type": "ListItem", position: 3, name: content.title, item: localizedUrl(req.lang, routePath) });
+    }
+    return items;
+  }
+
+  if (routeType(req) === "tool") {
+    items.push({ "@type": "ListItem", position: 2, name: t(req, "breadcrumbTools") || "Tools", item: localizedUrl(req.lang, "/") + "#ferramentas" });
+    items.push({ "@type": "ListItem", position: 3, name: content.title, item: localizedUrl(req.lang, routePath) });
+    return items;
+  }
+
+  items.push({ "@type": "ListItem", position: 2, name: content.title, item: localizedUrl(req.lang, routePath) });
+  return items;
+}
+
+function buildStructuredData(req) {
+  const routePath = req.routePath || "/";
+  const type = routeType(req);
+  const seo = localizedSeoForRoute(req);
+  const content = localizedContentForRoute(req);
+  const base = [
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "@id": `${siteOrigin}/#organization`,
+      name: BRAND_NAME,
+      alternateName: ["Convert Text Easy", "ConvertTextEasy.com"],
+      url: siteOrigin,
+      logo: {
+        "@type": "ImageObject",
+        url: logoUrl
+      },
+      ...(sameAsLinks.length ? { sameAs: sameAsLinks } : {}),
+      description: seo.desc
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "@id": `${siteOrigin}/#website`,
+      name: BRAND_NAME,
+      alternateName: "Convert Text Easy",
+      url: localizedUrl(req.lang, "/"),
+      inLanguage: req.localeData?.meta?.locale || "en-US",
+      publisher: { "@id": `${siteOrigin}/#organization` },
+      description: seo.desc,
+      potentialAction: {
+        "@type": "SearchAction",
+        target: `${localizedUrl(req.lang, "/")}?q={search_term_string}`,
+        "query-input": "required name=search_term_string"
+      }
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: buildBreadcrumbItems(req)
+    }
+  ];
+
+  if (type === "tool") {
+    const slug = getRouteSlug(req);
+    const tool = getLocalizedTool(req, slug);
+    base.push({
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      name: `${tool.title} - ${BRAND_NAME}`,
+      applicationCategory: "UtilitiesApplication",
+      operatingSystem: "Web",
+      url: localizedUrl(req.lang, routePath),
+      description: tool.desc,
+      isAccessibleForFree: true,
+      publisher: { "@id": `${siteOrigin}/#organization` },
+      offers: { "@type": "Offer", price: "0", priceCurrency: "USD" }
+    });
+  } else if (type === "article") {
+    base.push({
+      "@context": "https://schema.org",
+      "@type": "Article",
+      headline: content.title,
+      description: content.desc,
+      datePublished: "2026-05-07",
+      dateModified: new Date().toISOString().slice(0, 10),
+      author: { "@id": `${siteOrigin}/#organization` },
+      publisher: { "@id": `${siteOrigin}/#organization` },
+      mainEntityOfPage: localizedUrl(req.lang, routePath),
+      inLanguage: req.localeData?.meta?.locale || "en-US"
+    });
+  } else {
+    base.push({
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      name: type === "home" ? BRAND_NAME : content.title,
+      url: localizedUrl(req.lang, routePath),
+      description: seo.desc,
+      isPartOf: { "@id": `${siteOrigin}/#website` },
+      publisher: { "@id": `${siteOrigin}/#organization` },
+      inLanguage: req.localeData?.meta?.locale || "en-US"
+    });
+  }
+
+  return base.map((schema) => `<script type="application/ld+json">${JSON.stringify(schema)}</script>`).join("");
+}
+
 function injectLocaleSeo(html, req) {
   const localeData = req.localeData || getLocaleData(DEFAULT_LOCALE);
   const meta = localeData.meta || {};
-  const content = localizedContentForRoute(req);
+  const seo = localizedSeoForRoute(req);
   const canonicalUrl = localizedUrl(req.lang, req.routePath);
   const alternateLinks = SUPPORTED_LOCALES
     .map((locale) => `<link rel="alternate" hreflang="${locale}" href="${localizedUrl(locale, req.routePath)}">`)
@@ -272,23 +493,36 @@ function injectLocaleSeo(html, req) {
     return result;
   });
 
-  if (content.title) {
-    html = html.replace(/<title>[\s\S]*?<\/title>/i, `<title>${escapeHtml(content.title)} | ConvertTextEasy</title>`);
-    html = html.replace(/<meta\s+property="og:title"\s+content="[^"]*"\s*\/?>/i, `<meta property="og:title" content="${escapeHtml(content.title)} | ConvertTextEasy">`);
-    html = html.replace(/<meta\s+name="twitter:title"\s+content="[^"]*"\s*\/?>/i, `<meta name="twitter:title" content="${escapeHtml(content.title)} | ConvertTextEasy">`);
-  }
-
-  if (content.desc) {
-    html = html.replace(/<meta\s+name="description"\s+content="[^"]*"\s*\/?>/i, `<meta name="description" content="${escapeHtml(content.desc)}">`);
-    html = html.replace(/<meta\s+property="og:description"\s+content="[^"]*"\s*\/?>/i, `<meta property="og:description" content="${escapeHtml(content.desc)}">`);
-    html = html.replace(/<meta\s+name="twitter:description"\s+content="[^"]*"\s*\/?>/i, `<meta name="twitter:description" content="${escapeHtml(content.desc)}">`);
-  }
+  html = html.replace(/<title>[\s\S]*?<\/title>/i, `<title>${escapeHtml(seo.title)}</title>`);
+  html = upsertMeta(html, /<meta\s+name="description"\s+content="[^"]*"\s*\/?>/i, `<meta name="description" content="${escapeHtml(seo.desc)}">`);
+  html = upsertMeta(html, /<meta\s+name="keywords"\s+content="[^"]*"\s*\/?>/i, `<meta name="keywords" content="${BRAND_NAME}, Convert Text Easy, online text tools, text converter, developer tools, SEO tools">`);
+  html = upsertMeta(html, /<meta\s+name="robots"\s+content="[^"]*"\s*\/?>/i, `<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">`);
+  html = upsertMeta(html, /<meta\s+property="og:title"\s+content="[^"]*"\s*\/?>/i, `<meta property="og:title" content="${escapeHtml(seo.title)}">`);
+  html = upsertMeta(html, /<meta\s+property="og:description"\s+content="[^"]*"\s*\/?>/i, `<meta property="og:description" content="${escapeHtml(seo.desc)}">`);
+  html = upsertMeta(html, /<meta\s+property="og:type"\s+content="[^"]*"\s*\/?>/i, `<meta property="og:type" content="${seo.ogType}">`);
+  html = upsertMeta(html, /<meta\s+property="og:site_name"\s+content="[^"]*"\s*\/?>/i, `<meta property="og:site_name" content="${BRAND_NAME}">`);
+  html = upsertMeta(html, /<meta\s+property="og:image"\s+content="[^"]*"\s*\/?>/i, `<meta property="og:image" content="${logoUrl}">`);
+  html = upsertMeta(html, /<meta\s+name="twitter:card"\s+content="[^"]*"\s*\/?>/i, `<meta name="twitter:card" content="summary_large_image">`);
+  html = upsertMeta(html, /<meta\s+name="twitter:title"\s+content="[^"]*"\s*\/?>/i, `<meta name="twitter:title" content="${escapeHtml(seo.title)}">`);
+  html = upsertMeta(html, /<meta\s+name="twitter:description"\s+content="[^"]*"\s*\/?>/i, `<meta name="twitter:description" content="${escapeHtml(seo.desc)}">`);
+  html = upsertMeta(html, /<meta\s+name="twitter:image"\s+content="[^"]*"\s*\/?>/i, `<meta name="twitter:image" content="${logoUrl}">`);
 
   html = html.replace(/<link\s+rel="canonical"\s+href="[^"]*"\s*\/?>/i, `<link rel="canonical" href="${canonicalUrl}">`);
   html = html.replace(/<link\s+rel="alternate"\s+hreflang="[^"]+"\s+href="[^"]*"\s*\/?>/gi, "");
   html = html.replace(/<link\s+rel="canonical"\s+href="[^"]*"\s*\/?>/i, (match) => `${match}${alternateLinks}`);
-  html = html.replace(/<meta\s+property="og:url"\s+content="[^"]*"\s*\/?>/i, `<meta property="og:url" content="${canonicalUrl}">`);
-  html = html.replace(/<meta\s+property="og:locale"\s+content="[^"]*"\s*\/?>/i, `<meta property="og:locale" content="${escapeHtml(meta.ogLocale || "en_US")}">`);
+  html = upsertMeta(html, /<meta\s+property="og:url"\s+content="[^"]*"\s*\/?>/i, `<meta property="og:url" content="${canonicalUrl}">`);
+  html = upsertMeta(html, /<meta\s+property="og:locale"\s+content="[^"]*"\s*\/?>/i, `<meta property="og:locale" content="${escapeHtml(meta.ogLocale || "en_US")}">`);
+  html = html.replace(/<script type="application\/ld\+json">[\s\S]*?<\/script>/gi, "");
+  html = insertBeforeHeadEnd(html, [
+    `<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>`,
+    `<link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin>`,
+    `<link rel="preload" as="image" href="${logoUrl}">`,
+    `<link rel="manifest" href="/site.webmanifest">`,
+    process.env.GOOGLE_SITE_VERIFICATION ? `<meta name="google-site-verification" content="${escapeHtml(process.env.GOOGLE_SITE_VERIFICATION)}">` : "",
+    process.env.BING_SITE_VERIFICATION ? `<meta name="msvalidate.01" content="${escapeHtml(process.env.BING_SITE_VERIFICATION)}">` : "",
+    process.env.GA_MEASUREMENT_ID ? `<script async src="https://www.googletagmanager.com/gtag/js?id=${escapeHtml(process.env.GA_MEASUREMENT_ID)}"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','${escapeHtml(process.env.GA_MEASUREMENT_ID)}');</script>` : "",
+    buildStructuredData(req)
+  ].filter(Boolean).join(""));
 
   return html;
 }
@@ -310,7 +544,9 @@ function applyServerTranslations(html, req) {
     return value ? `${open}${escapeHtml(value)}${close}` : match;
   });
 
+  const attributeOnlyIds = new Set(["mobileMenuBtn", "btnCopy", "btnClear", "btnShare", "btnDownload"]);
   for (const [key, value] of Object.entries(common)) {
+    if (attributeOnlyIds.has(key)) continue;
     html = html.replace(new RegExp(`(<[^>]+\\sid="${escapeRegExp(key)}"[^>]*>)([\\s\\S]*?)(<\\/[^>]+>)`, "g"), `$1${escapeHtml(value)}$3`);
   }
 
@@ -499,6 +735,7 @@ function translateBlogPage(html, req) {
 }
 
 function translateStaticPage(html, req) {
+  if (["home", "blogIndex", "article", "tool"].includes(routeType(req))) return html;
   const slug = getRouteSlug(req) || "404";
   const fallbackPages = getLocaleData(DEFAULT_LOCALE)?.pages || {};
   const page = req.localeData?.pages?.[slug] || fallbackPages[slug];
@@ -514,6 +751,33 @@ function translateStaticPage(html, req) {
 
   const mainContent = `<main id="main-content" class="content-grid mt-4"><section class="panel editor-card"><div class="panel-head"><div><h2 class="panel-title">${escapeHtml(page.sections[0]?.[0] || page.title)}</h2><p class="panel-copy">${escapeHtml(page.sections[0]?.[1] || page.desc)}</p></div></div><div class="panel-body">${page.sections.slice(1).map(([heading, body]) => `<h3 class="mt-4">${escapeHtml(heading)}</h3><p>${escapeHtml(body)}</p>`).join("")}</div></section><aside class="sidebar-stack" aria-label="${escapeHtml(t(req, "sidebarMoreTools"))}"><section class="panel"><div class="panel-head"><div><h2 class="panel-title">${escapeHtml(t(req, "sidebarTools"))}</h2><p class="panel-copy">${escapeHtml(t(req, "allToolsDesc"))}</p></div></div><div class="panel-body"><ul class="list-unstyled small mb-0"><li class="mb-2"><a href="${localizedPath(req.lang, "/")}" class="text-decoration-none">${escapeHtml(t(req, "footerHome"))}</a></li><li class="mb-2"><a href="${localizedPath(req.lang, "/uppercase-text")}" class="text-decoration-none">${escapeHtml(getLocalizedTool(req, "uppercase-text").title)}</a></li><li class="mb-2"><a href="${localizedPath(req.lang, "/lowercase-text")}" class="text-decoration-none">${escapeHtml(getLocalizedTool(req, "lowercase-text").title)}</a></li><li class="mb-2"><a href="${localizedPath(req.lang, "/blog")}" class="text-decoration-none">${escapeHtml(t(req, "drawerBlog"))}</a></li><li><a href="${localizedPath(req.lang, "/contact")}" class="text-decoration-none">${escapeHtml(t(req, "pageContact"))}</a></li></ul></div></section></aside></main>`;
   return html.replace(/<main id="main-content" class="content-grid mt-4">[\s\S]*?<\/main>/, mainContent);
+}
+
+function enhanceHomePage(html, req) {
+  if ((req.routePath || "/") !== "/") return html;
+
+  const brandBlock = `<section class="panel mt-4 brand-seo-section"><div class="panel-head"><div><h2 class="panel-title">${escapeHtml(t(req, "brandSeoSectionTitle"))}</h2><p class="panel-copy">${escapeHtml(t(req, "brandSeoSectionLead"))}</p></div></div><div class="panel-body"><p>${escapeHtml(t(req, "brandSeoSectionCopy1"))}</p><p>${escapeHtml(t(req, "brandSeoSectionCopy2"))}</p></div></section>`;
+  const faqItems = [
+    [t(req, "homeFaqQ1"), t(req, "homeFaqA1")],
+    [t(req, "homeFaqQ2"), t(req, "homeFaqA2")],
+    [t(req, "homeFaqQ3"), t(req, "homeFaqA3")]
+  ];
+  const faqBlock = `<section class="panel mt-4 home-faq-section"><div class="panel-head"><div><h2 class="panel-title">${escapeHtml(t(req, "homeFaqTitle"))}</h2></div></div><div class="panel-body">${faqItems.map(([q, a]) => `<div class="faq-item"><h3>${escapeHtml(q)}</h3><p>${escapeHtml(a)}</p></div>`).join("")}</div></section>`;
+
+  if (!html.includes("brand-seo-section")) {
+    html = html.replace(/(<footer class="footer" role="contentinfo">)/, `${brandBlock}${faqBlock}$1`);
+  }
+
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqItems.map(([q, a]) => ({
+      "@type": "Question",
+      name: q,
+      acceptedAnswer: { "@type": "Answer", text: a }
+    }))
+  };
+  return insertBeforeHeadEnd(html, `<script type="application/ld+json">${JSON.stringify(faqSchema)}</script>`);
 }
 
 function localizeInternalLinks(html, req) {
@@ -562,7 +826,8 @@ async function sendCompressedFile(req, res, filePath) {
       html = html
         .replace(/\.\.\/assets\//g, '/assets/')
         .replace(/(href|src)="assets\//g, '$1="/assets/')
-        .replace(/onchange="changeLang\(this\.value\)"/g, 'onchange="switchLocale(this.value)"');
+        .replace(/onchange="changeLang\(this\.value\)"/g, 'onchange="switchLocale(this.value)"')
+        .replace(/<script src="([^"]*assets\/js\/script\.js[^"]*)"><\/script>/g, '<script src="$1" defer></script>');
       html = injectLocaleSeo(html, req);
       html = applyServerTranslations(html, req);
       html = translateChrome(html, req);
@@ -570,6 +835,7 @@ async function sendCompressedFile(req, res, filePath) {
       html = translateToolPage(html, req);
       html = translateBlogPage(html, req);
       html = translateStaticPage(html, req);
+      html = enhanceHomePage(html, req);
       html = localizeInternalLinks(html, req);
       html = localizeAbsoluteStructuredUrls(html, req);
 
@@ -605,6 +871,31 @@ async function sendCompressedFile(req, res, filePath) {
 const { tools, articles } = loadManifest();
 const toolBySlug = new Map(tools.map((tool) => [tool.slug, tool]));
 const articleBySlug = new Map(articles.map((article) => [article.slug, article]));
+const staticPageSlugs = ["about", "contact", "privacy-policy", "terms"];
+
+function sendXml(res, xml) {
+  res.setHeader("Content-Type", "application/xml; charset=utf-8");
+  res.setHeader("Cache-Control", "public, max-age=3600");
+  return res.send(xml);
+}
+
+function sitemapUrlEntry(routePath, priority, changefreq) {
+  const alternates = SUPPORTED_LOCALES
+    .map((locale) => `<xhtml:link rel="alternate" hreflang="${locale}" href="${localizedUrl(locale, routePath)}"/>`)
+    .concat(`<xhtml:link rel="alternate" hreflang="x-default" href="${localizedUrl(DEFAULT_LOCALE, routePath)}"/>`)
+    .join("");
+  return `<url><loc>${localizedUrl(DEFAULT_LOCALE, routePath)}</loc>${alternates}<lastmod>${new Date().toISOString().slice(0, 10)}</lastmod><changefreq>${changefreq}</changefreq><priority>${priority}</priority></url>`;
+}
+
+function buildUrlSet(routePaths, priority, changefreq) {
+  return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">${routePaths.map((routePath) => sitemapUrlEntry(routePath, priority, changefreq)).join("")}</urlset>`;
+}
+
+function buildSitemapIndex() {
+  const today = new Date().toISOString().slice(0, 10);
+  const sitemaps = ["/sitemap-pages.xml", "/sitemap-tools.xml", "/sitemap-blog.xml"];
+  return `<?xml version="1.0" encoding="UTF-8"?>\n<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${sitemaps.map((sitemap) => `<sitemap><loc>${new URL(sitemap, siteOrigin)}</loc><lastmod>${today}</lastmod></sitemap>`).join("")}</sitemapindex>`;
+}
 
 app.use("/assets", express.static(path.join(publicDir, "assets"), {
   setHeaders: (res, filePath) => {
@@ -626,17 +917,42 @@ app.get("/blog/:slug", (req, res, next) => {
   return sendCompressedFile(req, res, path.join(publicDir, "blog", `${req.params.slug}.html`));
 });
 
-app.get("/sitemap.xml", (req, res) => sendCompressedFile(req, res, path.join(publicDir, "sitemap.xml")));
-app.get("/robots.txt", (req, res) => sendCompressedFile(req, res, path.join(publicDir, "robots.txt")));
+app.get("/sitemap.xml", (req, res) => sendXml(res, buildSitemapIndex()));
+app.get("/sitemap-pages.xml", (req, res) => sendXml(res, buildUrlSet(["/", "/blog", ...staticPageSlugs.map((slug) => `/${slug}`)], "0.9", "weekly")));
+app.get("/sitemap-tools.xml", (req, res) => sendXml(res, buildUrlSet(tools.map((tool) => `/${tool.slug}`), "0.8", "weekly")));
+app.get("/sitemap-blog.xml", (req, res) => sendXml(res, buildUrlSet(articles.map((article) => `/blog/${article.slug}`), "0.7", "monthly")));
+app.get("/robots.txt", (req, res) => {
+  res.setHeader("Content-Type", "text/plain; charset=utf-8");
+  res.setHeader("Cache-Control", "public, max-age=3600");
+  return res.send([
+    "User-agent: *",
+    "Allow: /",
+    "Disallow: /api/",
+    `Sitemap: ${new URL("/sitemap.xml", siteOrigin)}`
+  ].join("\n"));
+});
+app.get("/site.webmanifest", (req, res) => {
+  res.setHeader("Content-Type", "application/manifest+json; charset=utf-8");
+  res.setHeader("Cache-Control", "public, max-age=3600");
+  return res.json({
+    name: "ConvertTextEasy",
+    short_name: "ConvertTextEasy",
+    description: "Free online text tools for conversion, formatting, developer utilities, and SEO workflows.",
+    start_url: localizedPath(DEFAULT_LOCALE, "/"),
+    scope: "/",
+    display: "standalone",
+    background_color: "#07111f",
+    theme_color: "#07111f",
+    icons: [
+      { src: "/assets/img/iconeTextLab.png", sizes: "192x192", type: "image/png", purpose: "any" },
+      { src: "/assets/img/iconeTextLab.png", sizes: "512x512", type: "image/png", purpose: "any" }
+    ]
+  });
+});
 app.get("/ads.txt", (req, res) => sendCompressedFile(req, res, path.join(publicDir, "ads.txt")));
 
 app.get("/:slug", (req, res, next) => {
-  const pageRoutes = new Map([
-    ["contact", path.join(publicDir, "pages", "contact.html")],
-    ["about", path.join(publicDir, "pages", "about.html")],
-    ["terms", path.join(publicDir, "pages", "terms.html")],
-    ["privacy-policy", path.join(publicDir, "pages", "privacy-policy.html")]
-  ]);
+  const pageRoutes = new Map(staticPageSlugs.map((slug) => [slug, path.join(publicDir, "pages", `${slug}.html`)]));
 
   if (toolBySlug.has(req.params.slug)) {
     return sendCompressedFile(req, res, path.join(publicDir, "tools", `${req.params.slug}.html`));

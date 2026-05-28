@@ -191,7 +191,26 @@
     "articleRelatedTitle": "Herramienta relacionada",
     "articleRelatedCopy": "Usa {tool} para aplicar este concepto en pocos clics.",
     "articleOpenTool": "Abrir herramienta",
-    "articleOpenToolAria": "Abrir herramienta {tool}"
+    "articleOpenToolAria": "Abrir herramienta {tool}",
+    "brandSeoTitle": "ConvertTextEasy - Herramientas online gratuitas",
+    "brandSeoDescription": "ConvertTextEasy es la plataforma oficial gratuita para convertir texto, formatear datos, usar utilidades de desarrollo y preparar contenido SEO.",
+    "brandSeoSectionTitle": "ConvertTextEasy: kit oficial de herramientas de texto online",
+    "brandSeoSectionLead": "ConvertTextEasy reúne conversión de texto, formato, validación y utilidades SEO en un espacio rápido en el navegador.",
+    "brandSeoSectionCopy1": "Usa ConvertTextEasy para convertir mayúsculas y minúsculas, formatear JSON y XML, generar slugs, inspeccionar JWTs, codificar URLs, contar palabras y limpiar contenido antes de publicar.",
+    "brandSeoSectionCopy2": "La plataforma está pensada para redactores, analistas SEO, desarrolladores, estudiantes y equipos de soporte que necesitan herramientas confiables sin instalar software ni crear una cuenta.",
+    "homeFaqTitle": "FAQ de ConvertTextEasy",
+    "homeFaqQ1": "¿Qué es ConvertTextEasy?",
+    "homeFaqA1": "ConvertTextEasy es un kit gratuito de herramientas online para conversión de texto, formato, utilidades de desarrollo y flujos SEO.",
+    "homeFaqQ2": "¿ConvertTextEasy es el sitio oficial?",
+    "homeFaqA2": "Sí. El sitio oficial es ConvertTextEasy en converttexteasy.com.",
+    "homeFaqQ3": "¿Necesito una cuenta para usar ConvertTextEasy?",
+    "homeFaqA3": "No. Las herramientas están disponibles directamente en el navegador sin registro.",
+    "closeMenu": "Cerrar menú",
+    "invalidJwt": "JWT no válido: se esperaba header.payload.signature",
+    "randomDemoText": "ConvertTextEasy ayuda a transformar texto, validar datos y crear contenido optimizado. Usa este texto aleatorio para probar diseños, formularios, contadores y herramientas online sin depender de contenido real.",
+    "validJson": "JSON válido",
+    "metaTagsSampleTitle": "Título de la página",
+    "metaTagsSampleDescription": "Descripción de la página de hasta 160 caracteres."
   },
   "tools": {
     "uppercase-text": {

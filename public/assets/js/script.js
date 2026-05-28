@@ -1586,45 +1586,134 @@ function translateCards(lang) {
 }
 
 function currentRouteWithoutLocale() {
-  var supported = /^(pt|en|es|fr|de|it|zh|ja|ru|ar)$/;
   var parts = window.location.pathname.split('/').filter(Boolean);
-  if (parts.length && supported.test(parts[0])) parts.shift();
+  if (parts.length && isSupportedLanguage(parts[0])) parts.shift();
   return '/' + parts.join('/');
 }
 
+const supportedLanguages = Object.freeze(['pt', 'en', 'es', 'fr', 'de', 'it', 'zh', 'ja', 'ru', 'ar']);
+const fallbackLanguage = 'en';
+const supportedLanguageSet = new Set(supportedLanguages);
+
+function normalizeLanguage(lang) {
+  if (!lang || typeof lang !== 'string') return null;
+  var code = lang.trim().replace('_', '-').split('-')[0].toLowerCase();
+  return supportedLanguageSet.has(code) ? code : null;
+}
+
+function isSupportedLanguage(lang) {
+  return !!normalizeLanguage(lang);
+}
+
+function getSavedLanguage() {
+  try {
+    var savedLanguage = normalizeLanguage(localStorage.getItem('language'));
+    if (savedLanguage) return savedLanguage;
+    localStorage.removeItem('language');
+  } catch (error) {
+    return null;
+  }
+  return null;
+}
+
+function getUrlLanguage() {
+  var firstSegment = window.location.pathname.split('/').filter(Boolean)[0];
+  return normalizeLanguage(firstSegment);
+}
+
+function getBrowserLanguages() {
+  if (Array.isArray(navigator.languages) && navigator.languages.length) return navigator.languages;
+  return [navigator.language || fallbackLanguage];
+}
+
+function resolveBrowserLanguage() {
+  var browserLanguages = getBrowserLanguages();
+  for (var i = 0; i < browserLanguages.length; i++) {
+    var normalized = normalizeLanguage(browserLanguages[i]);
+    if (normalized) return normalized;
+  }
+  return fallbackLanguage;
+}
+
+function resolveInitialLanguage() {
+  return getSavedLanguage() || resolveBrowserLanguage() || fallbackLanguage;
+}
+
+function mergeServerLocaleData() {
+  if (!window.__LOCALE || !window.__LOCALE.lang || !window.__LOCALE.data) return;
+  var lang = normalizeLanguage(window.__LOCALE.lang);
+  if (!lang) return;
+  translations[lang] = Object.assign({}, translations[lang] || {}, window.__LOCALE.data);
+}
+
 function localizedHref(path, lang) {
-  var supported = /^(pt|en|es|fr|de|it|zh|ja|ru|ar)$/;
+  var targetLang = normalizeLanguage(lang) || fallbackLanguage;
   if (!path || path.charAt(0) !== '/') return path;
-  if (/^\/(assets|sitemap\.xml|robots\.txt|ads\.txt)(\/|$)/.test(path)) return path;
+  if (/^\/(assets|robots\.txt|ads\.txt|site\.webmanifest)(\/|$)/.test(path) || /^\/sitemap(?:-[a-z]+)?\.xml$/.test(path)) return path;
   var parts = path.split('/').filter(Boolean);
-  if (parts.length && supported.test(parts[0])) parts.shift();
+  if (parts.length && isSupportedLanguage(parts[0])) parts.shift();
   var cleanPath = '/' + parts.join('/');
-  return cleanPath === '/' ? '/' + lang + '/' : '/' + lang + cleanPath;
+  return cleanPath === '/' ? '/' + targetLang + '/' : '/' + targetLang + cleanPath;
+}
+
+function buildLocalizedUrl(lang) {
+  var route = currentRouteWithoutLocale();
+  var targetLang = normalizeLanguage(lang) || fallbackLanguage;
+  var nextPath = route === '/' ? '/' + targetLang + '/' : '/' + targetLang + route;
+  return nextPath + window.location.search + window.location.hash;
+}
+
+function syncUrlToLanguage(lang, replaceHistory) {
+  var nextUrl = buildLocalizedUrl(lang);
+  var currentUrl = window.location.pathname + window.location.search + window.location.hash;
+  if (nextUrl === currentUrl) return false;
+  if (replaceHistory) {
+    window.location.replace(nextUrl);
+  } else {
+    window.location.assign(nextUrl);
+  }
+  return true;
 }
 
 function switchLocale(lang) {
-  if (!translations[lang]) return;
-  localStorage.setItem('language', lang);
-  var route = currentRouteWithoutLocale();
-  var nextPath = route === '/' ? '/' + lang + '/' : '/' + lang + route;
-  var nextUrl = nextPath + window.location.search + window.location.hash;
-  if (nextUrl !== window.location.pathname + window.location.search + window.location.hash) {
-    window.location.assign(nextUrl);
-  }
+  var targetLang = normalizeLanguage(lang);
+  if (!targetLang || !translations[targetLang]) return;
+  localStorage.setItem('language', targetLang);
+  syncUrlToLanguage(targetLang, false);
 }
 
-function changeLang(lang) {
-  const t = translations[lang];
+const primaryToolMenuItems = [
+  { href: '/uppercase-text', type: 'upper', icon: '🔠', key: 'toolTitle2' },
+  { href: '/lowercase-text', type: 'lower', icon: '🔡', key: 'toolTitle1' },
+  { href: '/strikethrough-text', type: 'strikethrough', icon: '🔤', key: 'toolTitle3' },
+  { href: '/capitalize-text', type: 'title', icon: '📝', key: 'toolTitle4' },
+  { href: '/reverse-text', type: 'reverse', icon: '🔄', key: 'toolTitle5' },
+  { href: '/alternating-case', type: 'alternating', icon: '🔀', key: 'toolTitle6' },
+  { href: '/italic-text', type: 'italic', icon: '📜', key: 'toolTitle7' },
+  { href: '/morse-code-translator', type: 'morse', icon: '💻', key: 'toolTitle8' }
+];
+
+function stripLeadingSymbol(text) {
+  if (!text) return '';
+  var m = text.match(/^\S+\s+(.*)/);
+  return m ? m[1] : text;
+}
+
+function changeLang(lang, options) {
+  var targetLang = normalizeLanguage(lang) || fallbackLanguage;
+  const t = translations[targetLang] || translations[fallbackLanguage];
   if (!t) return;
 
-  localStorage.setItem('language', lang);
+  if (!options || options.persist !== false) {
+    localStorage.setItem('language', targetLang);
+  }
 
   const langAttrs = { pt: 'pt-BR', en: 'en-US', es: 'es-ES', fr: 'fr-FR', de: 'de-DE', it: 'it-IT', zh: 'zh-CN', ja: 'ja-JP', ru: 'ru-RU', ar: 'ar-SA' };
-  document.documentElement.setAttribute('lang', langAttrs[lang] || 'pt-BR');
-  document.documentElement.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+  document.documentElement.setAttribute('lang', langAttrs[targetLang] || langAttrs[fallbackLanguage]);
+  document.documentElement.setAttribute('dir', targetLang === 'ar' ? 'rtl' : 'ltr');
   const ogLocale = document.querySelector('meta[property="og:locale"]');
   const ogLocales = { pt: 'pt_BR', en: 'en_US', es: 'es_ES', fr: 'fr_FR', de: 'de_DE', it: 'it_IT', zh: 'zh_CN', ja: 'ja_JP', ru: 'ru_RU', ar: 'ar_SA' };
-  if (ogLocale) ogLocale.setAttribute('content', ogLocales[lang] || 'pt_BR');
+  if (ogLocale) ogLocale.setAttribute('content', ogLocales[targetLang] || ogLocales[fallbackLanguage]);
 
   const ogTitle = document.querySelector('meta[property="og:title"]');
   if (ogTitle) ogTitle.setAttribute('content', 'ConvertTextEasy - ' + t.pageTitle);
@@ -1636,7 +1725,7 @@ function changeLang(lang) {
   if (twDesc) twDesc.setAttribute('content', t.desc);
 
   document.querySelectorAll('.lang-select').forEach((select) => {
-    select.value = lang;
+    select.value = targetLang;
   });
 
   const setButtonLabel = (id, prefix, label) => {
@@ -1661,10 +1750,11 @@ function changeLang(lang) {
 
   const inputEl = document.getElementById("input");
 
-  document.title = "ConvertTextEasy - " + t.pageTitle;
+  var isHomeRoute = window.__LOCALE && window.__LOCALE.path === '/';
+  document.title = isHomeRoute && t.brandSeoTitle ? t.brandSeoTitle : "ConvertTextEasy - " + t.pageTitle;
   setText("titleHead", "ConvertTextEasy - " + t.pageTitle);
   const metaDesc = document.querySelector('meta[name="description"]');
-  if (metaDesc) metaDesc.setAttribute("content", t.desc);
+  if (metaDesc) metaDesc.setAttribute("content", isHomeRoute && t.brandSeoDescription ? t.brandSeoDescription : t.desc);
 
   setText("mainTitle", t.mainTitle);
   setText("subtitle", t.subtitle);
@@ -1701,7 +1791,7 @@ function changeLang(lang) {
   setButtonLabel("btnUpper", "UC", t.upper);
   setButtonLabel("btnTitle", "CC", t.titleCase);
   setButtonLabel("btnAlternating", "aC", t.alternating);
-  setButtonLabel("btnCamel", "TC", t.camelToolbar || "Formato Titulo");
+  setButtonLabel("btnCamel", "TC", t.camelToolbar || (translations[fallbackLanguage] && translations[fallbackLanguage].camelToolbar) || "Title Format");
   setButtonLabel("btnReverse", "iC", t.reverseToolbar || t.reverse);
   setButtonLabel("btnUppercaseTool", "UC", t.uppercaseToolbar);
   setButtonLabel("btnLowercaseTool", "lc", t.lowercaseToolbar);
@@ -1723,8 +1813,8 @@ function changeLang(lang) {
     setText("toolDesc" + i, t["toolDesc" + i]);
   }
 
-  translateCards(lang);
-  translateDataI18n(lang);
+  translateCards(targetLang);
+  translateDataI18n(targetLang);
 
   // Atualizar footer
   setText("footerTitle", t.footerTitle);
@@ -1804,7 +1894,7 @@ function changeLang(lang) {
     downloadButton.setAttribute("aria-label", t.download);
   }
 
-  document.dispatchEvent(new CustomEvent('languagechange', { detail: { lang, translations: t } }));
+  document.dispatchEvent(new CustomEvent('languagechange', { detail: { lang: targetLang, translations: t } }));
 }
 
 // FUNÇÕES
@@ -1891,14 +1981,16 @@ function csvToJson(text) {
 
 function decodeJwt(text) {
   const parts = text.trim().split(".");
-  if (parts.length < 2) return "JWT inválido: esperado header.payload.signature";
+  var t = getActiveTranslations();
+  if (parts.length < 2) return t.invalidJwt || "Invalid JWT: expected header.payload.signature";
 
   const decodePart = (part) => JSON.parse(decodeURIComponent(Array.from(atob(part.replace(/-/g, "+").replace(/_/g, "/"))).map((char) => "%" + char.charCodeAt(0).toString(16).padStart(2, "0")).join("")));
   return JSON.stringify({ header: decodePart(parts[0]), payload: decodePart(parts[1]), signature: parts[2] || "" }, null, 2);
 }
 
 function randomDemoText() {
-  return "ConvertTextEasy ajuda a transformar textos, validar dados e criar conteúdos otimizados. Use este texto aleatório para testar layouts, formulários, contadores e ferramentas online sem depender de conteúdo real.";
+  var t = getActiveTranslations();
+  return t.randomDemoText || "ConvertTextEasy helps transform text, validate data, and create optimized content. Use this random sample to test layouts, forms, counters, and online tools without relying on production content.";
 }
 
 function keywordDensity(text) {
@@ -1931,19 +2023,19 @@ async function convert(type) {
   if(type === "strikethrough") text = strikethroughText(text);
   if(type === "italic") text = mapCharacters(text, italicMap);
   if(type === "morse") text = morseText(text);
-  if(type === "stats") text = `Caracteres: ${text.length}\nPalavras: ${text.trim() ? text.trim().split(/\s+/).length : 0}\nLinhas: ${text ? text.split(/\n/).length : 0}\n\n${text}`;
+  if(type === "stats") { const t = getActiveTranslations(); text = `${t.toolCharacters || "Characters:"} ${text.length}\n${t.toolWords || "Words:"} ${text.trim() ? text.trim().split(/\s+/).length : 0}\n${t.toolLines || "Lines:"} ${text ? text.split(/\n/).length : 0}\n\n${text}`; }
   if(type === "trimSpaces") text = text.replace(/[ \t]+/g, " ").replace(/ *\n */g, "\n").trim();
   if(type === "removeEmptyLines") text = text.split(/\r?\n/).filter((line) => line.trim()).join("\n");
   if(type === "randomText") text = randomDemoText();
   if(type === "jsonFormat") text = JSON.stringify(JSON.parse(text), null, 2);
-  if(type === "jsonValidate") text = JSON.stringify(JSON.parse(text), null, 2) + "\n\n✅ JSON válido";
+  if(type === "jsonValidate") text = JSON.stringify(JSON.parse(text), null, 2) + "\n\n" + (getActiveTranslations().validJson || "Valid JSON");
   if(type === "jwtDecode") text = decodeJwt(text);
   if(type === "base64") text = /^[A-Za-z0-9+/=_-]+$/.test(text.trim()) ? atob(text.trim()) : btoa(unescape(encodeURIComponent(text)));
   if(type === "urlEncode") text = /%[0-9A-Fa-f]{2}/.test(text) ? decodeURIComponent(text) : encodeURIComponent(text);
   if(type === "uuid") text = crypto.randomUUID();
   if(type === "hash") text = await hashText(text);
   if(type === "timestamp") { const raw = text.trim(); const date = raw ? new Date(Number(raw) * (raw.length === 10 ? 1000 : 1)) : new Date(); text = `${Math.floor(date.getTime() / 1000)}\n${date.toISOString()}\n${date.toLocaleString()}`; }
-  if(type === "metaTags") { const title = text.split(/\r?\n/)[0] || "Título da página"; const desc = text.split(/\r?\n/)[1] || "Descrição da página com até 160 caracteres."; const slug = slugifyText(title); text = `<title>${title}</title>\n<meta name="description" content="${desc}">\n<link rel="canonical" href="https://exemplo.com/${slug}">\n<meta property="og:title" content="${title}">\n<meta property="og:description" content="${desc}">`; }
+  if(type === "metaTags") { const t = getActiveTranslations(); const title = text.split(/\r?\n/)[0] || t.metaTagsSampleTitle || "Page title"; const desc = text.split(/\r?\n/)[1] || t.metaTagsSampleDescription || "Page description with up to 160 characters."; const slug = slugifyText(title); text = `<title>${title}</title>\n<meta name="description" content="${desc}">\n<link rel="canonical" href="https://example.com/${slug}">\n<meta property="og:title" content="${title}">\n<meta property="og:description" content="${desc}">`; }
   if(type === "slug") text = slugifyText(text);
   if(type === "keywordDensity") text = keywordDensity(text);
   if(type === "xmlFormat") text = formatXml(text);
@@ -1953,6 +2045,11 @@ async function convert(type) {
 
   input.value = text;
   updateCounts();
+}
+
+function getActiveTranslations() {
+  var lang = getSavedLanguage() || getUrlLanguage() || resolveBrowserLanguage();
+  return translations[lang] || translations[fallbackLanguage] || {};
 }
 
 function goToToolPage(type) {
@@ -1993,24 +2090,20 @@ if (input) {
 }
 
 function detectBrowserLang() {
-  const supported = { pt: 'pt', en: 'en', es: 'es', fr: 'fr', de: 'de', it: 'it', zh: 'zh', ja: 'ja', ru: 'ru', ar: 'ar' };
-  const langs = navigator.languages || [navigator.language || 'pt'];
-  for (const raw of langs) {
-    const code = raw.split('-')[0].toLowerCase();
-    if (supported[code]) return supported[code];
-  }
-  return 'pt';
+  return resolveBrowserLanguage();
 }
 
 function initLanguage() {
-  if (window.__LOCALE) {
-    const loc = window.__LOCALE;
-    localStorage.setItem('language', loc.lang);
-    changeLang(loc.lang);
+  mergeServerLocaleData();
+  var initialLanguage = resolveInitialLanguage();
+  var urlLanguage = getUrlLanguage();
+
+  if (!urlLanguage || urlLanguage !== initialLanguage) {
+    syncUrlToLanguage(initialLanguage, true);
     return;
   }
-  const savedLanguage = localStorage.getItem('language') || detectBrowserLang();
-  changeLang(savedLanguage);
+
+  changeLang(initialLanguage, { persist: false });
 }
 
 // Initialize theme on page load
@@ -2018,62 +2111,133 @@ initTheme();
 initLanguage();
 updateCounts();
 
-// ===== MOBILE MENU =====
+// ===== DESKTOP TOOLS MENU =====
 (function () {
-  var menuTools = [
-    { href: '/uppercase-text', icon: '🔠', key: 'toolTitle2' },
-    { href: '/lowercase-text', icon: '🔡', key: 'toolTitle1' },
-    { href: '/capitalize-text', icon: '📝', key: 'toolTitle4' },
-    { href: '/reverse-text', icon: '🔄', key: 'toolTitle5' },
-    { href: '/alternating-case', icon: '🔀', key: 'toolTitle6' },
-    { href: '/strikethrough-text', icon: '🔤', key: 'toolTitle3' },
-    { href: '/italic-text', icon: '📜', key: 'toolTitle7' },
-    { href: '/morse-code-translator', icon: '💻', key: 'toolTitle8' },
-  ];
-
-  function stripEmoji(text) {
-    if (!text) return '';
-    var m = text.match(/^\S+\s+(.*)/);
-    return m ? m[1] : text;
+  function getCurrentLang() {
+    return getSavedLanguage() || getUrlLanguage() || resolveBrowserLanguage();
   }
 
+  function buildTopbarToolsMenu(menu) {
+    var lang = getCurrentLang();
+    var t = translations[lang] || translations[fallbackLanguage];
+    var label = t.headerTools || t.sidebarTools || 'Tools';
+    var html =
+      '<button class="topbar-tools-btn" type="button" aria-haspopup="true" aria-expanded="false">' +
+        '<span aria-hidden="true">🛠️</span>' +
+        '<span class="topbar-tools-label">' + label + '</span>' +
+        '<span class="topbar-tools-caret" aria-hidden="true">▾</span>' +
+      '</button>' +
+      '<div class="topbar-tools-menu" role="menu">';
+
+    for (var i = 0; i < primaryToolMenuItems.length; i++) {
+      var tool = primaryToolMenuItems[i];
+      var raw = t[tool.key] || '';
+      html += '<a class="topbar-tool-item" role="menuitem" href="' + localizedHref(tool.href, lang) + '" data-tool-action="' + tool.type + '">' +
+        '<span class="topbar-tool-icon" aria-hidden="true">' + tool.icon + '</span>' +
+        '<span>' + stripLeadingSymbol(raw) + '</span>' +
+      '</a>';
+    }
+
+    html += '</div>';
+    menu.innerHTML = html;
+  }
+
+  function closeMenu(menu) {
+    menu.classList.remove('open');
+    var btn = menu.querySelector('.topbar-tools-btn');
+    if (btn) btn.setAttribute('aria-expanded', 'false');
+  }
+
+  function initTopbarToolsMenu() {
+    var actions = document.querySelector('.topbar-actions');
+    if (!actions || actions.querySelector('.topbar-tools')) return;
+
+    var menu = document.createElement('div');
+    menu.className = 'topbar-tools';
+    buildTopbarToolsMenu(menu);
+    actions.insertBefore(menu, actions.querySelector('.theme-toggle') || actions.firstChild);
+
+    menu.addEventListener('click', function (event) {
+      var btn = event.target.closest('.topbar-tools-btn');
+      if (btn) {
+        var open = menu.classList.toggle('open');
+        btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+        return;
+      }
+
+      var item = event.target.closest('.topbar-tool-item');
+      if (!item) return;
+
+      var inputEl = document.getElementById('input');
+      var action = item.getAttribute('data-tool-action');
+      if (inputEl && typeof convert === 'function' && action) {
+        event.preventDefault();
+        inputEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        inputEl.focus({ preventScroll: true });
+        if (inputEl.value.trim()) convert(action);
+      }
+      closeMenu(menu);
+    });
+
+    document.addEventListener('click', function (event) {
+      if (!menu.contains(event.target)) closeMenu(menu);
+    });
+
+    document.addEventListener('keydown', function (event) {
+      if (event.key === 'Escape') closeMenu(menu);
+    });
+
+    document.addEventListener('languagechange', function () {
+      buildTopbarToolsMenu(menu);
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initTopbarToolsMenu);
+  } else {
+    initTopbarToolsMenu();
+  }
+})();
+
+// ===== MOBILE MENU =====
+(function () {
   function populateDrawer() {
     var body = document.getElementById('mobileDrawerBody');
     var themeLabel = document.getElementById('drawerThemeLabel');
     if (!body) return;
-    var lang = localStorage.getItem('language') || detectBrowserLang();
-    var t = translations[lang] || translations.pt;
+    var lang = getSavedLanguage() || getUrlLanguage() || resolveBrowserLanguage();
+    var t = translations[lang] || translations[fallbackLanguage];
 
     var html = '';
 
-    html += '<div class="drawer-section-title">' + (t.sidebarConverter || 'Conversor') + '</div>';
+    html += '<div class="drawer-section-title">' + (t.sidebarConverter || 'Converter') + '</div>';
     html += '<a class="drawer-item" href="' + localizedHref('/', lang) + '">' +
       '<span class="drawer-item-icon">📝</span>' +
-      (t.mainTitle || 'Conversor de Texto') +
+      (t.mainTitle || 'Text converter') +
     '</a>';
 
-    html += '<div class="drawer-section-title">' + (t.sidebarTools || 'Ferramentas') + '</div>';
-    for (var i = 0; i < menuTools.length; i++) {
-      var tool = menuTools[i];
+    html += '<div class="drawer-section-title">' + (t.sidebarTools || 'Tools') + '</div>';
+    for (var i = 0; i < primaryToolMenuItems.length; i++) {
+      var tool = primaryToolMenuItems[i];
       var raw = t[tool.key];
       html += '<a class="drawer-item" href="' + localizedHref(tool.href, lang) + '">' +
         '<span class="drawer-item-icon">' + tool.icon + '</span>' +
-        stripEmoji(raw || '') +
+        stripLeadingSymbol(raw || '') +
       '</a>';
     }
 
-    html += '<div class="drawer-section-title">' + (t.sidebarMoreTools || 'Mais Ferramentas') + '</div>';
+    html += '<div class="drawer-section-title">' + (t.sidebarMoreTools || 'More tools') + '</div>';
     var jsonFmt = toolCardTitles["json-formatter"];
     var slugGen = toolCardTitles["slug-generator"];
     var contador = toolCardTitles["contador-caracteres"];
     html += '<a class="drawer-item" href="' + localizedHref('/json-formatter', lang) + '"><span class="drawer-item-icon">🔧</span>' + (jsonFmt && jsonFmt[lang] || 'JSON Formatter') + '</a>';
     html += '<a class="drawer-item" href="' + localizedHref('/slug-generator', lang) + '"><span class="drawer-item-icon">🔗</span>' + (slugGen && slugGen[lang] || 'Slug Generator') + '</a>';
-    html += '<a class="drawer-item" href="' + localizedHref('/contador-caracteres', lang) + '"><span class="drawer-item-icon">🔢</span>' + (contador && contador[lang] || 'Contador') + '</a>';
+    html += '<a class="drawer-item" href="' + localizedHref('/contador-caracteres', lang) + '"><span class="drawer-item-icon">🔢</span>' + (contador && contador[lang] || 'Character counter') + '</a>';
     html += '<a class="drawer-item" href="' + localizedHref('/blog', lang) + '"><span class="drawer-item-icon">📰</span>' + (t.drawerBlog || 'Blog') + '</a>';
 
-    html += '<div class="drawer-section-title">Links</div>';
-    html += '<a class="drawer-item" href="' + localizedHref('/about', lang) + '"><span class="drawer-item-icon">ℹ️</span>' + (t.sidebarAbout || 'Sobre') + '</a>';
-    html += '<a class="drawer-item" href="' + localizedHref('/contact', lang) + '"><span class="drawer-item-icon">📧</span>' + (t.sidebarContact || 'Contato') + '</a>';
+    html += '<div class="drawer-section-title">' + (t.footerLinks || 'Useful Links') + '</div>';
+    html += '<a class="drawer-item" href="' + localizedHref('/about', lang) + '"><span class="drawer-item-icon">ℹ️</span>' + (t.sidebarAbout || 'About') + '</a>';
+    html += '<a class="drawer-item" href="' + localizedHref('/contact', lang) + '"><span class="drawer-item-icon">📧</span>' + (t.sidebarContact || 'Contact') + '</a>';
 
     body.innerHTML = html;
 
@@ -2091,7 +2255,7 @@ updateCounts();
       btn = document.createElement('button');
       btn.className = 'mobile-menu-btn';
       btn.type = 'button';
-      btn.setAttribute('aria-label', 'Abrir menu de ferramentas');
+      btn.setAttribute('aria-label', (translations[getSavedLanguage() || getUrlLanguage() || fallbackLanguage] || translations[fallbackLanguage]).mobileMenuBtn);
       btn.setAttribute('aria-expanded', 'false');
       btn.innerHTML =
         '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" ' +
@@ -2110,10 +2274,10 @@ updateCounts();
     drawer.className = 'mobile-drawer';
     drawer.setAttribute('role', 'dialog');
     drawer.setAttribute('aria-modal', 'true');
-    drawer.setAttribute('aria-label', 'Menu de ferramentas');
+    drawer.setAttribute('aria-label', (translations[getSavedLanguage() || getUrlLanguage() || fallbackLanguage] || translations[fallbackLanguage]).mobileMenuBtn);
 
-    var lang = localStorage.getItem('language') || 'pt';
-    var t = translations[lang] || translations.pt;
+    var lang = getSavedLanguage() || getUrlLanguage() || resolveBrowserLanguage();
+    var t = translations[lang] || translations[fallbackLanguage];
     var theme = document.documentElement.getAttribute('data-theme') || 'dark';
 
     drawer.innerHTML =
@@ -2122,15 +2286,15 @@ updateCounts();
           '<img src="/assets/img/iconeTextLab.png" alt="" width="34" height="34" loading="lazy">' +
           '<span>ConvertTextEasy</span>' +
         '</a>' +
-        '<button class="mobile-drawer-close" type="button" aria-label="Fechar menu">✕</button>' +
+        '<button class="mobile-drawer-close" type="button" aria-label="' + (t.closeMenu || 'Close menu') + '">✕</button>' +
       '</div>' +
       '<div class="mobile-drawer-body" id="mobileDrawerBody"></div>' +
       '<div class="mobile-drawer-footer">' +
-        '<button class="theme-toggle btn btn-sm" onclick="toggleTheme()" type="button" aria-label="Alternar tema">' +
+        '<button class="theme-toggle btn btn-sm" onclick="toggleTheme()" type="button" aria-label="' + (t.headerTheme || t.theme || 'Theme') + '">' +
           '<span id="themeIconDrawer" aria-hidden="true">' + (theme === 'dark' ? '🌙' : '☀️') + '</span>' +
           '<small id="drawerThemeLabel">' + t.theme + '</small>' +
         '</button>' +
-        '<select onchange="switchLocale(this.value)" class="form-select form-select-sm lang-select" aria-label="Idioma">' +
+        '<select onchange="switchLocale(this.value)" class="form-select form-select-sm lang-select" aria-label="' + (t.langSelectAria || 'Select language') + '">' +
           '<option value="pt"' + (lang === 'pt' ? ' selected' : '') + '>🇧🇷 PT</option>' +
           '<option value="en"' + (lang === 'en' ? ' selected' : '') + '>🇺🇸 EN</option>' +
           '<option value="es"' + (lang === 'es' ? ' selected' : '') + '>🇪🇸 ES</option>' +

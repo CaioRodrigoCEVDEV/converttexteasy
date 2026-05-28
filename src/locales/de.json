@@ -190,7 +190,26 @@
     "articleRelatedTitle": "Related tool",
     "articleRelatedCopy": "Use {tool} to apply this concept in a few clicks.",
     "articleOpenTool": "Open tool",
-    "articleOpenToolAria": "Open {tool} tool"
+    "articleOpenToolAria": "Open {tool} tool",
+    "brandSeoTitle": "ConvertTextEasy - Free Online Text Tools",
+    "brandSeoDescription": "ConvertTextEasy is the official free online toolkit for text conversion, case conversion, formatting, developer utilities, and SEO workflows.",
+    "brandSeoSectionTitle": "ConvertTextEasy official online text toolkit",
+    "brandSeoSectionLead": "ConvertTextEasy brings text conversion, formatting, validation, and SEO utilities into one fast browser-based workspace.",
+    "brandSeoSectionCopy1": "Use ConvertTextEasy to convert uppercase and lowercase text, format JSON and XML, generate slugs, inspect JWTs, encode URLs, count words, and clean content before publishing.",
+    "brandSeoSectionCopy2": "The platform is designed for writers, SEO analysts, developers, students, and support teams that need reliable text tools without installing software or creating an account.",
+    "homeFaqTitle": "ConvertTextEasy FAQ",
+    "homeFaqQ1": "What is ConvertTextEasy?",
+    "homeFaqA1": "ConvertTextEasy is a free online toolkit for text conversion, formatting, developer utilities, and SEO content workflows.",
+    "homeFaqQ2": "Is ConvertTextEasy the official site?",
+    "homeFaqA2": "Yes. The official website is ConvertTextEasy at converttexteasy.com.",
+    "homeFaqQ3": "Do I need an account to use ConvertTextEasy?",
+    "homeFaqA3": "No. The tools are available directly in the browser without registration.",
+    "closeMenu": "Menü schließen",
+    "invalidJwt": "Ungültiges JWT: header.payload.signature erwartet",
+    "randomDemoText": "ConvertTextEasy hilft beim Umwandeln von Text, Prüfen von Daten und Erstellen optimierter Inhalte. Verwenden Sie diesen Beispieltext zum Testen von Layouts, Formularen, Zählern und Online-Tools ohne echte Inhalte.",
+    "validJson": "Gültiges JSON",
+    "metaTagsSampleTitle": "Seitentitel",
+    "metaTagsSampleDescription": "Seitenbeschreibung mit bis zu 160 Zeichen."
   },
   "tools": {
     "uppercase-text": {
