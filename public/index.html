@@ -53,7 +53,7 @@
 </head>
 
 <body>
-<a href="#main-content" class="skip-link">Pular para o conteúdo principal</a>
+<a href="#main-content" class="skip-link" id="skipLink">Pular para o conteúdo principal</a>
 <div class="site-shell">
   <header class="topbar" role="banner">
     <div class="brand-lockup">
@@ -66,7 +66,7 @@
       </a>
     </div>
     <div class="topbar-actions">
-      <button class="mobile-menu-btn" type="button" aria-label="Abrir menu de ferramentas" aria-expanded="false">
+      <button class="mobile-menu-btn" type="button" id="mobileMenuBtn" aria-label="Abrir menu de ferramentas" aria-expanded="false">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/>
         </svg>
@@ -79,6 +79,13 @@
         <option value="pt" selected>🇧🇷 Português</option>
         <option value="en">🇺🇸 English</option>
         <option value="es">🇪🇸 Español</option>
+        <option value="fr">🇫🇷 Français</option>
+        <option value="de">🇩🇪 Deutsch</option>
+        <option value="it">🇮🇹 Italiano</option>
+        <option value="zh">🇨🇳 中文</option>
+        <option value="ja">🇯🇵 日本語</option>
+        <option value="ru">🇷🇺 Русский</option>
+        <option value="ar">🇸🇦 العربية</option>
       </select>
     </div>
   </header>
@@ -205,42 +212,42 @@
         <p id="seoUsage" class="panel-copy">Basta colar o texto no editor, escolher a funcionalidade desejada e copiar o resultado para usar onde quiser. Todas as transformações acontecem no navegador, sem envio de dados para servidores.</p>
       </div>
       <div class="tools-grid" role="list">
-        <a class="tool-card" href="lowercase-text" role="listitem">
+        <a class="tool-card" href="lowercase-text" role="listitem" data-slug="lowercase-text">
           <div class="tool-title" id="toolTitle1">🔡 Letras Minusculas</div>
           <p id="toolDesc1">Converta todo o texto para minusculas.</p>
           <div class="example">texto em minusculas</div>
         </a>
-        <a class="tool-card" href="uppercase-text" role="listitem">
+        <a class="tool-card" href="uppercase-text" role="listitem" data-slug="uppercase-text">
           <div class="tool-title" id="toolTitle2">🔠 Letras Maiusculas</div>
           <p id="toolDesc2">Converta todo o texto para maiusculas.</p>
           <div class="example">TEXTO EM MAIUSCULAS</div>
         </a>
-        <a class="tool-card" href="strikethrough-text" role="listitem">
+        <a class="tool-card" href="strikethrough-text" role="listitem" data-slug="strikethrough-text">
           <div class="tool-title" id="toolTitle3">🔤 Texto Tachado</div>
           <p id="toolDesc3">Gere texto riscado automaticamente.</p>
           <div class="example">T̶e̶x̶t̶o̶ ̶e̶x̶e̶m̶p̶l̶o̶</div>
         </a>
-        <a class="tool-card" href="capitalize-text" role="listitem">
+        <a class="tool-card" href="capitalize-text" role="listitem" data-slug="capitalize-text">
           <div class="tool-title" id="toolTitle4">📝 Iniciais Maiúsculas</div>
           <p id="toolDesc4">Primeira letra de cada palavra em maiúsculo.</p>
           <div class="example">Este É Um Exemplo</div>
         </a>
-        <a class="tool-card" href="reverse-text" role="listitem">
+        <a class="tool-card" href="reverse-text" role="listitem" data-slug="reverse-text">
           <div class="tool-title" id="toolTitle5">🔄 Texto Reverso</div>
           <p id="toolDesc5">Inverta seu texto.</p>
           <div class="example">.otxet olpmaxE</div>
         </a>
-        <a class="tool-card" href="alternating-case" role="listitem">
+        <a class="tool-card" href="alternating-case" role="listitem" data-slug="alternating-case">
           <div class="tool-title" id="toolTitle6">🔀 Alternância</div>
           <p id="toolDesc6">Alterna letras maiúsculas e minúsculas.</p>
           <div class="example">eStE É uM eXeMpLo</div>
         </a>
-        <a class="tool-card" href="italic-text" role="listitem">
+        <a class="tool-card" href="italic-text" role="listitem" data-slug="italic-text">
           <div class="tool-title" id="toolTitle7">📜 Texto Itálico</div>
           <p id="toolDesc7">Gera texto estilizado em itálico.</p>
           <div class="example"><i>Exemplo de itálico</i></div>
         </a>
-        <a class="tool-card" href="morse-code-translator" role="listitem">
+        <a class="tool-card" href="morse-code-translator" role="listitem" data-slug="morse-code-translator">
           <div class="tool-title" id="toolTitle8">💻 Código Morse</div>
           <p id="toolDesc8">Traduza texto para código Morse.</p>
           <div class="example">... --- ...</div>
@@ -250,67 +257,67 @@
   </section>
 
   <section class="panel tools-panel mt-4" id="ferramentas" aria-labelledby="allToolsTitle">
-    <div class="panel-head"><div><h2 id="allToolsTitle" class="panel-title">Todas as ferramentas online</h2><p class="panel-copy">Páginas individuais com título, descrição, tutorial, FAQ, exemplos, canonical e schema.org.</p></div></div>
+    <div class="panel-head"><div><h2 id="allToolsTitle" class="panel-title">Todas as ferramentas online</h2><p class="panel-copy" id="allToolsDesc">Páginas individuais com título, descrição, tutorial, FAQ, exemplos, canonical e schema.org.</p></div></div>
     <div class="panel-body"><div class="tools-grid" role="list">
-      <a class="tool-card" href="/uppercase-text" role="listitem"><div class="tool-title">Conversor para Maiúsculas</div><p>Converta texto para MAIÚSCULAS online, grátis e com contagem de caracteres.</p><div class="example">TEXTO EM MAIÚSCULAS</div></a>
-      <a class="tool-card" href="/lowercase-text" role="listitem"><div class="tool-title">Conversor para Minúsculas</div><p>Transforme textos em letras minúsculas para padronizar cadastros, listas e conteúdos.</p><div class="example">texto em minúsculas</div></a>
-      <a class="tool-card" href="/capitalize-text" role="listitem"><div class="tool-title">Capitalização de Texto</div><p>Coloque iniciais em maiúsculas e deixe títulos, nomes e chamadas mais legíveis.</p><div class="example">Texto Com Iniciais Maiúsculas</div></a>
-      <a class="tool-card" href="/smart-capitalization" role="listitem"><div class="tool-title">Capitalização Inteligente</div><p>Ajuste frases com primeira letra maiúscula após pontos, perguntas e exclamações.</p><div class="example">Frase correta. Nova frase correta.</div></a>
-      <a class="tool-card" href="/reverse-text" role="listitem"><div class="tool-title">Inverter Texto</div><p>Inverta caracteres de palavras e frases em segundos.</p><div class="example">oditrevni otxeT</div></a>
-      <a class="tool-card" href="/alternating-case" role="listitem"><div class="tool-title">Texto Alternado</div><p>Gere letras alternadas entre maiúsculas e minúsculas automaticamente.</p><div class="example">TeXtO aLtErNaDo</div></a>
-      <a class="tool-card" href="/italic-text" role="listitem"><div class="tool-title">Texto Itálico Unicode</div><p>Converta texto comum em caracteres Unicode com aparência itálica.</p><div class="example">𝑇𝑒𝑥𝑡𝑜 𝑖𝑡á𝑙𝑖𝑐𝑜</div></a>
-      <a class="tool-card" href="/strikethrough-text" role="listitem"><div class="tool-title">Texto Tachado</div><p>Aplique o efeito riscado em cada caractere do texto.</p><div class="example">T̶e̶x̶t̶o̶</div></a>
-      <a class="tool-card" href="/morse-code-translator" role="listitem"><div class="tool-title">Tradutor de Código Morse</div><p>Converta letras, números e sinais comuns para código Morse.</p><div class="example">... --- ...</div></a>
-      <a class="tool-card" href="/contador-caracteres" role="listitem"><div class="tool-title">Contador de Caracteres</div><p>Conte caracteres, palavras e linhas online em tempo real.</p><div class="example">Caracteres: 123</div></a>
-      <a class="tool-card" href="/contador-palavras" role="listitem"><div class="tool-title">Contador de Palavras</div><p>Conte palavras online para artigos, posts, anúncios e trabalhos.</p><div class="example">Palavras: 250</div></a>
-      <a class="tool-card" href="/removedor-espacos" role="listitem"><div class="tool-title">Removedor de Espaços Extras</div><p>Remova espaços duplicados e normalize textos colados.</p><div class="example">texto com espaço</div></a>
-      <a class="tool-card" href="/removedor-linhas-vazias" role="listitem"><div class="tool-title">Removedor de Linhas Vazias</div><p>Apague linhas em branco mantendo somente conteúdo útil.</p><div class="example">linha 1\nlinha 2</div></a>
-      <a class="tool-card" href="/texto-aleatorio" role="listitem"><div class="tool-title">Gerador de Texto Aleatório</div><p>Gere texto de exemplo para testes de layout, formulários e protótipos.</p><div class="example">Lorem ipsum convert text easy</div></a>
-      <a class="tool-card" href="/json-formatter" role="listitem"><div class="tool-title">JSON Formatter</div><p>Formate JSON online com indentação, validação básica e leitura fácil.</p><div class="example">{"site": "ConvertTextEasy"}</div></a>
-      <a class="tool-card" href="/json-validator" role="listitem"><div class="tool-title">Validador de JSON</div><p>Valide JSON online e identifique erros de sintaxe rapidamente.</p><div class="example">JSON válido</div></a>
-      <a class="tool-card" href="/jwt-decoder" role="listitem"><div class="tool-title">JWT Decoder</div><p>Decodifique header e payload de tokens JWT sem enviar dados ao servidor.</p><div class="example">{ "alg": "HS256" }</div></a>
-      <a class="tool-card" href="/base64-encode-decode" role="listitem"><div class="tool-title">Base64 Encode Decode</div><p>Codifique e decodifique textos em Base64 no navegador.</p><div class="example">Q29udmVydFRleHRFYXN5</div></a>
-      <a class="tool-card" href="/base64-decode" role="listitem"><div class="tool-title">Base64 Decode</div><p>Decodifique Base64 online no navegador.</p><div class="example">Q29udmVydFRleHRFYXN5 → ConvertTextEasy</div></a>
-      <a class="tool-card" href="/base64-encode" role="listitem"><div class="tool-title">Base64 Encode</div><p>Codifique texto em Base64 online no navegador.</p><div class="example">ConvertTextEasy → Q29udmVydFRleHRFYXN5</div></a>
-      <a class="tool-card" href="/url-encoder" role="listitem"><div class="tool-title">URL Encoder</div><p>Codifique e decodifique URLs, parâmetros e caracteres especiais.</p><div class="example">texto%20com%20espaço</div></a>
-      <a class="tool-card" href="/uuid-generator" role="listitem"><div class="tool-title">Gerador de UUID</div><p>Gere UUID v4 aleatório para testes, registros e identificadores.</p><div class="example">550e8400-e29b-41d4-a716-446655440000</div></a>
-      <a class="tool-card" href="/hash-generator" role="listitem"><div class="tool-title">Hash Generator</div><p>Gere hashes SHA-256 de textos diretamente no navegador.</p><div class="example">e3b0c44298...</div></a>
-      <a class="tool-card" href="/timestamp-converter" role="listitem"><div class="tool-title">Timestamp Converter</div><p>Converta timestamp Unix para data local e gere timestamps atuais.</p><div class="example">1715000000 → data</div></a>
-      <a class="tool-card" href="/meta-tag-generator" role="listitem"><div class="tool-title">Meta Tag Generator</div><p>Crie title, meta description, canonical e OpenGraph para SEO.</p><div class="example">&lt;meta name="description" ...&gt;</div></a>
-      <a class="tool-card" href="/slug-generator" role="listitem"><div class="tool-title">Slug Generator</div><p>Transforme títulos em slugs limpos, sem acentos e prontos para URLs.</p><div class="example">como-formatar-json-online</div></a>
-      <a class="tool-card" href="/keyword-density-checker" role="listitem"><div class="tool-title">Keyword Density Checker</div><p>Calcule densidade de palavras-chave e termos mais frequentes.</p><div class="example">seo: 2,4%</div></a>
-      <a class="tool-card" href="/xml-formatter" role="listitem"><div class="tool-title">Formatador de XML</div><p>Formate XML online com quebras de linha e indentação simples.</p><div class="example">&lt;root&gt;\n  &lt;item/&gt;\n&lt;/root&gt;</div></a>
-      <a class="tool-card" href="/csv-to-json" role="listitem"><div class="tool-title">Conversor CSV para JSON</div><p>Converta CSV com cabeçalho em uma lista JSON formatada.</p><div class="example">[{"nome":"Ana"}]</div></a>
-      <a class="tool-card" href="/remove-accents" role="listitem"><div class="tool-title">Removedor de Acentos</div><p>Remova acentos e marcas diacríticas de textos em português e outros idiomas.</p><div class="example">acao informacao</div></a>
-      <a class="tool-card" href="/clean-special-characters" role="listitem"><div class="tool-title">Limpador de Caracteres Especiais</div><p>Remova caracteres especiais mantendo letras, números, espaços e pontuação básica.</p><div class="example">Texto limpo 123</div></a>
+        <a class="tool-card" href="/uppercase-text" role="listitem" data-slug="uppercase-text"><div class="tool-title">Conversor para Maiúsculas</div><p>Converta texto para MAIÚSCULAS online, grátis e com contagem de caracteres.</p><div class="example">TEXTO EM MAIÚSCULAS</div></a>
+      <a class="tool-card" href="/lowercase-text" role="listitem" data-slug="lowercase-text"><div class="tool-title">Conversor para Minúsculas</div><p>Transforme textos em letras minúsculas para padronizar cadastros, listas e conteúdos.</p><div class="example">texto em minúsculas</div></a>
+      <a class="tool-card" href="/capitalize-text" role="listitem" data-slug="capitalize-text"><div class="tool-title">Capitalização de Texto</div><p>Coloque iniciais em maiúsculas e deixe títulos, nomes e chamadas mais legíveis.</p><div class="example">Texto Com Iniciais Maiúsculas</div></a>
+      <a class="tool-card" href="/smart-capitalization" role="listitem" data-slug="smart-capitalization"><div class="tool-title">Capitalização Inteligente</div><p>Ajuste frases com primeira letra maiúscula após pontos, perguntas e exclamações.</p><div class="example">Frase correta. Nova frase correta.</div></a>
+      <a class="tool-card" href="/reverse-text" role="listitem" data-slug="reverse-text"><div class="tool-title">Inverter Texto</div><p>Inverta caracteres de palavras e frases em segundos.</p><div class="example">oditrevni otxeT</div></a>
+      <a class="tool-card" href="/alternating-case" role="listitem" data-slug="alternating-case"><div class="tool-title">Texto Alternado</div><p>Gere letras alternadas entre maiúsculas e minúsculas automaticamente.</p><div class="example">TeXtO aLtErNaDo</div></a>
+      <a class="tool-card" href="/italic-text" role="listitem" data-slug="italic-text"><div class="tool-title">Texto Itálico Unicode</div><p>Converta texto comum em caracteres Unicode com aparência itálica.</p><div class="example">𝑇𝑒𝑥𝑡𝑜 𝑖𝑡á𝑙𝑖𝑐𝑜</div></a>
+      <a class="tool-card" href="/strikethrough-text" role="listitem" data-slug="strikethrough-text"><div class="tool-title">Texto Tachado</div><p>Aplique o efeito riscado em cada caractere do texto.</p><div class="example">T̶e̶x̶t̶o̶</div></a>
+      <a class="tool-card" href="/morse-code-translator" role="listitem" data-slug="morse-code-translator"><div class="tool-title">Tradutor de Código Morse</div><p>Converta letras, números e sinais comuns para código Morse.</p><div class="example">... --- ...</div></a>
+      <a class="tool-card" href="/contador-caracteres" role="listitem" data-slug="contador-caracteres"><div class="tool-title">Contador de Caracteres</div><p>Conte caracteres, palavras e linhas online em tempo real.</p><div class="example">Caracteres: 123</div></a>
+      <a class="tool-card" href="/contador-palavras" role="listitem" data-slug="contador-palavras"><div class="tool-title">Contador de Palavras</div><p>Conte palavras online para artigos, posts, anúncios e trabalhos.</p><div class="example">Palavras: 250</div></a>
+      <a class="tool-card" href="/removedor-espacos" role="listitem" data-slug="removedor-espacos"><div class="tool-title">Removedor de Espaços Extras</div><p>Remova espaços duplicados e normalize textos colados.</p><div class="example">texto com espaço</div></a>
+      <a class="tool-card" href="/removedor-linhas-vazias" role="listitem" data-slug="removedor-linhas-vazias"><div class="tool-title">Removedor de Linhas Vazias</div><p>Apague linhas em branco mantendo somente conteúdo útil.</p><div class="example">linha 1\nlinha 2</div></a>
+      <a class="tool-card" href="/texto-aleatorio" role="listitem" data-slug="texto-aleatorio"><div class="tool-title">Gerador de Texto Aleatório</div><p>Gere texto de exemplo para testes de layout, formulários e protótipos.</p><div class="example">Lorem ipsum convert text easy</div></a>
+      <a class="tool-card" href="/json-formatter" role="listitem" data-slug="json-formatter"><div class="tool-title">JSON Formatter</div><p>Formate JSON online com indentação, validação básica e leitura fácil.</p><div class="example">{"site": "ConvertTextEasy"}</div></a>
+      <a class="tool-card" href="/json-validator" role="listitem" data-slug="json-validator"><div class="tool-title">Validador de JSON</div><p>Valide JSON online e identifique erros de sintaxe rapidamente.</p><div class="example">JSON válido</div></a>
+      <a class="tool-card" href="/jwt-decoder" role="listitem" data-slug="jwt-decoder"><div class="tool-title">JWT Decoder</div><p>Decodifique header e payload de tokens JWT sem enviar dados ao servidor.</p><div class="example">{ "alg": "HS256" }</div></a>
+      <a class="tool-card" href="/base64-encode-decode" role="listitem" data-slug="base64-encode-decode"><div class="tool-title">Base64 Encode Decode</div><p>Codifique e decodifique textos em Base64 no navegador.</p><div class="example">Q29udmVydFRleHRFYXN5</div></a>
+      <a class="tool-card" href="/base64-decode" role="listitem" data-slug="base64-decode"><div class="tool-title">Base64 Decode</div><p>Decodifique Base64 online no navegador.</p><div class="example">Q29udmVydFRleHRFYXN5 → ConvertTextEasy</div></a>
+      <a class="tool-card" href="/base64-encode" role="listitem" data-slug="base64-encode"><div class="tool-title">Base64 Encode</div><p>Codifique texto em Base64 online no navegador.</p><div class="example">ConvertTextEasy → Q29udmVydFRleHRFYXN5</div></a>
+      <a class="tool-card" href="/url-encoder" role="listitem" data-slug="url-encoder"><div class="tool-title">URL Encoder</div><p>Codifique e decodifique URLs, parâmetros e caracteres especiais.</p><div class="example">texto%20com%20espaço</div></a>
+      <a class="tool-card" href="/uuid-generator" role="listitem" data-slug="uuid-generator"><div class="tool-title">Gerador de UUID</div><p>Gere UUID v4 aleatório para testes, registros e identificadores.</p><div class="example">550e8400-e29b-41d4-a716-446655440000</div></a>
+      <a class="tool-card" href="/hash-generator" role="listitem" data-slug="hash-generator"><div class="tool-title">Hash Generator</div><p>Gere hashes SHA-256 de textos diretamente no navegador.</p><div class="example">e3b0c44298...</div></a>
+      <a class="tool-card" href="/timestamp-converter" role="listitem" data-slug="timestamp-converter"><div class="tool-title">Timestamp Converter</div><p>Converta timestamp Unix para data local e gere timestamps atuais.</p><div class="example">1715000000 → data</div></a>
+      <a class="tool-card" href="/meta-tag-generator" role="listitem" data-slug="meta-tag-generator"><div class="tool-title">Meta Tag Generator</div><p>Crie title, meta description, canonical e OpenGraph para SEO.</p><div class="example">&lt;meta name="description" ...&gt;</div></a>
+      <a class="tool-card" href="/slug-generator" role="listitem" data-slug="slug-generator"><div class="tool-title">Slug Generator</div><p>Transforme títulos em slugs limpos, sem acentos e prontos para URLs.</p><div class="example">como-formatar-json-online</div></a>
+      <a class="tool-card" href="/keyword-density-checker" role="listitem" data-slug="keyword-density-checker"><div class="tool-title">Keyword Density Checker</div><p>Calcule densidade de palavras-chave e termos mais frequentes.</p><div class="example">seo: 2,4%</div></a>
+      <a class="tool-card" href="/xml-formatter" role="listitem" data-slug="xml-formatter"><div class="tool-title">Formatador de XML</div><p>Formate XML online com quebras de linha e indentação simples.</p><div class="example">&lt;root&gt;\n  &lt;item/&gt;\n&lt;/root&gt;</div></a>
+      <a class="tool-card" href="/csv-to-json" role="listitem" data-slug="csv-to-json"><div class="tool-title">Conversor CSV para JSON</div><p>Converta CSV com cabeçalho em uma lista JSON formatada.</p><div class="example">[{"nome":"Ana"}]</div></a>
+      <a class="tool-card" href="/remove-accents" role="listitem" data-slug="remove-accents"><div class="tool-title">Removedor de Acentos</div><p>Remova acentos e marcas diacríticas de textos em português e outros idiomas.</p><div class="example">acao informacao</div></a>
+      <a class="tool-card" href="/clean-special-characters" role="listitem" data-slug="clean-special-characters"><div class="tool-title">Limpador de Caracteres Especiais</div><p>Remova caracteres especiais mantendo letras, números, espaços e pontuação básica.</p><div class="example">Texto limpo 123</div></a>
     </div></div>
   </section>
 
   <section class="panel tools-panel mt-4" id="blog" aria-labelledby="blogTitle">
-    <div class="panel-head"><div><h2 id="blogTitle" class="panel-title">Blog — Guias práticos de texto, SEO e desenvolvimento</h2><p class="panel-copy">Mais de 20 guias reais sobre texto, JSON, XML, CSV, regex, codificação e SEO técnico para ajudar você a trabalhar melhor com conteúdo digital.</p></div></div>
+    <div class="panel-head"><div><h2 id="blogTitle" class="panel-title">Blog — Guias práticos de texto, SEO e desenvolvimento</h2><p class="panel-copy" id="blogDesc">Mais de 20 guias reais sobre texto, JSON, XML, CSV, regex, codificação e SEO técnico para ajudar você a trabalhar melhor com conteúdo digital.</p></div></div>
     <div class="panel-body"><div class="tools-grid" role="list">
-      <a class="tool-card" href="/blog/como-converter-texto-para-maiusculo" role="listitem"><div class="tool-title">Como converter texto para maiúsculo</div><p>Aprenda quando usar caixa alta, como converter online e quais cuidados tomar para não prejudicar leitura e SEO.</p><div class="example">Ler artigo</div></a>
-      <a class="tool-card" href="/blog/diferenca-entre-utf-8-e-ansi" role="listitem"><div class="tool-title">Diferença entre UTF-8 e ANSI</div><p>Entenda codificação de caracteres, acentos quebrados e por que UTF-8 costuma ser a escolha mais segura.</p><div class="example">Ler artigo</div></a>
-      <a class="tool-card" href="/blog/como-remover-acentos-em-textos" role="listitem"><div class="tool-title">Como remover acentos em textos</div><p>Veja usos práticos para normalizar palavras, criar slugs e integrar sistemas que não aceitam diacríticos.</p><div class="example">Ler artigo</div></a>
-      <a class="tool-card" href="/blog/como-formatar-json-online" role="listitem"><div class="tool-title">Como formatar JSON online</div><p>Guia para deixar JSON legível, validar chaves, revisar arrays e evitar erros comuns em APIs.</p><div class="example">Ler artigo</div></a>
-      <a class="tool-card" href="/blog/como-limpar-caracteres-especiais" role="listitem"><div class="tool-title">Como limpar caracteres especiais</div><p>Saiba limpar símbolos invisíveis, quebras estranhas e caracteres copiados de PDFs ou planilhas.</p><div class="example">Ler artigo</div></a>
-      <a class="tool-card" href="/blog/regex-para-iniciantes" role="listitem"><div class="tool-title">Regex para iniciantes</div><p>Conceitos básicos de expressões regulares com exemplos de busca, validação e substituição.</p><div class="example">Ler artigo</div></a>
-      <a class="tool-card" href="/blog/como-converter-csv-para-json" role="listitem"><div class="tool-title">Como converter CSV para JSON</div><p>Transforme tabelas exportadas em objetos JSON e entenda cabeçalhos, delimitadores e tipos.</p><div class="example">Ler artigo</div></a>
-      <a class="tool-card" href="/blog/como-validar-json" role="listitem"><div class="tool-title">Como validar JSON</div><p>Aprenda a identificar erros em JSON, mensagens comuns e boas práticas antes de enviar para uma API.</p><div class="example">Ler artigo</div></a>
-      <a class="tool-card" href="/blog/como-formatar-xml" role="listitem"><div class="tool-title">Como formatar XML</div><p>Veja como indentar XML, organizar tags, revisar atributos e ler documentos extensos.</p><div class="example">Ler artigo</div></a>
-      <a class="tool-card" href="/blog/como-contar-caracteres-online" role="listitem"><div class="tool-title">Como contar caracteres online</div><p>Controle limites de formulários, meta descriptions, posts e anúncios com contagem em tempo real.</p><div class="example">Ler artigo</div></a>
-      <a class="tool-card" href="/blog/contador-de-palavras-para-seo" role="listitem"><div class="tool-title">Contador de palavras para SEO</div><p>Use métricas de palavras para planejar artigos, snippets, introduções e revisões editoriais.</p><div class="example">Ler artigo</div></a>
-      <a class="tool-card" href="/blog/base64-encode-decode-guia" role="listitem"><div class="tool-title">Base64 encode/decode: guia rápido</div><p>Entenda o que é Base64, quando usar e por que não deve ser tratado como criptografia.</p><div class="example">Ler artigo</div></a>
-      <a class="tool-card" href="/blog/jwt-decoder-online-seguro" role="listitem"><div class="tool-title">JWT decoder online seguro</div><p>Como inspecionar tokens JWT no navegador sem expor segredos e quais campos analisar.</p><div class="example">Ler artigo</div></a>
-      <a class="tool-card" href="/blog/gerar-slug-seo" role="listitem"><div class="tool-title">Como gerar slug SEO</div><p>Crie URLs curtas, legíveis, sem acentos e alinhadas com palavras-chave principais.</p><div class="example">Ler artigo</div></a>
-      <a class="tool-card" href="/blog/meta-tags-para-iniciantes" role="listitem"><div class="tool-title">Meta tags para iniciantes</div><p>Title, description, canonical e OpenGraph explicados para páginas indexáveis.</p><div class="example">Ler artigo</div></a>
-      <a class="tool-card" href="/blog/densidade-de-palavras-chave" role="listitem"><div class="tool-title">Densidade de palavras-chave</div><p>Como medir termos repetidos sem exagerar e manter o texto natural para pessoas e buscadores.</p><div class="example">Ler artigo</div></a>
-      <a class="tool-card" href="/blog/timestamp-unix-explicado" role="listitem"><div class="tool-title">Timestamp Unix explicado</div><p>Converta datas, leia logs e entenda segundos e milissegundos em integrações.</p><div class="example">Ler artigo</div></a>
-      <a class="tool-card" href="/blog/uuid-v4-o-que-e" role="listitem"><div class="tool-title">UUID v4: o que é e quando usar</div><p>Conheça identificadores únicos para testes, bancos de dados e objetos distribuídos.</p><div class="example">Ler artigo</div></a>
-      <a class="tool-card" href="/blog/url-encode-e-decode" role="listitem"><div class="tool-title">URL encode e decode</div><p>Entenda caracteres reservados, query strings e como evitar links quebrados.</p><div class="example">Ler artigo</div></a>
-      <a class="tool-card" href="/blog/hash-sha-256-online" role="listitem"><div class="tool-title">Hash SHA-256 online</div><p>Veja usos de hash para integridade, comparação de conteúdo e cuidados de segurança.</p><div class="example">Ler artigo</div></a>
-      <a class="tool-card" href="/blog/remover-linhas-vazias" role="listitem"><div class="tool-title">Como remover linhas vazias</div><p>Organize listas e rascunhos removendo linhas em branco sem perder conteúdo.</p><div class="example">Ler artigo</div></a>
-      <a class="tool-card" href="/blog/capitalizacao-inteligente" role="listitem"><div class="tool-title">Capitalização inteligente</div><p>Padronize frases, títulos e nomes com regras simples de caixa e revisão final.</p><div class="example">Ler artigo</div></a>
+      <a class="tool-card" href="/blog/como-converter-texto-para-maiusculo" role="listitem" data-slug="como-converter-texto-para-maiusculo"><div class="tool-title">Como converter texto para maiúsculo</div><p>Aprenda quando usar caixa alta, como converter online e quais cuidados tomar para não prejudicar leitura e SEO.</p><div class="example">Ler artigo</div></a>
+      <a class="tool-card" href="/blog/diferenca-entre-utf-8-e-ansi" role="listitem" data-slug="diferenca-entre-utf-8-e-ansi"><div class="tool-title">Diferença entre UTF-8 e ANSI</div><p>Entenda codificação de caracteres, acentos quebrados e por que UTF-8 costuma ser a escolha mais segura.</p><div class="example">Ler artigo</div></a>
+      <a class="tool-card" href="/blog/como-remover-acentos-em-textos" role="listitem" data-slug="como-remover-acentos-em-textos"><div class="tool-title">Como remover acentos em textos</div><p>Veja usos práticos para normalizar palavras, criar slugs e integrar sistemas que não aceitam diacríticos.</p><div class="example">Ler artigo</div></a>
+      <a class="tool-card" href="/blog/como-formatar-json-online" role="listitem" data-slug="como-formatar-json-online"><div class="tool-title">Como formatar JSON online</div><p>Guia para deixar JSON legível, validar chaves, revisar arrays e evitar erros comuns em APIs.</p><div class="example">Ler artigo</div></a>
+      <a class="tool-card" href="/blog/como-limpar-caracteres-especiais" role="listitem" data-slug="como-limpar-caracteres-especiais"><div class="tool-title">Como limpar caracteres especiais</div><p>Saiba limpar símbolos invisíveis, quebras estranhas e caracteres copiados de PDFs ou planilhas.</p><div class="example">Ler artigo</div></a>
+      <a class="tool-card" href="/blog/regex-para-iniciantes" role="listitem" data-slug="regex-para-iniciantes"><div class="tool-title">Regex para iniciantes</div><p>Conceitos básicos de expressões regulares com exemplos de busca, validação e substituição.</p><div class="example">Ler artigo</div></a>
+      <a class="tool-card" href="/blog/como-converter-csv-para-json" role="listitem" data-slug="como-converter-csv-para-json"><div class="tool-title">Como converter CSV para JSON</div><p>Transforme tabelas exportadas em objetos JSON e entenda cabeçalhos, delimitadores e tipos.</p><div class="example">Ler artigo</div></a>
+      <a class="tool-card" href="/blog/como-validar-json" role="listitem" data-slug="como-validar-json"><div class="tool-title">Como validar JSON</div><p>Aprenda a identificar erros em JSON, mensagens comuns e boas práticas antes de enviar para uma API.</p><div class="example">Ler artigo</div></a>
+      <a class="tool-card" href="/blog/como-formatar-xml" role="listitem" data-slug="como-formatar-xml"><div class="tool-title">Como formatar XML</div><p>Veja como indentar XML, organizar tags, revisar atributos e ler documentos extensos.</p><div class="example">Ler artigo</div></a>
+      <a class="tool-card" href="/blog/como-contar-caracteres-online" role="listitem" data-slug="como-contar-caracteres-online"><div class="tool-title">Como contar caracteres online</div><p>Controle limites de formulários, meta descriptions, posts e anúncios com contagem em tempo real.</p><div class="example">Ler artigo</div></a>
+      <a class="tool-card" href="/blog/contador-de-palavras-para-seo" role="listitem" data-slug="contador-de-palavras-para-seo"><div class="tool-title">Contador de palavras para SEO</div><p>Use métricas de palavras para planejar artigos, snippets, introduções e revisões editoriais.</p><div class="example">Ler artigo</div></a>
+      <a class="tool-card" href="/blog/base64-encode-decode-guia" role="listitem" data-slug="base64-encode-decode-guia"><div class="tool-title">Base64 encode/decode: guia rápido</div><p>Entenda o que é Base64, quando usar e por que não deve ser tratado como criptografia.</p><div class="example">Ler artigo</div></a>
+      <a class="tool-card" href="/blog/jwt-decoder-online-seguro" role="listitem" data-slug="jwt-decoder-online-seguro"><div class="tool-title">JWT decoder online seguro</div><p>Como inspecionar tokens JWT no navegador sem expor segredos e quais campos analisar.</p><div class="example">Ler artigo</div></a>
+      <a class="tool-card" href="/blog/gerar-slug-seo" role="listitem" data-slug="gerar-slug-seo"><div class="tool-title">Como gerar slug SEO</div><p>Crie URLs curtas, legíveis, sem acentos e alinhadas com palavras-chave principais.</p><div class="example">Ler artigo</div></a>
+      <a class="tool-card" href="/blog/meta-tags-para-iniciantes" role="listitem" data-slug="meta-tags-para-iniciantes"><div class="tool-title">Meta tags para iniciantes</div><p>Title, description, canonical e OpenGraph explicados para páginas indexáveis.</p><div class="example">Ler artigo</div></a>
+      <a class="tool-card" href="/blog/densidade-de-palavras-chave" role="listitem" data-slug="densidade-de-palavras-chave"><div class="tool-title">Densidade de palavras-chave</div><p>Como medir termos repetidos sem exagerar e manter o texto natural para pessoas e buscadores.</p><div class="example">Ler artigo</div></a>
+      <a class="tool-card" href="/blog/timestamp-unix-explicado" role="listitem" data-slug="timestamp-unix-explicado"><div class="tool-title">Timestamp Unix explicado</div><p>Converta datas, leia logs e entenda segundos e milissegundos em integrações.</p><div class="example">Ler artigo</div></a>
+      <a class="tool-card" href="/blog/uuid-v4-o-que-e" role="listitem" data-slug="uuid-v4-o-que-e"><div class="tool-title">UUID v4: o que é e quando usar</div><p>Conheça identificadores únicos para testes, bancos de dados e objetos distribuídos.</p><div class="example">Ler artigo</div></a>
+      <a class="tool-card" href="/blog/url-encode-e-decode" role="listitem" data-slug="url-encode-e-decode"><div class="tool-title">URL encode e decode</div><p>Entenda caracteres reservados, query strings e como evitar links quebrados.</p><div class="example">Ler artigo</div></a>
+      <a class="tool-card" href="/blog/hash-sha-256-online" role="listitem" data-slug="hash-sha-256-online"><div class="tool-title">Hash SHA-256 online</div><p>Veja usos de hash para integridade, comparação de conteúdo e cuidados de segurança.</p><div class="example">Ler artigo</div></a>
+      <a class="tool-card" href="/blog/remover-linhas-vazias" role="listitem" data-slug="remover-linhas-vazias"><div class="tool-title">Como remover linhas vazias</div><p>Organize listas e rascunhos removendo linhas em branco sem perder conteúdo.</p><div class="example">Ler artigo</div></a>
+      <a class="tool-card" href="/blog/capitalizacao-inteligente" role="listitem" data-slug="capitalizacao-inteligente"><div class="tool-title">Capitalização inteligente</div><p>Padronize frases, títulos e nomes com regras simples de caixa e revisão final.</p><div class="example">Ler artigo</div></a>
     </div></div>
   </section>
 
@@ -361,7 +368,7 @@
   </footer>
 </div>
 
-<div id="cookie-consent" class="cookie-consent" role="dialog" aria-label="Aviso de cookies" aria-describedby="cookie-desc">
+<div id="cookie-consent" class="cookie-consent" role="dialog" aria-label="Aviso de cookies">
   <p id="cookie-desc">Utilizamos cookies para melhorar sua experiência e exibir anúncios relevantes. Ao continuar, você concorda com nossa <a href="/privacy-policy">Política de Privacidade</a>.</p>
   <button onclick="acceptCookies()" class="btn btn-primary btn-sm cookie-btn" aria-label="Aceitar cookies">Aceitar</button>
 </div>

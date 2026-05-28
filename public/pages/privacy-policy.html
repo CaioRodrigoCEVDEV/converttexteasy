@@ -43,44 +43,53 @@
 <link rel="stylesheet" href="../assets/css/style.css">
 </head>
 <body data-tool-page="privacy">
-<a href="#main-content" class="skip-link">Pular para o conteúdo principal</a>
+<a href="#main-content" class="skip-link" data-i18n="skipLink">Pular para o conteúdo principal</a>
 <div class="site-shell">
   <header class="topbar" role="banner">
+    <div class="brand-lockup">
     <a href="/" class="brand-lockup text-decoration-none" aria-label="ConvertTextEasy - Página Inicial">
       <span class="navbar-logo"><img src="../assets/img/iconeTextLab.png" alt="ConvertTextEasy" width="48" height="48"></span>
       <div>
         <div class="brand-title">ConvertTextEasy</div>
-        <div class="brand-subtitle">Hub de ferramentas de texto</div>
+        <div class="brand-subtitle" id="brandSubtitle">Hub de ferramentas de texto</div>
       </div>
     </a>
+    </div>
     <div class="topbar-actions">
-      <button class="mobile-menu-btn" type="button" aria-label="Abrir menu de ferramentas" aria-expanded="false">
+      <button class="mobile-menu-btn" type="button" id="mobileMenuBtn" aria-label="Abrir menu de ferramentas" aria-expanded="false">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/>
         </svg>
       </button>
       <button class="theme-toggle btn btn-sm" onclick="toggleTheme()" title="Alternar tema" aria-label="Alternar tema claro/escuro">
         <span id="themeIcon" aria-hidden="true">🌙</span>
-        <small>Tema</small>
+        <small id="themeLabel">Tema</small>
       </button>
       <select onchange="changeLang(this.value)" class="form-select form-select-sm lang-select" aria-label="Selecionar idioma">
         <option value="pt">🇧🇷 Português</option>
         <option value="en">🇺🇸 English</option>
         <option value="es">🇪🇸 Español</option>
+        <option value="fr">🇫🇷 Français</option>
+        <option value="de">🇩🇪 Deutsch</option>
+        <option value="it">🇮🇹 Italiano</option>
+        <option value="zh">🇨🇳 中文</option>
+        <option value="ja">🇯🇵 日本語</option>
+        <option value="ru">🇷🇺 Русский</option>
+        <option value="ar">🇸🇦 العربية</option>
       </select>
     </div>
   </header>
 
   <nav class="breadcrumbs" aria-label="Breadcrumb">
-    <a href="/">Início</a>
+    <a href="/" data-i18n="breadcrumbHome">Início</a>
     <span aria-hidden="true">›</span>
-    <span aria-current="page">Política de Privacidade</span>
+    <span aria-current="page" data-i18n="pagePrivacy">Política de Privacidade</span>
   </nav>
 
   <section class="panel hero-panel">
     <div class="panel-body">
-      <a href="/" class="page-back-link">← Voltar para a home</a>
-      <div class="page-eyebrow">Privacidade</div>
+      <a href="/" class="page-back-link" data-i18n="pageBackLink">← Voltar para a home</a>
+      <div class="page-eyebrow" data-i18n="pagePrivacy">Privacidade</div>
       <h1 class="page-title">Política de Privacidade</h1>
       <p class="page-description">Esta política descreve como o ConvertTextEasy coleta, utiliza, armazena e protege as informações dos usuários durante a navegação e uso de nossas ferramentas online. Esta política está em conformidade com a Lei Geral de Proteção de Dados (LGPD - Lei nº 13.709/2018).</p>
       <p class="small text-muted mt-2">Última atualização: 07 de maio de 2026</p>
