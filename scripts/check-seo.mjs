@@ -50,14 +50,14 @@ try {
   });
 
   const root = await request("/");
-  assert(root.status === 301 && root.headers.location === "/en/", "Root must redirect to /en/");
+  assert(root.status === 301 && root.headers.location === "/pt/", "Root must redirect to /pt/");
 
-  const canonicalRedirect = await request("/en/", {
+  const canonicalRedirect = await request("/", {
     host: "www.converttexteasy.com",
     "x-forwarded-proto": "http"
   });
   assert(
-    canonicalRedirect.status === 301 && canonicalRedirect.headers.location === "https://converttexteasy.com/en/",
+    canonicalRedirect.status === 301 && canonicalRedirect.headers.location === "https://converttexteasy.com/",
     "www/http request must redirect to canonical HTTPS non-www URL"
   );
 
@@ -76,14 +76,14 @@ try {
   assert(toolsSitemap.body.includes("https://converttexteasy.com/en/uppercase-text"), "tools sitemap must use localized canonical URLs");
   assert(toolsSitemap.body.includes('hreflang="pt"'), "tools sitemap must include hreflang alternates");
 
-  const home = await request("/en/");
-  assert(home.status === 200, "English homepage must return 200");
-  assert(home.body.includes("<title>ConvertTextEasy - Free Online Text Tools</title>"), "homepage title must identify brand");
-  assert(home.body.includes('<link rel="canonical" href="https://converttexteasy.com/en/">'), "homepage canonical must be localized");
-  assert(home.body.includes('hreflang="x-default" href="https://converttexteasy.com/en/"'), "homepage must include x-default hreflang");
+  const home = await request("/pt/");
+  assert(home.status === 200, "Portuguese homepage must return 200");
+  assert(home.body.includes("<title>ConvertTextEasy - Ferramentas Online Gratuitas</title>"), "homepage title must identify brand");
+  assert(home.body.includes('<link rel="canonical" href="https://converttexteasy.com/pt/">'), "homepage canonical must be localized");
+  assert(home.body.includes('hreflang="x-default" href="https://converttexteasy.com/pt/"'), "homepage must include x-default hreflang");
   assert(home.body.includes('"@type":"Organization"'), "homepage must include Organization schema");
   assert(home.body.includes('"@type":"WebSite"'), "homepage must include WebSite schema");
-  assert(home.body.includes("ConvertTextEasy official online text toolkit"), "homepage must include indexable brand copy");
+  assert(home.body.includes("ConvertTextEasy: kit oficial de ferramentas de texto online"), "homepage must include indexable brand copy");
 
   console.log("SEO technical check passed");
 } finally {

@@ -6,6 +6,7 @@ import zlib from "zlib";
 import { promisify } from "util";
 import { fileURLToPath } from "url";
 import dotenv from "dotenv";
+import { ARTICLE_PAGE_CONTENT, EDITORIAL_AUTHOR, STATIC_PAGE_CONTENT, TOOL_PAGE_CONTENT } from "./site-content.js";
 
 dotenv.config();
 
@@ -64,7 +65,7 @@ app.use((req, res, next) => {
   next();
 });
 
-const DEFAULT_LOCALE = "en";
+const DEFAULT_LOCALE = "pt";
 const SUPPORTED_LOCALES = ["pt", "en", "es", "fr", "de", "it", "zh", "ja", "ru", "ar"];
 const supportedLocaleSet = new Set(SUPPORTED_LOCALES);
 const LOCALE_REGEX = new RegExp(`^/(${SUPPORTED_LOCALES.join("|")})(/|$)`);
@@ -148,6 +149,10 @@ function escapeRegExp(value) {
   return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 
+function stripTags(value) {
+  return String(value ?? "").replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
+}
+
 function interpolate(value, vars = {}) {
   return String(value ?? "").replace(/\{(\w+)\}/g, (match, key) => vars[key] ?? match);
 }
@@ -179,16 +184,20 @@ function localizedContentForRoute(req) {
   }
 
   if (routePath.startsWith("/blog/") && data.blogs && data.blogs[slug]) {
+    const manifestArticle = articleBySlug?.get(slug) || {};
+    const localizedArticle = data.blogs[slug] || {};
     return {
-      title: data.blogs[slug].title,
-      desc: data.blogs[slug].desc
+      title: localizedArticle.title || manifestArticle.title,
+      desc: !localizedArticle.desc || /Guia prático com explicações/i.test(localizedArticle.desc) ? manifestArticle.desc : localizedArticle.desc
     };
   }
 
   if (data.tools && data.tools[slug]) {
+    const manifestTool = toolBySlug?.get(slug) || {};
+    const localizedTool = data.tools[slug] || {};
     return {
-      title: data.tools[slug].title,
-      desc: data.tools[slug].desc
+      title: localizedTool.title || manifestTool.title,
+      desc: localizedTool.desc || manifestTool.description
     };
   }
 
@@ -246,19 +255,99 @@ function getRouteSlug(req) {
 }
 
 function getLocalizedTool(req, slug = getRouteSlug(req)) {
+  const manifestTool = toolBySlug?.get(slug) || {};
   const fallbackTool = getLocaleData(DEFAULT_LOCALE)?.tools?.[slug] || {};
-  return {
+  const localizedTool = req.localeData?.tools?.[slug] || {};
+  const result = {
+    ...manifestTool,
     ...fallbackTool,
-    ...(req.localeData?.tools?.[slug] || {})
+    ...localizedTool,
+    desc: localizedTool.desc || fallbackTool.desc || manifestTool.description,
+    example: localizedTool.example || fallbackTool.example || manifestTool.example,
+    tutorial: localizedTool.tutorial || fallbackTool.tutorial || manifestTool.tutorial
   };
+
+  if (req.lang === "pt") {
+    result.title = manifestTool.title || result.title;
+    result.desc = manifestTool.description || result.desc;
+    result.example = manifestTool.example || result.example;
+    result.tutorial = manifestTool.tutorial || result.tutorial;
+  }
+
+  return result;
 }
 
 function getLocalizedBlog(req, slug = getRouteSlug(req)) {
+  const manifestArticle = articleBySlug?.get(slug) || {};
   const fallbackBlog = getLocaleData(DEFAULT_LOCALE)?.blogs?.[slug] || {};
+  const localizedBlog = req.localeData?.blogs?.[slug] || {};
   return {
+    ...manifestArticle,
     ...fallbackBlog,
-    ...(req.localeData?.blogs?.[slug] || {})
+    ...(localizedBlog.desc && /Guia prático com explicações/i.test(localizedBlog.desc) ? { ...localizedBlog, desc: manifestArticle.desc || localizedBlog.desc } : localizedBlog)
   };
+}
+
+function getToolPageContent(slug) {
+  return TOOL_PAGE_CONTENT[slug] || null;
+}
+
+function getArticlePageContent(slug) {
+  return ARTICLE_PAGE_CONTENT[slug] || null;
+}
+
+function renderRelatedTools(req, relatedSlugs = []) {
+  return relatedSlugs
+    .filter((relatedSlug) => relatedSlug !== getRouteSlug(req) && toolBySlug.has(relatedSlug))
+    .map((relatedSlug) => `<a class="related-tool-link" href="${localizedPath(req.lang, `/${relatedSlug}`)}">${escapeHtml(getLocalizedTool(req, relatedSlug).title)}</a>`)
+    .join("");
+}
+
+function renderToolFaqSchema(items) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: items.map(([q, a]) => ({
+      "@type": "Question",
+      name: q,
+      acceptedAnswer: { "@type": "Answer", text: a }
+    }))
+  };
+}
+
+function renderToolSidebar(req, tool, content) {
+  const related = renderRelatedTools(req, content.related || []);
+  return `<aside class="sidebar-stack" aria-label="${escapeHtml(t(req, "toolAsideAria", { tool: tool.title, toolLower: tool.title.toLowerCase() }))}">
+    <section class="panel">
+      <div class="panel-head"><div><h2 class="panel-title">Como usar</h2><p class="panel-copy">Passo a passo curto para usar ${escapeHtml(tool.title)} com mais segurança e contexto.</p></div></div>
+      <div class="panel-body"><ol class="tool-info-list">${content.howTo.map((step) => `<li>${escapeHtml(step)}</li>`).join("")}</ol></div>
+    </section>
+    <section class="panel">
+      <div class="panel-head"><div><h2 class="panel-title">Exemplo antes e depois</h2><p class="panel-copy">Veja um caso simples do tipo de transformação entregue pela ferramenta.</p></div></div>
+      <div class="panel-body"><div class="example"><strong>Antes</strong><br>${escapeHtml(content.before || "-")}</div><div class="example mt-3"><strong>Depois</strong><br>${escapeHtml(content.after || "-")}</div></div>
+    </section>
+    <section class="panel">
+      <div class="panel-head"><div><h2 class="panel-title">Casos de uso reais</h2><p class="panel-copy">Situações em que esta ferramenta costuma poupar tempo no trabalho diário.</p></div></div>
+      <div class="panel-body"><ul class="list-unstyled mb-0">${content.useCases.map((item) => `<li class="mb-2">${escapeHtml(item)}</li>`).join("")}</ul></div>
+    </section>
+    <section class="panel">
+      <div class="panel-head"><div><h2 class="panel-title">Erros comuns</h2><p class="panel-copy">Revise estes pontos antes de usar o resultado em produção ou publicação.</p></div></div>
+      <div class="panel-body"><ul class="list-unstyled mb-0">${content.mistakes.map((item) => `<li class="mb-2">${escapeHtml(item)}</li>`).join("")}</ul></div>
+    </section>
+    <section class="panel">
+      <div class="panel-head"><div><h2 class="panel-title">Ferramentas relacionadas</h2><p class="panel-copy">Aprofunde a mesma tarefa com páginas coerentes com este fluxo.</p></div></div>
+      <div class="panel-body"><div class="related-tools-grid">${related}</div></div>
+    </section>
+  </aside>`;
+}
+
+function renderToolFaqHtml(items) {
+  return `<section class="panel mt-4"><div class="panel-head"><div><h2 class="panel-title">Perguntas frequentes</h2></div></div><div class="panel-body">${items.map(([q, a]) => `<div itemscope="" itemprop="mainEntity" itemtype="https://schema.org/Question"><h3 itemprop="name">${escapeHtml(q)}</h3><div itemscope="" itemprop="acceptedAnswer" itemtype="https://schema.org/Answer"><p itemprop="text">${escapeHtml(a)}</p></div></div>`).join("")}</div></section>`;
+}
+
+function renderArticleHtml(req, article, content) {
+  const relatedTool = getLocalizedTool(req, content.relatedTool);
+  return `<article class="panel" id="main-content"><div class="panel-body article-content"><p class="page-eyebrow">Guia editorial do ConvertTextEasy</p><h1 class="page-title">${escapeHtml(article.title)}</h1><p class="page-description">${escapeHtml(article.desc || "")}</p><p><strong>Atualizado em:</strong> ${escapeHtml(content.updatedAt)}</p><p><strong>Por:</strong> ${escapeHtml(EDITORIAL_AUTHOR)}</p><p>${escapeHtml(content.intro)}</p>${content.sections.map(([heading, paragraphs]) => `<h2>${escapeHtml(heading)}</h2>${paragraphs.map((paragraph) => `<p>${escapeHtml(paragraph)}</p>`).join("")}`).join("")}<div class="tool-callout"><h2>Ferramenta relacionada</h2><p>Para aplicar este assunto na prática, use ${escapeHtml(relatedTool.title)} diretamente no navegador.</p><a class="badge-conversion badge-conversion-primary text-decoration-none" href="${localizedPath(req.lang, `/${content.relatedTool}`)}" aria-label="Abrir ferramenta ${escapeHtml(relatedTool.title)}"><span>Go</span>Abrir ferramenta</a></div></div></article>`;
 }
 
 app.use((req, res, next) => {
@@ -442,14 +531,15 @@ function buildStructuredData(req) {
       offers: { "@type": "Offer", price: "0", priceCurrency: "USD" }
     });
   } else if (type === "article") {
+    const articleContent = getArticlePageContent(getRouteSlug(req));
     base.push({
       "@context": "https://schema.org",
       "@type": "Article",
       headline: content.title,
       description: content.desc,
       datePublished: "2026-05-07",
-      dateModified: new Date().toISOString().slice(0, 10),
-      author: { "@id": `${siteOrigin}/#organization` },
+      dateModified: articleContent?.updatedAt || new Date().toISOString().slice(0, 10),
+      author: { "@type": "Person", name: EDITORIAL_AUTHOR },
       publisher: { "@id": `${siteOrigin}/#organization` },
       mainEntityOfPage: localizedUrl(req.lang, routePath),
       inLanguage: req.localeData?.meta?.locale || "en-US"
@@ -652,15 +742,9 @@ function translateToolPage(html, req) {
   if (!slug || !toolBySlug.has(slug)) return html;
 
   const tool = getLocalizedTool(req, slug);
+  const content = req.lang === "pt" ? getToolPageContent(slug) : null;
+  if (!content) return html;
   const vars = { tool: tool.title, toolLower: tool.title.toLowerCase() };
-  const related = [...toolBySlug.keys()]
-    .filter((relatedSlug) => relatedSlug !== slug)
-    .slice(0, 8)
-    .map((relatedSlug) => {
-      const relatedTool = getLocalizedTool(req, relatedSlug);
-      return `<a class="related-tool-link" href="${localizedPath(req.lang, `/${relatedSlug}`)}">${escapeHtml(relatedTool.title)}</a>`;
-    })
-    .join("");
 
   html = html.replace(/(<section class="panel editor-card">[\s\S]*?<h2 class="panel-title">)([\s\S]*?)(<\/h2>)/, `$1${escapeHtml(t(req, "toolEditorTitle", vars))}$3`);
   html = html.replace(/(<section class="panel editor-card">[\s\S]*?<p class="panel-copy">)([\s\S]*?)(<\/p>)/, `$1${escapeHtml(t(req, "toolEditorCopy", vars))}$3`);
@@ -675,32 +759,17 @@ function translateToolPage(html, req) {
   html = html.replace(/<span>Linhas:<\/span>/, `<span>${escapeHtml(t(req, "toolLines", vars))}</span>`);
   html = replaceAttr(html, /<button onclick="convert\('[^']+'\)" type="button" class="badge-conversion badge-conversion-primary"[^>]*>/, "aria-label", t(req, "toolConvertAria", vars));
   html = html.replace(/(<div class="tool-action-bar"><button[\s\S]*?<span>)([\s\S]*?)(<\/span>)([\s\S]*?)(<\/button>)/, `$1${escapeHtml(t(req, "toolConvert", vars))}$3${escapeHtml(tool.title)}$5`);
-  html = replaceAttr(html, /<aside class="sidebar-stack" aria-label="[^"]*">/, "aria-label", t(req, "toolAsideAria", vars));
-  html = html.replace(/(<aside class="sidebar-stack"[\s\S]*?<h2 class="panel-title">)([\s\S]*?)(<\/h2>)/, `$1${escapeHtml(t(req, "toolHowToUseTitle", vars))}$3`);
-  html = html.replace(/(<aside class="sidebar-stack"[\s\S]*?<p class="panel-copy">)([\s\S]*?)(<\/p>)/, `$1${escapeHtml(t(req, "toolHowToUseCopy", vars))}$3`);
-  html = html.replace(/<ol class="tool-info-list">[\s\S]*?<\/ol>/, `<ol class="tool-info-list"><li>${escapeHtml(t(req, "toolStepPaste", vars))}</li><li>${escapeHtml(tool.tutorial || "")}</li><li>${escapeHtml(t(req, "toolStepConvert", vars))}</li><li>${escapeHtml(t(req, "toolStepCopy", vars))}</li></ol>`);
-  html = html.replace(/(<ol class="tool-info-list">[\s\S]*?<\/ol><\/div><\/section><section class="panel"><div class="panel-head"><div><h2 class="panel-title">)([\s\S]*?)(<\/h2>)/, `$1${escapeHtml(t(req, "toolExampleTitle", vars))}$3`);
-  html = html.replace(/(<ol class="tool-info-list">[\s\S]*?<\/ol><\/div><\/section><section class="panel">[\s\S]*?<p class="panel-copy">)([\s\S]*?)(<\/p>)/, `$1${escapeHtml(t(req, "toolExampleCopy", vars))}$3`);
-  html = html.replace(/(<div class="panel-body"><div class="example">)([\s\S]*?)(<\/div><\/div><\/section><section class="panel"><div class="panel-head"><div><h2 class="panel-title">)([\s\S]*?)(<\/h2>)/, `$1${escapeHtml(tool.example || "")}$3${escapeHtml(t(req, "relatedToolsTitle", vars))}$5`);
-  html = html.replace(/<div class="related-tools-grid">[\s\S]*?<\/div>/, `<div class="related-tools-grid">${related}</div>`);
+  html = html.replace(/<aside class="sidebar-stack"[\s\S]*?<\/aside>/, renderToolSidebar(req, tool, content));
 
-  const faqItems = [1, 2, 3, 4, 5].map((i) => ({
-    q: t(req, `faqQ${i}`, vars),
-    a: t(req, `faqA${i}`, vars)
-  }));
-  const faqVisible = faqItems.map((item, i) => `<div itemscope="" itemprop="mainEntity" itemtype="https://schema.org/Question"><h3 itemprop="name" data-i18n="faqQ${i + 1}">${escapeHtml(item.q)}</h3><div itemscope="" itemprop="acceptedAnswer" itemtype="https://schema.org/Answer"><p itemprop="text" data-i18n="faqA${i + 1}">${escapeHtml(item.a)}</p></div></div>`).join("");
-  html = html.replace(/<section class="panel mt-4"><div class="panel-head"><div><h2 class="panel-title" data-i18n="faqTitle">[\s\S]*?<\/section>/, `<section class="panel mt-4"><div class="panel-head"><div><h2 class="panel-title" data-i18n="faqTitle">${escapeHtml(t(req, "faqTitle", vars))}</h2></div></div><div class="panel-body">${faqVisible}</div></section>`);
+  const faqItems = content.faq;
+  html = html.replace(/<section class="panel mt-4">[\s\S]*?<\/section>/, renderToolFaqHtml(faqItems));
 
-  const faqSchema = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: faqItems.map((item) => ({
-      "@type": "Question",
-      name: item.q,
-      acceptedAnswer: { "@type": "Answer", text: item.a }
-    }))
-  };
+  const faqSchema = renderToolFaqSchema(faqItems);
   html = html.replace(/<script type="application\/ld\+json">\{"@context":"https:\/\/schema\.org","@type":"FAQPage"[\s\S]*?<\/script>/, `<script type="application/ld+json">${JSON.stringify(faqSchema)}</script>`);
+
+  html = html.replace(/(<p class="page-description"[^>]*>)([\s\S]*?)(<\/p>)/i, `$1${escapeHtml(tool.desc)}$3`);
+  html = html.replace(/(<section class="panel hero-panel">[\s\S]*?<div class="panel-body">)/, `$1<div class="page-eyebrow">Ferramenta específica</div>`);
+  html = html.replace(/(<section class="panel hero-panel">[\s\S]*?<p class="page-description"[^>]*>[\s\S]*?<\/p>)/, `$1<p>${escapeHtml(content.intro)}</p>`);
 
   return html;
 }
@@ -708,48 +777,43 @@ function translateToolPage(html, req) {
 function translateBlogPage(html, req) {
   const slug = getRouteSlug(req);
   if (!slug || !articleBySlug.has(slug)) return html;
+  const content = req.lang === "pt" ? getArticlePageContent(slug) : null;
+  if (!content) return html;
 
   const article = getLocalizedBlog(req, slug);
-  const toolSlug = toolBySlug.has(slug) ? slug : [...toolBySlug.keys()][0];
   const fallbackArticle = articleBySlug.get(slug) || {};
-  const relatedSlugMatch = html.match(/href="\/([^"]+)" aria-label="Abrir ferramenta/);
-  const relatedSlug = relatedSlugMatch?.[1] || toolSlug;
-  const relatedTool = getLocalizedTool(req, relatedSlug);
-  const title = article.title || fallbackArticle.title;
-  const vars = { title, tool: relatedTool.title };
-  const paragraphs = [
-    t(req, "articleIntro", vars),
-    t(req, "articleP1", vars),
-    t(req, "articleP2", vars),
-    t(req, "articleP3", vars),
-    t(req, "articleP4", vars),
-    t(req, "articleP5", vars),
-    t(req, "articleP6", vars),
-    t(req, "articleP7", vars),
-    t(req, "articleP8", vars),
-    t(req, "articleP9", vars),
-    t(req, "articleP10", vars)
-  ];
-  const articleHtml = `<article class="panel" id="main-content"><div class="panel-body article-content"><p class="page-eyebrow" data-i18n="guidedPractice">${escapeHtml(t(req, "guidedPractice"))}</p><h1 class="page-title">${escapeHtml(title)}</h1><p class="page-description">${escapeHtml(article.desc || fallbackArticle.desc || "")}</p><p>${escapeHtml(paragraphs[0])}</p><h2>${escapeHtml(t(req, "articleHeadingWhy", vars))}</h2><p>${escapeHtml(paragraphs[1])}</p><p>${escapeHtml(paragraphs[2])}</p><h2>${escapeHtml(t(req, "articleHeadingSteps", vars))}</h2>${paragraphs.slice(3, 7).map((p) => `<p>${escapeHtml(p)}</p>`).join("")}<h2>${escapeHtml(t(req, "articleHeadingExamples", vars))}</h2>${paragraphs.slice(7).map((p) => `<p>${escapeHtml(p)}</p>`).join("")}<div class="tool-callout"><h2>${escapeHtml(t(req, "articleRelatedTitle", vars))}</h2><p>${escapeHtml(t(req, "articleRelatedCopy", vars))}</p><a class="badge-conversion badge-conversion-primary text-decoration-none" href="${localizedPath(req.lang, `/${relatedSlug}`)}" aria-label="${escapeHtml(t(req, "articleOpenToolAria", vars))}"><span>Go</span>${escapeHtml(t(req, "articleOpenTool", vars))}</a></div></div></article>`;
+  const articleHtml = renderArticleHtml(req, {
+    ...fallbackArticle,
+    ...article,
+    title: article.title || fallbackArticle.title,
+    desc: article.desc || fallbackArticle.desc
+  }, content);
   return html.replace(/<article class="panel" id="main-content">[\s\S]*?<\/article>/, articleHtml);
 }
 
 function translateStaticPage(html, req) {
   if (["home", "blogIndex", "article", "tool"].includes(routeType(req))) return html;
   const slug = getRouteSlug(req) || "404";
+  const richPage = req.lang === "pt" ? STATIC_PAGE_CONTENT[slug] : null;
   const fallbackPages = getLocaleData(DEFAULT_LOCALE)?.pages || {};
   const page = req.localeData?.pages?.[slug] || fallbackPages[slug];
   if (!page) return html;
 
-  html = html.replace(/(<h1 class="page-title">)([\s\S]*?)(<\/h1>)/, `$1${escapeHtml(page.title)}$3`);
-  html = html.replace(/(<p class="page-description">)([\s\S]*?)(<\/p>)/, `$1${escapeHtml(page.desc)}$3`);
-  html = html.replace(/(<span aria-current="page"[^>]*>)([\s\S]*?)(<\/span>)/, `$1${escapeHtml(page.title)}$3`);
-  html = html.replace(/("name"\s*:\s*")[^"]*(")/, `$1${escapeHtml(page.title)}$2`);
-  html = html.replace(/("description"\s*:\s*")[^"]*(")/, `$1${escapeHtml(page.desc)}$2`);
-  html = html.replace(/("position":\s*1,\s*"name":\s*")[^"]*(")/, `$1${escapeHtml(t(req, "breadcrumbHome"))}$2`);
-  html = html.replace(/("position":\s*2,\s*"name":\s*")[^"]*(")/, `$1${escapeHtml(page.title)}$2`);
+  const pageTitle = richPage?.title || page.title;
+  const pageDesc = richPage?.desc || page.desc;
 
-  const mainContent = `<main id="main-content" class="content-grid mt-4"><section class="panel editor-card"><div class="panel-head"><div><h2 class="panel-title">${escapeHtml(page.sections[0]?.[0] || page.title)}</h2><p class="panel-copy">${escapeHtml(page.sections[0]?.[1] || page.desc)}</p></div></div><div class="panel-body">${page.sections.slice(1).map(([heading, body]) => `<h3 class="mt-4">${escapeHtml(heading)}</h3><p>${escapeHtml(body)}</p>`).join("")}</div></section><aside class="sidebar-stack" aria-label="${escapeHtml(t(req, "sidebarMoreTools"))}"><section class="panel"><div class="panel-head"><div><h2 class="panel-title">${escapeHtml(t(req, "sidebarTools"))}</h2><p class="panel-copy">${escapeHtml(t(req, "allToolsDesc"))}</p></div></div><div class="panel-body"><ul class="list-unstyled small mb-0"><li class="mb-2"><a href="${localizedPath(req.lang, "/")}" class="text-decoration-none">${escapeHtml(t(req, "footerHome"))}</a></li><li class="mb-2"><a href="${localizedPath(req.lang, "/uppercase-text")}" class="text-decoration-none">${escapeHtml(getLocalizedTool(req, "uppercase-text").title)}</a></li><li class="mb-2"><a href="${localizedPath(req.lang, "/lowercase-text")}" class="text-decoration-none">${escapeHtml(getLocalizedTool(req, "lowercase-text").title)}</a></li><li class="mb-2"><a href="${localizedPath(req.lang, "/blog")}" class="text-decoration-none">${escapeHtml(t(req, "drawerBlog"))}</a></li><li><a href="${localizedPath(req.lang, "/contact")}" class="text-decoration-none">${escapeHtml(t(req, "pageContact"))}</a></li></ul></div></section></aside></main>`;
+  html = html.replace(/(<h1 class="page-title">)([\s\S]*?)(<\/h1>)/, `$1${escapeHtml(pageTitle)}$3`);
+  html = html.replace(/(<p class="page-description">)([\s\S]*?)(<\/p>)/, `$1${escapeHtml(pageDesc)}$3`);
+  html = html.replace(/(<span aria-current="page"[^>]*>)([\s\S]*?)(<\/span>)/, `$1${escapeHtml(pageTitle)}$3`);
+  html = html.replace(/("name"\s*:\s*")[^"]*(")/, `$1${escapeHtml(pageTitle)}$2`);
+  html = html.replace(/("description"\s*:\s*")[^"]*(")/, `$1${escapeHtml(pageDesc)}$2`);
+  html = html.replace(/("position":\s*1,\s*"name":\s*")[^"]*(")/, `$1${escapeHtml(t(req, "breadcrumbHome"))}$2`);
+  html = html.replace(/("position":\s*2,\s*"name":\s*")[^"]*(")/, `$1${escapeHtml(pageTitle)}$2`);
+
+  const sections = richPage?.sections || page.sections.slice(1);
+  const leadTitle = richPage?.leadTitle || page.sections[0]?.[0] || pageTitle;
+  const leadCopy = richPage?.leadCopy || page.sections[0]?.[1] || pageDesc;
+  const mainContent = `<main id="main-content" class="content-grid mt-4"><section class="panel editor-card"><div class="panel-head"><div><h2 class="panel-title">${escapeHtml(leadTitle)}</h2><p class="panel-copy">${escapeHtml(leadCopy)}</p></div></div><div class="panel-body">${sections.map(([heading, body]) => `<h3 class="mt-4">${escapeHtml(heading)}</h3><p>${escapeHtml(body)}</p>`).join("")}</div></section><aside class="sidebar-stack" aria-label="${escapeHtml(t(req, "sidebarMoreTools"))}"><section class="panel"><div class="panel-head"><div><h2 class="panel-title">Confiança e navegação</h2><p class="panel-copy">Páginas públicas e ferramentas centrais para conhecer melhor o projeto.</p></div></div><div class="panel-body"><ul class="list-unstyled small mb-0"><li class="mb-2"><a href="${localizedPath(req.lang, "/")}" class="text-decoration-none">${escapeHtml(t(req, "footerHome"))}</a></li><li class="mb-2"><a href="${localizedPath(req.lang, "/about")}" class="text-decoration-none">Sobre</a></li><li class="mb-2"><a href="${localizedPath(req.lang, "/privacy-policy")}" class="text-decoration-none">Privacidade</a></li><li class="mb-2"><a href="${localizedPath(req.lang, "/terms")}" class="text-decoration-none">Termos</a></li><li class="mb-2"><a href="${localizedPath(req.lang, "/blog")}" class="text-decoration-none">${escapeHtml(t(req, "drawerBlog"))}</a></li><li><a href="${localizedPath(req.lang, "/contact")}" class="text-decoration-none">${escapeHtml(t(req, "pageContact"))}</a></li></ul></div></section></aside></main>`;
   return html.replace(/<main id="main-content" class="content-grid mt-4">[\s\S]*?<\/main>/, mainContent);
 }
 
@@ -927,7 +991,7 @@ app.get("/robots.txt", (req, res) => {
   return res.send([
     "User-agent: *",
     "Allow: /",
-    "Disallow: /api/",
+    "Allow: /ads.txt",
     `Sitemap: ${new URL("/sitemap.xml", siteOrigin)}`
   ].join("\n"));
 });

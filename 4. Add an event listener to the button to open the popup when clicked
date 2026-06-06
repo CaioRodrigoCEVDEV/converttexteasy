@@ -1,3 +1,0 @@
-document.getElementById('openPopup').addEventListener('click', function() {
-  document.querySelector('.popup').style.display = 'block';
-});

@@ -7,9 +7,10 @@
   "scripts": {
     "start": "node src/index.js",
     "generate:content": "node scripts/generate-seo-content.mjs",
-    "check": "node --check src/index.js && node --check public/assets/js/script.js && node --check scripts/check-hardcoded-i18n.mjs && node --check scripts/check-seo.mjs",
+    "check": "node --check src/index.js && node --check src/site-content.js && node --check public/assets/js/script.js && node --check scripts/check-hardcoded-i18n.mjs && node --check scripts/check-seo.mjs && node --check scripts/validate-site.mjs",
     "check:i18n": "node scripts/check-hardcoded-i18n.mjs",
-    "check:seo": "node scripts/check-seo.mjs"
+    "check:seo": "node scripts/check-seo.mjs",
+    "validate:site": "node scripts/validate-site.mjs"
   },
   "keywords": [],
   "author": "",
