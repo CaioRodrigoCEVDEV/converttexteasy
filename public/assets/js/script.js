@@ -1594,6 +1594,68 @@ function currentRouteWithoutLocale() {
 const supportedLanguages = Object.freeze(['pt', 'en', 'es', 'fr', 'de', 'it', 'zh', 'ja', 'ru', 'ar']);
 const fallbackLanguage = 'en';
 const supportedLanguageSet = new Set(supportedLanguages);
+const feedbackTranslations = {
+  pt: {
+    button: '💬 Feedback',
+    title: '💬 Ajude a melhorar o ConvertTextEasy',
+    description: 'Sua opiniao ajuda a melhorar a ferramenta e criar novas funcionalidades.',
+    name: 'Nome',
+    email: 'E-mail',
+    rating: 'Nota',
+    type: 'Tipo de feedback',
+    message: 'Mensagem',
+    ratingPlaceholder: 'Selecione uma nota',
+    typePlaceholder: 'Selecione uma opcao',
+    submit: 'Enviar feedback',
+    sending: 'Enviando...',
+    close: 'Fechar',
+    privacy: 'Ao enviar, voce concorda que seus dados sejam usados apenas para analise de feedback e melhoria da plataforma.',
+    success: 'Obrigado! Seu feedback ajuda a melhorar o ConvertTextEasy 🚀',
+    error: 'Nao foi possivel enviar seu feedback agora. Tente novamente em instantes.',
+    requiredType: 'Escolha o tipo do feedback.',
+    requiredMessage: 'Escreva uma mensagem antes de enviar.',
+    invalidEmail: 'Informe um e-mail valido ou deixe o campo em branco.',
+    invalidRating: 'A nota deve estar entre 1 e 5.',
+    cooldown: 'Aguarde alguns segundos antes de enviar outro feedback.',
+    types: {
+      suggestion: 'Sugestao',
+      bug: 'Bug',
+      praise: 'Elogio',
+      feature: 'Nova funcionalidade',
+      other: 'Outro'
+    }
+  },
+  en: {
+    button: '💬 Feedback',
+    title: '💬 Help improve ConvertTextEasy',
+    description: 'Your feedback helps improve the tool and prioritize new features.',
+    name: 'Name',
+    email: 'Email',
+    rating: 'Rating',
+    type: 'Feedback type',
+    message: 'Message',
+    ratingPlaceholder: 'Select a rating',
+    typePlaceholder: 'Select an option',
+    submit: 'Send feedback',
+    sending: 'Sending...',
+    close: 'Close',
+    privacy: 'By sending this form, you agree that your data will be used only for feedback analysis and product improvement.',
+    success: 'Thank you! Your feedback helps improve ConvertTextEasy 🚀',
+    error: 'We could not send your feedback right now. Please try again soon.',
+    requiredType: 'Choose a feedback type.',
+    requiredMessage: 'Write a message before sending.',
+    invalidEmail: 'Enter a valid email or leave the field blank.',
+    invalidRating: 'Rating must be between 1 and 5.',
+    cooldown: 'Please wait a few seconds before sending another feedback.',
+    types: {
+      suggestion: 'Suggestion',
+      bug: 'Bug',
+      praise: 'Praise',
+      feature: 'Feature request',
+      other: 'Other'
+    }
+  }
+};
 
 function normalizeLanguage(lang) {
   if (!lang || typeof lang !== 'string') return null;
@@ -2210,6 +2272,240 @@ updateCounts();
     document.addEventListener('DOMContentLoaded', initTopbarToolsMenu);
   } else {
     initTopbarToolsMenu();
+  }
+})();
+
+// ===== FEEDBACK =====
+(function () {
+  var FEEDBACK_COOLDOWN_MS = 10000;
+  var FEEDBACK_STORAGE_KEY = 'cte-feedback-last-submitted-at';
+  var isSubmitting = false;
+
+  function getFeedbackCopy() {
+    var lang = normalizeLanguage(getSavedLanguage() || getUrlLanguage() || resolveBrowserLanguage()) || fallbackLanguage;
+    return feedbackTranslations[lang] || feedbackTranslations[fallbackLanguage];
+  }
+
+  function isValidFeedbackEmail(value) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+  }
+
+  function getLastFeedbackSentAt() {
+    try {
+      return Number(localStorage.getItem(FEEDBACK_STORAGE_KEY)) || 0;
+    } catch (error) {
+      return 0;
+    }
+  }
+
+  function setLastFeedbackSentAt(value) {
+    try {
+      localStorage.setItem(FEEDBACK_STORAGE_KEY, String(value));
+    } catch (error) {
+      return;
+    }
+  }
+
+  function showFeedbackToast(message, tone) {
+    var toast = document.querySelector('.feedback-toast');
+    if (!toast) return;
+    toast.textContent = message;
+    toast.classList.remove('is-success', 'is-error', 'is-visible');
+    toast.classList.add(tone === 'success' ? 'is-success' : 'is-error');
+    toast.classList.add('is-visible');
+    window.clearTimeout(showFeedbackToast.timeoutId);
+    showFeedbackToast.timeoutId = window.setTimeout(function () {
+      toast.classList.remove('is-visible');
+    }, 4200);
+  }
+
+  function setFeedbackStatus(form, message, tone) {
+    var status = form.querySelector('.feedback-form-status');
+    if (!status) return;
+    status.textContent = message || '';
+    status.classList.remove('is-success', 'is-error');
+    if (!message) {
+      status.hidden = true;
+      return;
+    }
+    status.hidden = false;
+    status.classList.add(tone === 'success' ? 'is-success' : 'is-error');
+  }
+
+  function closeFeedbackModal() {
+    var modal = document.querySelector('.feedback-modal');
+    if (!modal) return;
+    modal.classList.remove('is-open');
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('feedback-modal-open');
+  }
+
+  function openFeedbackModal() {
+    var modal = document.querySelector('.feedback-modal');
+    if (!modal) return;
+    modal.classList.add('is-open');
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('feedback-modal-open');
+    var firstField = modal.querySelector('textarea[name="message"]');
+    if (firstField) firstField.focus();
+  }
+
+  function initFeedbackWidget() {
+    if (document.querySelector('.feedback-widget')) return;
+
+    var copy = getFeedbackCopy();
+    var wrapper = document.createElement('div');
+    wrapper.className = 'feedback-widget';
+    wrapper.innerHTML =
+      '<button type="button" class="feedback-fab" aria-haspopup="dialog" aria-expanded="false">' + copy.button + '</button>' +
+      '<div class="feedback-toast" aria-live="polite" aria-atomic="true"></div>' +
+      '<div class="feedback-modal" role="dialog" aria-modal="true" aria-hidden="true" aria-label="' + copy.title + '">' +
+        '<div class="feedback-modal-backdrop" data-feedback-close="true"></div>' +
+        '<div class="feedback-modal-card panel">' +
+          '<div class="panel-head feedback-modal-head">' +
+            '<div><h2 class="panel-title">' + copy.title + '</h2><p class="panel-copy">' + copy.description + '</p></div>' +
+            '<button type="button" class="feedback-close-btn" aria-label="' + copy.close + '">✕</button>' +
+          '</div>' +
+          '<div class="panel-body">' +
+            '<form class="feedback-form" novalidate>' +
+              '<div class="feedback-form-grid">' +
+                '<label class="feedback-field"><span>' + copy.name + '</span><input class="form-control" type="text" name="name" maxlength="120" autocomplete="name"></label>' +
+                '<label class="feedback-field"><span>' + copy.email + '</span><input class="form-control" type="email" name="email" maxlength="180" autocomplete="email"></label>' +
+                '<label class="feedback-field"><span>' + copy.rating + '</span><select class="form-select" name="rating"><option value="">' + copy.ratingPlaceholder + '</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select></label>' +
+                '<label class="feedback-field"><span>' + copy.type + '</span><select class="form-select" name="feedback_type" required><option value="">' + copy.typePlaceholder + '</option><option value="suggestion">' + copy.types.suggestion + '</option><option value="bug">' + copy.types.bug + '</option><option value="praise">' + copy.types.praise + '</option><option value="feature">' + copy.types.feature + '</option><option value="other">' + copy.types.other + '</option></select></label>' +
+                '<label class="feedback-field feedback-field-full"><span>' + copy.message + '</span><textarea class="form-control feedback-textarea" name="message" rows="5" required></textarea></label>' +
+              '</div>' +
+              '<p class="feedback-privacy-note">' + copy.privacy + '</p>' +
+              '<p class="feedback-form-status" hidden></p>' +
+              '<div class="feedback-actions"><button type="submit" class="feedback-submit-btn">' + copy.submit + '</button></div>' +
+            '</form>' +
+          '</div>' +
+        '</div>' +
+      '</div>';
+
+    document.body.appendChild(wrapper);
+
+    var fab = wrapper.querySelector('.feedback-fab');
+    var modal = wrapper.querySelector('.feedback-modal');
+    var form = wrapper.querySelector('.feedback-form');
+    var submitButton = wrapper.querySelector('.feedback-submit-btn');
+    var closeButton = wrapper.querySelector('.feedback-close-btn');
+
+    function syncFabState(open) {
+      fab.setAttribute('aria-expanded', open ? 'true' : 'false');
+    }
+
+    fab.addEventListener('click', function () {
+      setFeedbackStatus(form, '', 'error');
+      openFeedbackModal();
+      syncFabState(true);
+    });
+
+    closeButton.addEventListener('click', function () {
+      closeFeedbackModal();
+      syncFabState(false);
+    });
+
+    modal.addEventListener('click', function (event) {
+      if (!event.target.matches('[data-feedback-close="true"]')) return;
+      closeFeedbackModal();
+      syncFabState(false);
+    });
+
+    document.addEventListener('keydown', function (event) {
+      if (event.key === 'Escape' && modal.classList.contains('is-open')) {
+        closeFeedbackModal();
+        syncFabState(false);
+      }
+    });
+
+    form.addEventListener('submit', async function (event) {
+      event.preventDefault();
+      if (isSubmitting) return;
+
+      var now = Date.now();
+      var lastSentAt = getLastFeedbackSentAt();
+      var formData = new FormData(form);
+      var email = String(formData.get('email') || '').trim();
+      var message = String(formData.get('message') || '').trim();
+      var rating = String(formData.get('rating') || '').trim();
+      var feedbackType = String(formData.get('feedback_type') || '').trim();
+
+      if (now - lastSentAt < FEEDBACK_COOLDOWN_MS) {
+        setFeedbackStatus(form, copy.cooldown, 'error');
+        return;
+      }
+
+      if (!feedbackType) {
+        setFeedbackStatus(form, copy.requiredType, 'error');
+        return;
+      }
+
+      if (!message) {
+        setFeedbackStatus(form, copy.requiredMessage, 'error');
+        return;
+      }
+
+      if (email && !isValidFeedbackEmail(email)) {
+        setFeedbackStatus(form, copy.invalidEmail, 'error');
+        return;
+      }
+
+      if (rating && (Number(rating) < 1 || Number(rating) > 5)) {
+        setFeedbackStatus(form, copy.invalidRating, 'error');
+        return;
+      }
+
+      isSubmitting = true;
+      submitButton.disabled = true;
+      submitButton.textContent = copy.sending;
+      setFeedbackStatus(form, '', 'error');
+
+      try {
+        var response = await fetch('/api/feedback', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            name: String(formData.get('name') || '').trim(),
+            email: email,
+            rating: rating ? Number(rating) : null,
+            feedback_type: feedbackType,
+            message: message,
+            page_url: window.location.href,
+            language: normalizeLanguage(getSavedLanguage() || getUrlLanguage() || resolveBrowserLanguage()) || fallbackLanguage,
+            user_agent: navigator.userAgent
+          })
+        });
+
+        var result = await response.json().catch(function () {
+          return null;
+        });
+
+        if (!response.ok || !result || result.success !== true) {
+          throw new Error(result && result.message ? result.message : copy.error);
+        }
+
+        form.reset();
+        setLastFeedbackSentAt(now);
+        closeFeedbackModal();
+        syncFabState(false);
+        showFeedbackToast(copy.success, 'success');
+      } catch (error) {
+        setFeedbackStatus(form, error && error.message ? error.message : copy.error, 'error');
+      } finally {
+        isSubmitting = false;
+        submitButton.disabled = false;
+        submitButton.textContent = copy.submit;
+      }
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initFeedbackWidget);
+  } else {
+    initFeedbackWidget();
   }
 })();
 

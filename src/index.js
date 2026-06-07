@@ -7,6 +7,7 @@ import { promisify } from "util";
 import { fileURLToPath } from "url";
 import dotenv from "dotenv";
 import { ARTICLE_PAGE_CONTENT, EDITORIAL_AUTHOR, STATIC_PAGE_CONTENT, TOOL_PAGE_CONTENT } from "./site-content.js";
+import { getDbPool, isDatabaseConfigured } from "./db.js";
 
 dotenv.config();
 
@@ -25,6 +26,7 @@ const sameAsLinks = (process.env.BRAND_SAME_AS || "")
 const gzip = promisify(zlib.gzip);
 const brotliCompress = promisify(zlib.brotliCompress);
 const compressibleExtensions = new Set([".html", ".css", ".js", ".json", ".xml", ".txt"]);
+const FEEDBACK_TYPES = new Set(["suggestion", "bug", "praise", "feature", "other"]);
 const contentTypes = {
   ".html": "text/html; charset=utf-8",
   ".css": "text/css; charset=utf-8",
@@ -116,6 +118,37 @@ function normalizeLocale(value) {
   if (!value || typeof value !== "string") return null;
   const code = value.trim().replace("_", "-").split("-")[0].toLowerCase();
   return supportedLocaleSet.has(code) ? code : null;
+}
+
+function normalizeOptionalText(value, maxLength) {
+  if (typeof value !== "string") return null;
+  const normalized = value.trim();
+  if (!normalized) return null;
+  return maxLength ? normalized.slice(0, maxLength) : normalized;
+}
+
+function normalizeRating(value) {
+  if (value === undefined || value === null || value === "") return null;
+  const rating = Number(value);
+  if (!Number.isInteger(rating)) return Number.NaN;
+  return rating;
+}
+
+function isValidEmail(value) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+}
+
+function getRequestIp(req) {
+  const forwardedFor = req.headers["x-forwarded-for"];
+  if (typeof forwardedFor === "string" && forwardedFor.trim()) {
+    return forwardedFor.split(",")[0].trim().slice(0, 80);
+  }
+
+  const cfIp = req.headers["cf-connecting-ip"];
+  if (typeof cfIp === "string" && cfIp.trim()) return cfIp.trim().slice(0, 80);
+  if (typeof req.ip === "string" && req.ip.trim()) return req.ip.trim().slice(0, 80);
+  if (typeof req.socket?.remoteAddress === "string" && req.socket.remoteAddress.trim()) return req.socket.remoteAddress.trim().slice(0, 80);
+  return null;
 }
 
 function detectRequestLocale(req) {
@@ -1014,6 +1047,100 @@ app.get("/site.webmanifest", (req, res) => {
   });
 });
 app.get("/ads.txt", (req, res) => sendCompressedFile(req, res, path.join(publicDir, "ads.txt")));
+
+app.post("/api/feedback", async (req, res) => {
+  const pool = getDbPool();
+  const name = normalizeOptionalText(req.body?.name, 120);
+  const email = normalizeOptionalText(req.body?.email, 180);
+  const feedbackType = normalizeOptionalText(req.body?.feedback_type, 50);
+  const message = normalizeOptionalText(req.body?.message);
+  const pageUrl = normalizeOptionalText(req.body?.page_url);
+  const language = normalizeLocale(req.body?.language) || normalizeLocale(req.lang) || DEFAULT_LOCALE;
+  const userAgent = normalizeOptionalText(req.body?.user_agent) || normalizeOptionalText(req.get("user-agent"));
+  const rating = normalizeRating(req.body?.rating);
+
+  if (!feedbackType || !FEEDBACK_TYPES.has(feedbackType)) {
+    return res.status(400).json({
+      success: false,
+      message: "Tipo de feedback invalido."
+    });
+  }
+
+  if (!message) {
+    return res.status(400).json({
+      success: false,
+      message: "A mensagem e obrigatoria."
+    });
+  }
+
+  if (email && !isValidEmail(email)) {
+    return res.status(400).json({
+      success: false,
+      message: "E-mail invalido."
+    });
+  }
+
+  if (Number.isNaN(rating) || (rating !== null && (rating < 1 || rating > 5))) {
+    return res.status(400).json({
+      success: false,
+      message: "A nota deve estar entre 1 e 5."
+    });
+  }
+
+  if (!isDatabaseConfigured() || !pool) {
+    console.error("Erro ao salvar feedback: configuracao do banco ausente.");
+    return res.status(503).json({
+      success: false,
+      message: "Servico de feedback indisponivel no momento."
+    });
+  }
+
+  try {
+    await pool.query(
+      `
+        INSERT INTO community_feedback (
+          name,
+          email,
+          rating,
+          feedback_type,
+          message,
+          page_url,
+          language,
+          user_agent,
+          ip_address,
+          status
+        )
+        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, 'new')
+      `,
+      [
+        name,
+        email,
+        rating,
+        feedbackType,
+        message,
+        pageUrl,
+        language,
+        userAgent,
+        getRequestIp(req)
+      ]
+    );
+
+    return res.status(201).json({
+      success: true,
+      message: "Feedback enviado com sucesso."
+    });
+  } catch (error) {
+    console.error("Erro ao salvar feedback:", {
+      message: error.message,
+      code: error.code
+    });
+
+    return res.status(500).json({
+      success: false,
+      message: "Erro interno ao salvar feedback."
+    });
+  }
+});
 
 app.get("/:slug", (req, res, next) => {
   const pageRoutes = new Map(staticPageSlugs.map((slug) => [slug, path.join(publicDir, "pages", `${slug}.html`)]));
