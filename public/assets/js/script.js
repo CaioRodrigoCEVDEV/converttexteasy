@@ -2552,11 +2552,39 @@ updateCounts();
 })();
 
 // ===== CUSTOM LANGUAGE SELECT =====
+function getLanguageLabelSortKey(label) {
+  return (label || '')
+    .replace(/^\s*[\u{1F1E6}-\u{1F1FF}\u{1F300}-\u{1FAFF}\u2600-\u27BF]+\s*/gu, '')
+    .trim();
+}
+
+function sortLanguageSelectOptions(nativeSelect) {
+  if (!nativeSelect || !nativeSelect.options || nativeSelect.options.length < 2) return;
+
+  var selectedValue = nativeSelect.value;
+  var options = Array.prototype.slice.call(nativeSelect.options);
+  options.sort(function(a, b) {
+    return getLanguageLabelSortKey(a.textContent).localeCompare(
+      getLanguageLabelSortKey(b.textContent),
+      undefined,
+      { sensitivity: 'base' }
+    );
+  });
+
+  nativeSelect.innerHTML = '';
+  options.forEach(function(option) {
+    nativeSelect.appendChild(option);
+  });
+  nativeSelect.value = selectedValue;
+}
+
 function initCustomLangSelects(container) {
   container = container || document;
   var selects = container.querySelectorAll('.lang-select');
   selects.forEach(function(nativeSelect) {
     if (nativeSelect.closest('.custom-lang-select')) return;
+
+    sortLanguageSelectOptions(nativeSelect);
 
     var selectedIdx = nativeSelect.selectedIndex;
     var selectedText = '';
@@ -2764,16 +2792,16 @@ if (document.readyState === 'loading') {
           '<small id="drawerThemeLabel">' + t.theme + '</small>' +
         '</button>' +
         '<select onchange="switchLocale(this.value)" class="form-select form-select-sm lang-select" aria-label="' + (t.langSelectAria || 'Select language') + '">' +
-          '<option value="pt"' + (lang === 'pt' ? ' selected' : '') + '>🇧🇷 PT</option>' +
-          '<option value="en"' + (lang === 'en' ? ' selected' : '') + '>🇺🇸 EN</option>' +
-          '<option value="es"' + (lang === 'es' ? ' selected' : '') + '>🇪🇸 ES</option>' +
-          '<option value="fr"' + (lang === 'fr' ? ' selected' : '') + '>🇫🇷 FR</option>' +
-          '<option value="de"' + (lang === 'de' ? ' selected' : '') + '>🇩🇪 DE</option>' +
-          '<option value="it"' + (lang === 'it' ? ' selected' : '') + '>🇮🇹 IT</option>' +
+          '<option value="pt"' + (lang === 'pt' ? ' selected' : '') + '>🇧🇷 Português</option>' +
+          '<option value="en"' + (lang === 'en' ? ' selected' : '') + '>🇺🇸 English</option>' +
+          '<option value="es"' + (lang === 'es' ? ' selected' : '') + '>🇪🇸 Español</option>' +
+          '<option value="fr"' + (lang === 'fr' ? ' selected' : '') + '>🇫🇷 Français</option>' +
+          '<option value="de"' + (lang === 'de' ? ' selected' : '') + '>🇩🇪 Deutsch</option>' +
+          '<option value="it"' + (lang === 'it' ? ' selected' : '') + '>🇮🇹 Italiano</option>' +
           '<option value="zh"' + (lang === 'zh' ? ' selected' : '') + '>🇨🇳 中文</option>' +
           '<option value="ja"' + (lang === 'ja' ? ' selected' : '') + '>🇯🇵 日本語</option>' +
-          '<option value="ru"' + (lang === 'ru' ? ' selected' : '') + '>🇷🇺 RU</option>' +
-          '<option value="ar"' + (lang === 'ar' ? ' selected' : '') + '>🇸🇦 AR</option>' +
+          '<option value="ru"' + (lang === 'ru' ? ' selected' : '') + '>🇷🇺 Русский</option>' +
+          '<option value="ar"' + (lang === 'ar' ? ' selected' : '') + '>🇸🇦 العربية</option>' +
         '</select>' +
       '</div>';
 

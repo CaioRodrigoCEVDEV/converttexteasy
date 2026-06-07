@@ -1260,6 +1260,9 @@ a.tool-card {
   padding: 0.75rem 1rem 1rem;
   border-top: 1px solid var(--line);
   flex-shrink: 0;
+  position: relative;
+  z-index: 2;
+  overflow: visible;
 }
 
 .mobile-drawer-footer .theme-toggle,
@@ -1412,6 +1415,12 @@ body.drawer-open {
 }
 
 /* Drawer footer custom select */
+.mobile-drawer-footer .custom-lang-select {
+  flex: 1;
+  min-width: 0;
+  z-index: 3;
+}
+
 .mobile-drawer-footer .custom-lang-select-trigger {
   min-width: 0;
   font-size: 0.8rem;
@@ -1422,8 +1431,16 @@ body.drawer-open {
 }
 
 .mobile-drawer-footer .custom-lang-select-dropdown {
-  right: auto;
+  top: auto;
+  bottom: calc(100% + 0.35rem);
   left: 0;
+  right: auto;
+  width: 100%;
+  min-width: 100%;
+  max-width: min(280px, calc(100vw - 2rem));
+  max-height: min(240px, calc(100vh - 8rem));
+  z-index: 10020;
+  transform: translateY(4px);
 }
 
 body.feedback-modal-open {
