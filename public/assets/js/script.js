@@ -1985,6 +1985,20 @@ const charCount = document.getElementById("charCount");
 const wordCount = document.getElementById("wordCount");
 const lineCount = document.getElementById("lineCount");
 
+function isLegacyInputPlaceholderValue(value) {
+  if (typeof value !== "string") return false;
+
+  const normalizedValue = value.trim();
+  if (!normalizedValue) return false;
+
+  return Object.values(translations).some((locale) => locale && locale.input === normalizedValue);
+}
+
+function clearLegacyInputPlaceholder() {
+  if (!input || !isLegacyInputPlaceholderValue(input.value)) return;
+  input.value = "";
+}
+
 const mirrorMap = {
   'a': 'ɐ', 'b': 'q', 'c': 'ɔ', 'd': 'p', 'e': 'ǝ', 'f': 'ɟ', 'g': 'ƃ', 'h': 'ɥ', 'i': 'ᴉ', 'j': 'ɾ', 'k': 'ʞ', 'l': 'l', 'm': 'ɯ', 'n': 'u', 'o': 'o', 'p': 'd', 'q': 'b', 'r': 'ɹ', 's': 's', 't': 'ʇ', 'u': 'n', 'v': 'ʌ', 'w': 'ʍ', 'x': 'x', 'y': 'ʎ', 'z': 'z',
   'A': '∀', 'B': 'q', 'C': 'Ɔ', 'D': 'p', 'E': 'Ǝ', 'F': 'Ⅎ', 'G': 'פ', 'H': 'H', 'I': 'I', 'J': 'ſ', 'K': 'ʞ', 'L': '˥', 'M': 'W', 'N': 'N', 'O': 'O', 'P': 'Ԁ', 'Q': 'Q', 'R': 'ɹ', 'S': 'S', 'T': '┴', 'U': '∩', 'V': 'Λ', 'W': 'M', 'X': 'X', 'Y': '⅄', 'Z': 'Z'
@@ -2090,6 +2104,7 @@ async function hashText(text) {
 async function convert(type) {
   if (!input) return;
 
+  clearLegacyInputPlaceholder();
   let text = input.value;
 
   if(type === "upper") text = text.toUpperCase();
@@ -2155,12 +2170,14 @@ function clearText() {
 
 function copyText() {
   if (!input) return;
+  clearLegacyInputPlaceholder();
   navigator.clipboard.writeText(input.value);
 }
 
 function updateCounts() {
   if (!input || !charCount || !wordCount || !lineCount) return;
 
+  clearLegacyInputPlaceholder();
   const text = input.value;
   charCount.textContent = text.length;
   wordCount.textContent = text.trim() ? text.trim().split(/\s+/).length : 0;
