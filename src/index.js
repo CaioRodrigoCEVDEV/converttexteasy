@@ -1,4 +1,5 @@
 import express from "express";
+import rateLimit, { ipKeyGenerator } from "express-rate-limit";
 import path from "path";
 import fs from "fs";
 import crypto from "crypto";
@@ -6,6 +7,7 @@ import zlib from "zlib";
 import { promisify } from "util";
 import { fileURLToPath } from "url";
 import dotenv from "dotenv";
+import { z } from "zod";
 import { ARTICLE_PAGE_CONTENT, EDITORIAL_AUTHOR, STATIC_PAGE_CONTENT, TOOL_PAGE_CONTENT } from "./site-content.js";
 import { getDbPool, isDatabaseConfigured } from "./db.js";
 
@@ -26,7 +28,84 @@ const sameAsLinks = (process.env.BRAND_SAME_AS || "")
 const gzip = promisify(zlib.gzip);
 const brotliCompress = promisify(zlib.brotliCompress);
 const compressibleExtensions = new Set([".html", ".css", ".js", ".json", ".xml", ".txt"]);
-const FEEDBACK_TYPES = new Set(["suggestion", "bug", "praise", "feature", "other"]);
+const FEEDBACK_TYPES = ["suggestion", "bug", "compliment", "feature", "other"];
+const FEEDBACK_MIN_FILL_MS = 2000;
+const FEEDBACK_RATE_LIMIT_WINDOW_MINUTES = getPositiveIntegerEnv("FEEDBACK_RATE_LIMIT_WINDOW_MINUTES", 15);
+const FEEDBACK_RATE_LIMIT_MAX = getPositiveIntegerEnv("FEEDBACK_RATE_LIMIT_MAX", 5);
+const TURNSTILE_ENABLED = String(process.env.TURNSTILE_ENABLED || "false").toLowerCase() === "true";
+const TURNSTILE_SECRET_KEY = process.env.TURNSTILE_SECRET_KEY || "";
+const FEEDBACK_API_MESSAGES = {
+  pt: {
+    success: "Feedback enviado com sucesso.",
+    unavailable: "Servico de feedback indisponivel no momento.",
+    rateLimit: "Voce enviou feedback recentemente. Tente novamente em alguns minutos.",
+    invalidSubmission: "Nao foi possivel validar seu feedback. Revise os campos e tente novamente.",
+    messageTooShort: "Escreva uma mensagem com pelo menos 5 caracteres."
+  },
+  en: {
+    success: "Feedback sent successfully.",
+    unavailable: "Feedback service is currently unavailable.",
+    rateLimit: "You recently sent feedback. Please try again in a few minutes.",
+    invalidSubmission: "We could not validate your feedback. Please review the form and try again.",
+    messageTooShort: "Please write a message with at least 5 characters."
+  },
+  es: {
+    success: "Comentarios enviados correctamente.",
+    unavailable: "El servicio de comentarios no esta disponible en este momento.",
+    rateLimit: "Ya enviaste comentarios recientemente. Intentalo de nuevo en unos minutos.",
+    invalidSubmission: "No pudimos validar tus comentarios. Revisa el formulario e intentalo de nuevo.",
+    messageTooShort: "Escribe un mensaje con al menos 5 caracteres."
+  },
+  fr: {
+    success: "Commentaire envoye avec succes.",
+    unavailable: "Le service de commentaires est indisponible pour le moment.",
+    rateLimit: "Vous avez recemment envoye un commentaire. Reessayez dans quelques minutes.",
+    invalidSubmission: "Nous n'avons pas pu valider votre commentaire. Verifiez le formulaire et reessayez.",
+    messageTooShort: "Veuillez ecrire un message d'au moins 5 caracteres."
+  },
+  de: {
+    success: "Feedback erfolgreich gesendet.",
+    unavailable: "Der Feedback-Dienst ist derzeit nicht verfugbar.",
+    rateLimit: "Sie haben vor Kurzem Feedback gesendet. Bitte versuchen Sie es in einigen Minuten erneut.",
+    invalidSubmission: "Ihr Feedback konnte nicht validiert werden. Bitte prufen Sie das Formular und versuchen Sie es erneut.",
+    messageTooShort: "Bitte schreiben Sie eine Nachricht mit mindestens 5 Zeichen."
+  },
+  it: {
+    success: "Feedback inviato con successo.",
+    unavailable: "Il servizio di feedback non e disponibile al momento.",
+    rateLimit: "Hai inviato feedback di recente. Riprova tra qualche minuto.",
+    invalidSubmission: "Non e stato possibile convalidare il tuo feedback. Controlla il modulo e riprova.",
+    messageTooShort: "Scrivi un messaggio di almeno 5 caratteri."
+  },
+  zh: {
+    success: "反馈已成功发送。",
+    unavailable: "反馈服务当前不可用。",
+    rateLimit: "您刚刚提交过反馈。请几分钟后再试。",
+    invalidSubmission: "无法验证您的反馈。请检查表单后重试。",
+    messageTooShort: "请输入至少 5 个字符的消息。"
+  },
+  ja: {
+    success: "フィードバックを送信しました。",
+    unavailable: "現在、フィードバックサービスを利用できません。",
+    rateLimit: "直前にフィードバックを送信しました。数分後にもう一度お試しください。",
+    invalidSubmission: "フィードバックを検証できませんでした。フォームを確認して、もう一度お試しください。",
+    messageTooShort: "5文字以上のメッセージを入力してください。"
+  },
+  ru: {
+    success: "Отзыв успешно отправлен.",
+    unavailable: "Сервис отзывов сейчас недоступен.",
+    rateLimit: "Вы недавно уже отправляли отзыв. Попробуйте снова через несколько минут.",
+    invalidSubmission: "Не удалось проверить ваш отзыв. Проверьте форму и попробуйте снова.",
+    messageTooShort: "Пожалуйста, напишите сообщение не короче 5 символов."
+  },
+  ar: {
+    success: "تم إرسال الملاحظات بنجاح.",
+    unavailable: "خدمة الملاحظات غير متاحة حاليا.",
+    rateLimit: "لقد أرسلت ملاحظات مؤخرا. يرجى المحاولة مرة أخرى بعد بضع دقائق.",
+    invalidSubmission: "تعذر التحقق من ملاحظاتك. راجع النموذج ثم حاول مرة أخرى.",
+    messageTooShort: "يرجى كتابة رسالة لا تقل عن 5 أحرف."
+  }
+};
 const contentTypes = {
   ".html": "text/html; charset=utf-8",
   ".css": "text/css; charset=utf-8",
@@ -37,7 +116,7 @@ const contentTypes = {
 };
 
 const app = express();
-app.use(express.json());
+app.use(express.json({ limit: "25kb" }));
 
 app.use((req, res, next) => {
   res.setHeader("X-Content-Type-Options", "nosniff");
@@ -49,7 +128,73 @@ app.use((req, res, next) => {
   next();
 });
 
-app.set("trust proxy", true);
+app.set("trust proxy", 1);
+
+const feedbackSchema = z.object({
+  name: z.preprocess((value) => sanitizeOptionalFeedbackText(value, 120), z.string().max(120).optional()),
+  email: z.preprocess((value) => sanitizeOptionalFeedbackText(value, 180), z.string().email().max(180).optional()),
+  rating: z.preprocess((value) => normalizeFeedbackRating(value), z.number().int().min(1).max(5).optional()),
+  feedback_type: z.preprocess(
+    (value) => sanitizeOptionalFeedbackText(value, 20)?.toLowerCase(),
+    z.enum(FEEDBACK_TYPES)
+  ),
+  message: z.preprocess((value) => sanitizeRequiredFeedbackText(value, 2000), z.string().min(5).max(2000)),
+  page_url: z.preprocess((value) => sanitizeOptionalFeedbackText(value, 1000), z.string().max(1000).optional()),
+  language: z.preprocess((value) => sanitizeOptionalFeedbackText(value, 10)?.toLowerCase(), z.string().max(10).optional()),
+  website: z.preprocess((value) => sanitizeOptionalFeedbackText(value, 255), z.string().max(255).optional()),
+  started_at: z.preprocess((value) => parseStartedAt(value), z.number().finite().optional()),
+  turnstile_token: z.preprocess((value) => sanitizeOptionalFeedbackText(value, 2048), z.string().max(2048).optional())
+}).strict();
+
+const feedbackRateLimiter = rateLimit({
+  windowMs: FEEDBACK_RATE_LIMIT_WINDOW_MINUTES * 60 * 1000,
+  max: FEEDBACK_RATE_LIMIT_MAX,
+  standardHeaders: true,
+  legacyHeaders: false,
+  keyGenerator: (req) => {
+    const requestIp = getRequestIp(req) || req.ip;
+    return requestIp ? ipKeyGenerator(requestIp) : "feedback-anonymous";
+  },
+  handler: (req, res) => {
+    console.error("Rate limit de feedback excedido.", { ip: getRequestIp(req) });
+    return res.status(429).json({
+      success: false,
+      message: getFeedbackApiMessage(req, "rateLimit")
+    });
+  }
+});
+
+function getPositiveIntegerEnv(name, fallback) {
+  const parsed = Number.parseInt(process.env[name] || "", 10);
+  return Number.isInteger(parsed) && parsed > 0 ? parsed : fallback;
+}
+
+function getFeedbackApiMessage(req, key) {
+  const locale = normalizeLocale(req?.body?.language) || normalizeLocale(req?.lang) || detectRequestLocale(req) || DEFAULT_LOCALE;
+  return FEEDBACK_API_MESSAGES[locale]?.[key] || FEEDBACK_API_MESSAGES[DEFAULT_LOCALE][key];
+}
+
+function buildFeedbackValidationResponse(req, validationError) {
+  const flattened = validationError.flatten();
+  const hasMessageTooShortIssue = validationError.issues.some((issue) => issue.path?.[0] === "message" && issue.code === "too_small");
+  const primaryMessage = hasMessageTooShortIssue ? getFeedbackApiMessage(req, "messageTooShort") : getFeedbackApiMessage(req, "invalidSubmission");
+
+  return {
+    success: false,
+    message: primaryMessage,
+    errors: {
+      form: flattened.formErrors || [],
+      fields: Object.fromEntries(
+        Object.entries(flattened.fieldErrors || {}).map(([field, messages]) => {
+          if (field === "message" && hasMessageTooShortIssue) {
+            return [field, [getFeedbackApiMessage(req, "messageTooShort")]];
+          }
+          return [field, messages];
+        })
+      )
+    }
+  };
+}
 
 app.use((req, res, next) => {
   if (req.method !== "GET" && req.method !== "HEAD") return next();
@@ -120,35 +265,89 @@ function normalizeLocale(value) {
   return supportedLocaleSet.has(code) ? code : null;
 }
 
-function normalizeOptionalText(value, maxLength) {
+function sanitizeFeedbackText(value, maxLength) {
   if (typeof value !== "string") return null;
-  const normalized = value.trim();
+  const normalized = stripTags(value)
+    .replace(/\s+/g, " ")
+    .trim();
   if (!normalized) return null;
-  return maxLength ? normalized.slice(0, maxLength) : normalized;
+  return normalized.slice(0, maxLength);
 }
 
-function normalizeRating(value) {
-  if (value === undefined || value === null || value === "") return null;
-  const rating = Number(value);
-  if (!Number.isInteger(rating)) return Number.NaN;
-  return rating;
+function sanitizeOptionalFeedbackText(value, maxLength) {
+  return sanitizeFeedbackText(value, maxLength) || undefined;
 }
 
-function isValidEmail(value) {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+function sanitizeRequiredFeedbackText(value, maxLength) {
+  return sanitizeFeedbackText(value, maxLength) || "";
+}
+
+function normalizeFeedbackRating(value) {
+  if (value === undefined || value === null || value === "") return undefined;
+  if (typeof value === "number") return value;
+  if (typeof value !== "string") return Number.NaN;
+  const trimmed = value.trim();
+  if (!trimmed) return undefined;
+  const rating = Number(trimmed);
+  return Number.isInteger(rating) ? rating : Number.NaN;
+}
+
+function parseStartedAt(value) {
+  if (value === undefined || value === null || value === "") return undefined;
+  if (typeof value === "number") return Number.isFinite(value) ? value : Number.NaN;
+  if (typeof value !== "string") return Number.NaN;
+  const trimmed = value.trim();
+  if (!trimmed) return undefined;
+  const numericValue = Number(trimmed);
+  if (Number.isFinite(numericValue)) return numericValue;
+  const parsedDate = Date.parse(trimmed);
+  return Number.isFinite(parsedDate) ? parsedDate : Number.NaN;
 }
 
 function getRequestIp(req) {
+  const cfIp = req.headers["cf-connecting-ip"];
+  if (typeof cfIp === "string" && cfIp.trim()) return cfIp.trim().slice(0, 80);
+
   const forwardedFor = req.headers["x-forwarded-for"];
   if (typeof forwardedFor === "string" && forwardedFor.trim()) {
     return forwardedFor.split(",")[0].trim().slice(0, 80);
   }
 
-  const cfIp = req.headers["cf-connecting-ip"];
-  if (typeof cfIp === "string" && cfIp.trim()) return cfIp.trim().slice(0, 80);
   if (typeof req.ip === "string" && req.ip.trim()) return req.ip.trim().slice(0, 80);
   if (typeof req.socket?.remoteAddress === "string" && req.socket.remoteAddress.trim()) return req.socket.remoteAddress.trim().slice(0, 80);
   return null;
+}
+
+async function validateTurnstileToken(token, remoteIp) {
+  if (!TURNSTILE_ENABLED) return true;
+  if (!TURNSTILE_SECRET_KEY) {
+    console.error("Turnstile habilitado sem TURNSTILE_SECRET_KEY configurada.");
+    return false;
+  }
+
+  try {
+    const body = new URLSearchParams({
+      secret: TURNSTILE_SECRET_KEY,
+      response: token
+    });
+
+    if (remoteIp) body.set("remoteip", remoteIp);
+
+    const response = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
+      body
+    });
+
+    if (!response.ok) return false;
+    const result = await response.json();
+    return result?.success === true;
+  } catch (error) {
+    console.error("Erro ao validar Turnstile:", error);
+    return false;
+  }
 }
 
 function detectRequestLocale(req) {
@@ -1048,50 +1247,56 @@ app.get("/site.webmanifest", (req, res) => {
 });
 app.get("/ads.txt", (req, res) => sendCompressedFile(req, res, path.join(publicDir, "ads.txt")));
 
-app.post("/api/feedback", async (req, res) => {
+app.post("/api/feedback", feedbackRateLimiter, async (req, res) => {
   const pool = getDbPool();
-  const name = normalizeOptionalText(req.body?.name, 120);
-  const email = normalizeOptionalText(req.body?.email, 180);
-  const feedbackType = normalizeOptionalText(req.body?.feedback_type, 50);
-  const message = normalizeOptionalText(req.body?.message);
-  const pageUrl = normalizeOptionalText(req.body?.page_url);
-  const language = normalizeLocale(req.body?.language) || normalizeLocale(req.lang) || DEFAULT_LOCALE;
-  const userAgent = normalizeOptionalText(req.body?.user_agent) || normalizeOptionalText(req.get("user-agent"));
-  const rating = normalizeRating(req.body?.rating);
+  const parsedFeedback = feedbackSchema.safeParse(req.body || {});
 
-  if (!feedbackType || !FEEDBACK_TYPES.has(feedbackType)) {
-    return res.status(400).json({
-      success: false,
-      message: "Tipo de feedback invalido."
+  if (!parsedFeedback.success) {
+    console.error("Payload de feedback invalido:", parsedFeedback.error.flatten());
+    return res.status(400).json(buildFeedbackValidationResponse(req, parsedFeedback.error));
+  }
+
+  const feedback = parsedFeedback.data;
+  const requestIp = getRequestIp(req);
+  const language = normalizeLocale(feedback.language) || normalizeLocale(req.lang) || DEFAULT_LOCALE;
+  const userAgent = sanitizeOptionalFeedbackText(req.get("user-agent"), 500) || null;
+
+  if (feedback.website) {
+    return res.status(200).json({
+      success: true,
+      message: getFeedbackApiMessage(req, "success")
     });
   }
 
-  if (!message) {
+  if (feedback.started_at && Date.now() - feedback.started_at < FEEDBACK_MIN_FILL_MS) {
     return res.status(400).json({
       success: false,
-      message: "A mensagem e obrigatoria."
+      message: getFeedbackApiMessage(req, "invalidSubmission")
     });
   }
 
-  if (email && !isValidEmail(email)) {
+  if (TURNSTILE_ENABLED && !feedback.turnstile_token) {
     return res.status(400).json({
       success: false,
-      message: "E-mail invalido."
+      message: getFeedbackApiMessage(req, "invalidSubmission")
     });
   }
 
-  if (Number.isNaN(rating) || (rating !== null && (rating < 1 || rating > 5))) {
-    return res.status(400).json({
-      success: false,
-      message: "A nota deve estar entre 1 e 5."
-    });
+  if (TURNSTILE_ENABLED) {
+    const isTurnstileValid = await validateTurnstileToken(feedback.turnstile_token, requestIp);
+    if (!isTurnstileValid) {
+      return res.status(400).json({
+        success: false,
+        message: getFeedbackApiMessage(req, "invalidSubmission")
+      });
+    }
   }
 
   if (!isDatabaseConfigured() || !pool) {
     console.error("Erro ao salvar feedback: configuracao do banco ausente.");
     return res.status(503).json({
       success: false,
-      message: "Servico de feedback indisponivel no momento."
+      message: getFeedbackApiMessage(req, "unavailable")
     });
   }
 
@@ -1113,31 +1318,28 @@ app.post("/api/feedback", async (req, res) => {
         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, 'new')
       `,
       [
-        name,
-        email,
-        rating,
-        feedbackType,
-        message,
-        pageUrl,
+        feedback.name || null,
+        feedback.email || null,
+        feedback.rating || null,
+        feedback.feedback_type,
+        feedback.message,
+        feedback.page_url || null,
         language,
         userAgent,
-        getRequestIp(req)
+        requestIp
       ]
     );
 
     return res.status(201).json({
       success: true,
-      message: "Feedback enviado com sucesso."
+      message: getFeedbackApiMessage(req, "success")
     });
   } catch (error) {
-    console.error("Erro ao salvar feedback:", {
-      message: error.message,
-      code: error.code
-    });
+    console.error("Erro ao salvar feedback:", error);
 
     return res.status(500).json({
       success: false,
-      message: "Erro interno ao salvar feedback."
+      message: getFeedbackApiMessage(req, "unavailable")
     });
   }
 });
@@ -1157,6 +1359,17 @@ app.get("/:slug", (req, res, next) => {
 app.use((req, res) => {
   res.status(404);
   return sendCompressedFile(req, res, path.join(publicDir, "pages", "404.html"));
+});
+
+app.use((error, req, res, next) => {
+  if (!req.path.startsWith("/api/feedback")) return next(error);
+
+  console.error("Erro ao processar requisicao de feedback:", error);
+
+  return res.status(error?.status === 413 ? 413 : 400).json({
+    success: false,
+    message: getFeedbackApiMessage(req, "invalidSubmission")
+  });
 });
 
 app.listen(process.env.PORT || 3000, () => {

@@ -1612,15 +1612,18 @@ const feedbackTranslations = {
     privacy: 'Ao enviar, voce concorda que seus dados sejam usados apenas para analise de feedback e melhoria da plataforma.',
     success: 'Obrigado! Seu feedback ajuda a melhorar o ConvertTextEasy 🚀',
     error: 'Nao foi possivel enviar seu feedback agora. Tente novamente em instantes.',
+    serviceUnavailable: 'Servico de feedback indisponivel no momento.',
+    invalidSubmission: 'Nao foi possivel validar seu feedback. Revise os campos e tente novamente.',
     requiredType: 'Escolha o tipo do feedback.',
     requiredMessage: 'Escreva uma mensagem antes de enviar.',
+    messageTooShort: 'Escreva uma mensagem com pelo menos 5 caracteres.',
     invalidEmail: 'Informe um e-mail valido ou deixe o campo em branco.',
     invalidRating: 'A nota deve estar entre 1 e 5.',
     cooldown: 'Aguarde alguns segundos antes de enviar outro feedback.',
     types: {
       suggestion: 'Sugestao',
       bug: 'Bug',
-      praise: 'Elogio',
+      compliment: 'Elogio',
       feature: 'Nova funcionalidade',
       other: 'Outro'
     }
@@ -1642,15 +1645,18 @@ const feedbackTranslations = {
     privacy: 'By sending this form, you agree that your data will be used only for feedback analysis and product improvement.',
     success: 'Thank you! Your feedback helps improve ConvertTextEasy 🚀',
     error: 'We could not send your feedback right now. Please try again soon.',
+    serviceUnavailable: 'Feedback service is currently unavailable.',
+    invalidSubmission: 'We could not validate your feedback. Please review the form and try again.',
     requiredType: 'Choose a feedback type.',
     requiredMessage: 'Write a message before sending.',
+    messageTooShort: 'Please write a message with at least 5 characters.',
     invalidEmail: 'Enter a valid email or leave the field blank.',
     invalidRating: 'Rating must be between 1 and 5.',
     cooldown: 'Please wait a few seconds before sending another feedback.',
     types: {
       suggestion: 'Suggestion',
       bug: 'Bug',
-      praise: 'Praise',
+      compliment: 'Compliment',
       feature: 'Feature request',
       other: 'Other'
     }
@@ -2279,6 +2285,7 @@ updateCounts();
 (function () {
   var FEEDBACK_COOLDOWN_MS = 10000;
   var FEEDBACK_STORAGE_KEY = 'cte-feedback-last-submitted-at';
+  var FEEDBACK_DISMISSED_STORAGE_KEY = 'cte-feedback-last-dismissed-at';
   var isSubmitting = false;
 
   function getFeedbackCopy() {
@@ -2301,6 +2308,14 @@ updateCounts();
   function setLastFeedbackSentAt(value) {
     try {
       localStorage.setItem(FEEDBACK_STORAGE_KEY, String(value));
+    } catch (error) {
+      return;
+    }
+  }
+
+  function rememberFeedbackDismissed(value) {
+    try {
+      localStorage.setItem(FEEDBACK_DISMISSED_STORAGE_KEY, String(value));
     } catch (error) {
       return;
     }
@@ -2332,12 +2347,29 @@ updateCounts();
     status.classList.add(tone === 'success' ? 'is-success' : 'is-error');
   }
 
-  function closeFeedbackModal() {
+  function readFeedbackFieldErrors(result) {
+    if (!result || typeof result !== 'object') return null;
+    if (result.errors && result.errors.fields && typeof result.errors.fields === 'object') return result.errors.fields;
+    if (result.errors && typeof result.errors === 'object' && !Array.isArray(result.errors)) return result.errors;
+    return null;
+  }
+
+  function getFeedbackErrorMessage(response, result, copy) {
+    var fieldErrors = readFeedbackFieldErrors(result);
+    var messageFieldErrors = fieldErrors && Array.isArray(fieldErrors.message) ? fieldErrors.message : null;
+    if (result && result.message) return result.message;
+    if (messageFieldErrors && messageFieldErrors.length && messageFieldErrors[0]) return messageFieldErrors[0];
+    if (response && response.status === 400) return copy.messageTooShort || copy.invalidSubmission || copy.error;
+    return copy.serviceUnavailable || copy.error;
+  }
+
+  function closeFeedbackModal(shouldRemember) {
     var modal = document.querySelector('.feedback-modal');
     if (!modal) return;
     modal.classList.remove('is-open');
     modal.setAttribute('aria-hidden', 'true');
     document.body.classList.remove('feedback-modal-open');
+    if (shouldRemember) rememberFeedbackDismissed(Date.now());
   }
 
   function openFeedbackModal() {
@@ -2372,9 +2404,11 @@ updateCounts();
                 '<label class="feedback-field"><span>' + copy.name + '</span><input class="form-control" type="text" name="name" maxlength="120" autocomplete="name"></label>' +
                 '<label class="feedback-field"><span>' + copy.email + '</span><input class="form-control" type="email" name="email" maxlength="180" autocomplete="email"></label>' +
                 '<label class="feedback-field"><span>' + copy.rating + '</span><select class="form-select" name="rating"><option value="">' + copy.ratingPlaceholder + '</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select></label>' +
-                '<label class="feedback-field"><span>' + copy.type + '</span><select class="form-select" name="feedback_type" required><option value="">' + copy.typePlaceholder + '</option><option value="suggestion">' + copy.types.suggestion + '</option><option value="bug">' + copy.types.bug + '</option><option value="praise">' + copy.types.praise + '</option><option value="feature">' + copy.types.feature + '</option><option value="other">' + copy.types.other + '</option></select></label>' +
+                '<label class="feedback-field"><span>' + copy.type + '</span><select class="form-select" name="feedback_type" required><option value="">' + copy.typePlaceholder + '</option><option value="suggestion">' + copy.types.suggestion + '</option><option value="bug">' + copy.types.bug + '</option><option value="compliment">' + copy.types.compliment + '</option><option value="feature">' + copy.types.feature + '</option><option value="other">' + copy.types.other + '</option></select></label>' +
                 '<label class="feedback-field feedback-field-full"><span>' + copy.message + '</span><textarea class="form-control feedback-textarea" name="message" rows="5" required></textarea></label>' +
               '</div>' +
+              '<input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;">' +
+              '<input type="hidden" name="started_at" value="">' +
               '<p class="feedback-privacy-note">' + copy.privacy + '</p>' +
               '<p class="feedback-form-status" hidden></p>' +
               '<div class="feedback-actions"><button type="submit" class="feedback-submit-btn">' + copy.submit + '</button></div>' +
@@ -2390,6 +2424,7 @@ updateCounts();
     var form = wrapper.querySelector('.feedback-form');
     var submitButton = wrapper.querySelector('.feedback-submit-btn');
     var closeButton = wrapper.querySelector('.feedback-close-btn');
+    var startedAtField = wrapper.querySelector('input[name="started_at"]');
 
     function syncFabState(open) {
       fab.setAttribute('aria-expanded', open ? 'true' : 'false');
@@ -2397,24 +2432,25 @@ updateCounts();
 
     fab.addEventListener('click', function () {
       setFeedbackStatus(form, '', 'error');
+      if (startedAtField) startedAtField.value = String(Date.now());
       openFeedbackModal();
       syncFabState(true);
     });
 
     closeButton.addEventListener('click', function () {
-      closeFeedbackModal();
+      closeFeedbackModal(true);
       syncFabState(false);
     });
 
     modal.addEventListener('click', function (event) {
       if (!event.target.matches('[data-feedback-close="true"]')) return;
-      closeFeedbackModal();
+      closeFeedbackModal(true);
       syncFabState(false);
     });
 
     document.addEventListener('keydown', function (event) {
       if (event.key === 'Escape' && modal.classList.contains('is-open')) {
-        closeFeedbackModal();
+        closeFeedbackModal(true);
         syncFabState(false);
       }
     });
@@ -2430,6 +2466,7 @@ updateCounts();
       var message = String(formData.get('message') || '').trim();
       var rating = String(formData.get('rating') || '').trim();
       var feedbackType = String(formData.get('feedback_type') || '').trim();
+      var startedAt = String(formData.get('started_at') || '').trim();
 
       if (now - lastSentAt < FEEDBACK_COOLDOWN_MS) {
         setFeedbackStatus(form, copy.cooldown, 'error');
@@ -2475,7 +2512,8 @@ updateCounts();
             message: message,
             page_url: window.location.href,
             language: normalizeLanguage(getSavedLanguage() || getUrlLanguage() || resolveBrowserLanguage()) || fallbackLanguage,
-            user_agent: navigator.userAgent
+            website: String(formData.get('website') || '').trim(),
+            started_at: startedAt || null
           })
         });
 
@@ -2484,16 +2522,20 @@ updateCounts();
         });
 
         if (!response.ok || !result || result.success !== true) {
-          throw new Error(result && result.message ? result.message : copy.error);
+          throw new Error(getFeedbackErrorMessage(response, result, copy));
         }
 
         form.reset();
         setLastFeedbackSentAt(now);
-        closeFeedbackModal();
+        rememberFeedbackDismissed(now);
+        closeFeedbackModal(false);
         syncFabState(false);
         showFeedbackToast(copy.success, 'success');
       } catch (error) {
-        setFeedbackStatus(form, error && error.message ? error.message : copy.error, 'error');
+        var fallbackError = error && error.name === 'TypeError'
+          ? (copy.serviceUnavailable || copy.error)
+          : copy.error;
+        setFeedbackStatus(form, error && error.message ? error.message : fallbackError, 'error');
       } finally {
         isSubmitting = false;
         submitButton.disabled = false;
