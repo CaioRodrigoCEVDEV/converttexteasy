@@ -203,9 +203,10 @@ app.use((req, res, next) => {
 
   const forwardedProto = req.get("x-forwarded-proto");
   const isHttps = req.secure || forwardedProto === "https";
+  const hasWww = /^www\./i.test(host);
   const normalizedHost = host.replace(/^www\./i, "");
 
-  if (!isHttps || normalizedHost !== canonicalHost) {
+  if (!isHttps || hasWww || normalizedHost !== canonicalHost) {
     return res.redirect(301, `${siteOrigin}${req.originalUrl}`);
   }
 
